@@ -3,13 +3,15 @@ import 'package:my_money_flow/models/plata.dart';
 import 'package:my_money_flow/services/api_service.dart';
 
 class AdaugarePlataPage extends StatefulWidget {
+  const AdaugarePlataPage({super.key});
+
   @override
   _AdaugarePlataPageState createState() => _AdaugarePlataPageState();
 }
 
 class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
   final _formKey = GlobalKey<FormState>();
-  int _id=0;
+  final int _id=0;
   late int _userId;
   late String _categorie;
   late String _descriere;
@@ -20,7 +22,7 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Adaugare Plata'),
+        title: const Text('Adaugare Plata'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -31,7 +33,7 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
               
               //Introducere User ID
               TextFormField(
-                decoration: InputDecoration(labelText: 'User ID'),
+                decoration: const InputDecoration(labelText: 'User ID'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -46,11 +48,11 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
                   _userId = int.parse(value!);
                 },
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
 
               //Alegere categorie
                 DropdownButtonFormField<String>(
-                decoration: InputDecoration(labelText: 'Categorie'),
+                decoration: const InputDecoration(labelText: 'Categorie'),
                 items: ['nevoi', 'dorinte', 'economi'].map((String category) {
                   return DropdownMenuItem<String>(
                   value: category,
@@ -72,11 +74,11 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
                   _categorie = value!;
                 },
                 ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
 
               //Introducere descriere
               TextFormField(
-                decoration: InputDecoration(labelText: 'Descriere'),
+                decoration: const InputDecoration(labelText: 'Descriere'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Te rog introdu o descriere';
@@ -87,11 +89,11 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
                   _descriere = value  as String;
                 },
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
 
               //Introducere suma
               TextFormField(
-                decoration: InputDecoration(labelText: 'Suma'),
+                decoration: const InputDecoration(labelText: 'Suma'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -106,7 +108,7 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
                   _suma = int.parse(value!);
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               //Alegere data
               ElevatedButton(
@@ -127,7 +129,7 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
                     ? 'Selecteaza Data'
                     : 'Data: ${_data.toLocal()}'.split(' ')[0]),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               //Buton de adaugare plata
               ElevatedButton(
@@ -139,13 +141,13 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
                     ApiService().createPlata(Plata(id: _id,userId: _userId, suma: _suma, categorie: _categorie, descriere: _descriere, data: _data));
                     
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Plata a fost adaugata')),
+                      const SnackBar(content: Text('Plata a fost adaugata')),
                     );
                   }
                 },
-                child: Text('Adauga Plata'),
+                child: const Text('Adauga Plata'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),

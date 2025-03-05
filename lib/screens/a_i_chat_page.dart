@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AIChatPage extends StatefulWidget {
+  const AIChatPage({super.key});
+
   @override
   _AIChatPageState createState() => _AIChatPageState();
 }
@@ -23,7 +25,7 @@ class _AIChatPageState extends State<AIChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('AI Chat'),
+        title: const Text('AI Chat'),
       ),
       body: Column(
         children: [
@@ -36,8 +38,8 @@ class _AIChatPageState extends State<AIChatPage> {
                 return Align(
                   alignment: isUserMessage ? Alignment.centerRight : Alignment.centerLeft,
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    padding: EdgeInsets.all(10),
+                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: isUserMessage ? Colors.blue[100] : Colors.grey[300],
                       borderRadius: BorderRadius.circular(10),
@@ -64,7 +66,7 @@ class _AIChatPageState extends State<AIChatPage> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
                   onPressed: () => _sendMessage(_controller.text),
                 ),
               ],

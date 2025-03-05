@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/user.dart';
+// import '../models/user.dart';
 import '../models/plata.dart';
 
 class ApiService {
@@ -53,9 +53,6 @@ class ApiService {
   }
 
   void createPlata(Plata plata) async {
-
-    
-
     final response = await http.post(
       Uri.parse('$baseUrl/plata/'),
       headers: {
@@ -69,6 +66,34 @@ class ApiService {
       print('Failed to create plata. Status code: ${response.statusCode}');
       print('Response body: ${response.body}');
       throw Exception('Eroare la crearea plății');
+    }
+  }
+
+  void updatePlata(Plata plata) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/plata/${plata.id}?user_id=${plata.userId}'),
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: json.encode(plata.toJson()),
+    );
+
+    if (response.statusCode != 200) {
+      print('Failed to update plata. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Eroare la actualizarea plății');
+    }
+  }
+
+  void deletePlata(int id, int userId) async {
+    final response = await http.delete(
+      Uri.parse('$baseUrl/plata/$id?user_id=$userId'));//http://127.0.0.1:8000/plata/3?user_id=0
+
+    if (response.statusCode != 200) {
+      print('Failed to delete plata. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Eroare la ștergerea plății');
     }
   }
 }

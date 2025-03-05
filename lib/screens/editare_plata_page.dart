@@ -3,13 +3,15 @@ import 'package:my_money_flow/models/plata.dart';
 import 'package:my_money_flow/services/api_service.dart';
 
 class EditarePlataPage extends StatefulWidget {
+  const EditarePlataPage({super.key});
+
   @override
   _EditarePlataPageState createState() => _EditarePlataPageState();
 }
 
 class _EditarePlataPageState extends State<EditarePlataPage> {
   final _formKey = GlobalKey<FormState>();
-  int _id=0;
+  late int _id=0;
   late int _userId;
   late String _categorie;
   late String _descriere;
@@ -20,7 +22,7 @@ class _EditarePlataPageState extends State<EditarePlataPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Adaugare Plata'),
+        title: const Text('Editare Plata'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -29,9 +31,28 @@ class _EditarePlataPageState extends State<EditarePlataPage> {
           child: Column(
             children: <Widget>[
               
+              //Introducere ID
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'ID'),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Te rog introdu un ID valid';
+                  }
+                  if (int.tryParse(value) == null) {
+                    return 'Te rog introdu un numar valid';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _id = int.parse(value!);
+                },
+              ),
+              const SizedBox(height: 15),
+
               //Introducere User ID
               TextFormField(
-                decoration: InputDecoration(labelText: 'User ID'),
+                decoration: const InputDecoration(labelText: 'User ID'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -46,11 +67,11 @@ class _EditarePlataPageState extends State<EditarePlataPage> {
                   _userId = int.parse(value!);
                 },
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
 
               //Alegere categorie
                 DropdownButtonFormField<String>(
-                decoration: InputDecoration(labelText: 'Categorie'),
+                decoration: const InputDecoration(labelText: 'Categorie'),
                 items: ['nevoi', 'dorinte', 'economi'].map((String category) {
                   return DropdownMenuItem<String>(
                   value: category,
@@ -72,11 +93,11 @@ class _EditarePlataPageState extends State<EditarePlataPage> {
                   _categorie = value!;
                 },
                 ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
 
               //Introducere descriere
               TextFormField(
-                decoration: InputDecoration(labelText: 'Descriere'),
+                decoration: const InputDecoration(labelText: 'Descriere'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Te rog introdu o descriere';
@@ -87,11 +108,11 @@ class _EditarePlataPageState extends State<EditarePlataPage> {
                   _descriere = value  as String;
                 },
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
 
               //Introducere suma
               TextFormField(
-                decoration: InputDecoration(labelText: 'Suma'),
+                decoration: const InputDecoration(labelText: 'Suma'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -106,7 +127,7 @@ class _EditarePlataPageState extends State<EditarePlataPage> {
                   _suma = int.parse(value!);
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               //Alegere data
               ElevatedButton(
@@ -127,7 +148,7 @@ class _EditarePlataPageState extends State<EditarePlataPage> {
                     ? 'Selecteaza Data'
                     : 'Data: ${_data.toLocal()}'.split(' ')[0]),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               //Buton de adaugare plata
               ElevatedButton(
@@ -136,16 +157,16 @@ class _EditarePlataPageState extends State<EditarePlataPage> {
                     _formKey.currentState?.save();
 
                     // Save the payment data
-                    ApiService().createPlata(Plata(id: _id,userId: _userId, suma: _suma, categorie: _categorie, descriere: _descriere, data: _data));
+                    ApiService().updatePlata(Plata(id: _id,userId: _userId, suma: _suma, categorie: _categorie, descriere: _descriere, data: _data));
                     
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Plata a fost adaugata')),
+                      const SnackBar(content: Text('Plata a fost editata cu succes')),
                     );
                   }
                 },
-                child: Text('Adauga Plata'),
+                child: const Text('Editare Plata'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),

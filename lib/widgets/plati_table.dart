@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PlatiTable extends StatelessWidget {
   final List<Map<String, dynamic>> plati;
 
-  PlatiTable({required this.plati});
+  const PlatiTable({super.key, required this.plati});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class PlatiTable extends StatelessWidget {
           DataColumn(label: Text('Category')),
           DataColumn(label: Text('Description')),
           DataColumn(label: Text('Amount')),
-          //DataColumn(label: Text('Date')),
+          DataColumn(label: Text('Date')),
         ],
         rows: plati.map((plata) {
           return DataRow(cells: [
@@ -25,7 +25,7 @@ class PlatiTable extends StatelessWidget {
             DataCell(Text(plata['categorie'])),
             DataCell(Text(plata['descriere'])),
             DataCell(Text('${plata['suma'].toStringAsFixed(2)} RON')),
-            // DataCell(Text(DateFormat('yyyy-MM-dd').format(DateTime.parse(plata['date'])))),
+            DataCell(Text(plata['data'].toString())),
           ]);
         }).toList(),
       ),

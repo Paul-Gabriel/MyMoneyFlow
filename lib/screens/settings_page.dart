@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -14,7 +16,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -23,7 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
           child: Column(
             children: <Widget>[
               TextFormField(
-                decoration: InputDecoration(labelText: 'Username'),
+                decoration: const InputDecoration(labelText: 'Username'),
                 initialValue: _username,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -36,7 +38,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Email'),
                 initialValue: _email,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -48,18 +50,18 @@ class _SettingsPageState extends State<SettingsPage> {
                   _email = value!;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     // Save the user data
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Saving data...')),
+                      const SnackBar(content: Text('Saving data...')),
                     );
                   }
                 },
-                child: Text('Save'),
+                child: const Text('Save'),
               ),
             ],
           ),

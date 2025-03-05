@@ -1,13 +1,13 @@
 class User {
-  final int? _id; // Id-ul este primit, dar nu va fi serializat către client
+  final int? _id; // Id-ul user-ului (privat)
   final String nume;
   final String prenume;
   final String email;
   final String parola;
-  final double venit;
-  final double procentDorinte;
-  final double procentNevoi;
-  final double procentEconomi;
+  final int venit;
+  final int procentDorinte;
+  final int procentNevoi;
+  final int procentEconomi;
 
   User({
     int? id,
@@ -21,7 +21,6 @@ class User {
     required this.procentEconomi,
   }) : _id = id;
 
-  // Primește id-ul din JSON, dar îl stochează într-un câmp privat
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
@@ -29,16 +28,16 @@ class User {
       prenume: json['prenume'],
       email: json['email'],
       parola: json['parola'],
-      venit: (json['venit'] as num).toDouble(),
-      procentDorinte: (json['procent_dorinte'] as num).toDouble(),
-      procentNevoi: (json['procent_nevoi'] as num).toDouble(),
-      procentEconomi: (json['procent_economi'] as num).toDouble(),
+      venit: (json['venit'] as num).toInt(),
+      procentDorinte: (json['procent_dorinte'] as num).toInt(),
+      procentNevoi: (json['procent_nevoi'] as num).toInt(),
+      procentEconomi: (json['procent_economi'] as num).toInt(),
     );
   }
 
-  // Nu includem _id în toJson pentru a nu-l expune
   Map<String, dynamic> toJson() {
     return {
+      'id': _id,
       'nume': nume,
       'prenume': prenume,
       'email': email,
@@ -50,6 +49,4 @@ class User {
     };
   }
 
-  String get name => name;
-  int get id => id;
 }

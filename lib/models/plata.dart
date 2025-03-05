@@ -39,4 +39,8 @@ class Plata {
       'data': data.toIso8601String(),
     };
   }
+
+  // Getters pentru a accesa câmpurile private
+  int? get id => _id;
+  int? get userId => _userId;
 }
