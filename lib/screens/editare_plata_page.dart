@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/plata.dart';
 import 'package:my_money_flow/services/api_service.dart';
 
-class AdaugarePlataPage extends StatefulWidget {
+class EditarePlataPage extends StatefulWidget {
   @override
-  _AdaugarePlataPageState createState() => _AdaugarePlataPageState();
+  _EditarePlataPageState createState() => _EditarePlataPageState();
 }
 
-class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
+class _EditarePlataPageState extends State<EditarePlataPage> {
   final _formKey = GlobalKey<FormState>();
   int _id=0;
   late int _userId;

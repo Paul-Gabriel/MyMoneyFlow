@@ -53,20 +53,16 @@ class ApiService {
   }
 
   void createPlata(Plata plata) async {
+
+    
+
     final response = await http.post(
       Uri.parse('$baseUrl/plata/'),
       headers: {
         'accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: json.encode({
-        'id': 0,
-        'user_id': 0,
-        'suma': 150,
-        'categorie': 'nevoi',
-        'descriere': 'combustibil',
-        'data': '2025-03-05T12:38:49.340Z'
-      }),
+      body: json.encode(plata.toJson()),
     );
 
     if (response.statusCode != 200) {
