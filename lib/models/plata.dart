@@ -1,7 +1,7 @@
 class Plata {
   final int? _id;      // Id-ul plății (privat)
   final int? _userId;  // Id-ul user-ului (privat)
-  final double suma;
+  final int suma;
   final String categorie; // Poți utiliza un enum dacă vrei să forțezi cele 3 opțiuni: 'dorinte', 'nevoi', 'economi'
   final String descriere;
   final DateTime data;
@@ -21,7 +21,7 @@ class Plata {
     return Plata(
       id: json['id'],
       userId: json['user_id'],
-      suma: (json['suma'] as num).toDouble(),
+      suma: (json['suma'] as num).toInt(),
       categorie: json['categorie'],
       descriere: json['descriere'],
       data: DateTime.parse(json['data']),
@@ -31,6 +31,8 @@ class Plata {
   // Nu includem _id și _userId în toJson pentru a nu le expune
   Map<String, dynamic> toJson() {
     return {
+      'id': _id,
+      'user_id': _userId,
       'suma': suma,
       'categorie': categorie,
       'descriere': descriere,

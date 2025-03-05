@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_money_flow/models/plata.dart';
+import 'package:my_money_flow/services/api_service.dart';
 
 class AdaugarePlataPage extends StatefulWidget {
   @override
@@ -7,10 +9,12 @@ class AdaugarePlataPage extends StatefulWidget {
 
 class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
   final _formKey = GlobalKey<FormState>();
+  int _id=0;
+  int _userId=1;
   late String _categorie;
   late String _descriere;
   late int _suma;
-  late DateTime _data;
+   DateTime _data = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +92,10 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
                     _formKey.currentState?.save();
+
                     // Save the payment data
-                    // You can add your saving logic here
+                    ApiService().createPlata(Plata(id: _id,userId: _userId, suma: _suma, categorie: _categorie, descriere: _descriere, data: _data));
+                    
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Plata a fost adaugata')),
                     );
