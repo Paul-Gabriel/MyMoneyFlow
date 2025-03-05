@@ -42,11 +42,11 @@ class ApiService {
   }
 
   // Similar pentru plăți
-  Future<List<Plata>> getPlatiByUser(int userId) async {
+  Future<List> getPlatiByUser(int userId) async {
     final response = await http.get(Uri.parse('$baseUrl/plati/$userId'));
     if (response.statusCode == 200) {
       List<dynamic> jsonList = json.decode(response.body);
-      return jsonList.map((json) => Plata.fromJson(json)).toList();
+      return jsonList; //.map((json) => Plata.fromJson(json)).toList();
     } else {
       throw Exception('Eroare la încărcarea plăților');
     }
