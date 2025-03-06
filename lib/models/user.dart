@@ -21,19 +21,19 @@ class User {
     required this.procentEconomi,
   }) : _id = id;
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'],
-      nume: json['nume'],
-      prenume: json['prenume'],
-      email: json['email'],
-      parola: json['parola'],
-      venit: (json['venit'] as num).toInt(),
-      procentDorinte: (json['procent_dorinte'] as num).toInt(),
-      procentNevoi: (json['procent_nevoi'] as num).toInt(),
-      procentEconomi: (json['procent_economi'] as num).toInt(),
-    );
-  }
+  // factory User.fromJson(Map<String, dynamic> json) {
+  //   return User(
+  //     id: json['id'],
+  //     nume: json['nume'],
+  //     prenume: json['prenume'],
+  //     email: json['email'],
+  //     parola: json['parola'],
+  //     venit: (json['venit'] as num).toInt(),
+  //     procentDorinte: (json['procent_dorinte'] as num).toInt(),
+  //     procentNevoi: (json['procent_nevoi'] as num).toInt(),
+  //     procentEconomi: (json['procent_economi'] as num).toInt(),
+  //   );
+  // }
 
   Map<String, dynamic> toJson() {
     return {

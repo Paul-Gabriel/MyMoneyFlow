@@ -12,7 +12,7 @@ class _StergerePlataPageState extends State<StergerePlataPage> {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _userIdController = TextEditingController();
 
-  void _deletePlataById() {
+  void _deletePlata() {
     final String id = _idController.text;
     final String userId = _userIdController.text;
     if (id.isNotEmpty) {
@@ -64,7 +64,7 @@ class _StergerePlataPageState extends State<StergerePlataPage> {
             const SizedBox(height: 20),
 
             ElevatedButton(
-              onPressed: _deletePlataById,
+              onPressed: _deletePlata,
               child: const Text('Delete Plata'),
             ),
           ],

@@ -16,17 +16,17 @@ class Plata {
   })  : _id = id,
         _userId = userId;
 
-  // Primește câmpurile private din JSON, dar le stochează intern
-  factory Plata.fromJson(Map<String, dynamic> json) {
-    return Plata(
-      id: json['id'],
-      userId: json['user_id'],
-      suma: (json['suma'] as num).toInt(),
-      categorie: json['categorie'],
-      descriere: json['descriere'],
-      data: DateTime.parse(json['data']),
-    );
-  }
+  // // Primește câmpurile private din JSON, dar le stochează intern
+  // factory Plata.fromJson(Map<String, dynamic> json) {
+  //   return Plata(
+  //     id: json['id'],
+  //     userId: json['user_id'],
+  //     suma: (json['suma'] as num).toInt(),
+  //     categorie: json['categorie'],
+  //     descriere: json['descriere'],
+  //     data: DateTime.parse(json['data']),
+  //   );
+  // }
 
   // Nu includem _id și _userId în toJson pentru a nu le expune
   Map<String, dynamic> toJson() {
