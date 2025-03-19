@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_money_flow/services/api_service.dart';
+import 'package:my_money_flow/models/user.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -11,62 +13,34 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   // final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  final TextEditingController _numeController = TextEditingController();
+  final TextEditingController _prenumeController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _venitController = TextEditingController();
+  final TextEditingController _necesitatiController = TextEditingController();
+  final TextEditingController _dorinteController = TextEditingController();
+  final TextEditingController _economiController = TextEditingController();
 
-  String? _errorMessage;
+  String? _message;
 
   Future<void> _register() async {
     setState(() {
-      _errorMessage = null; // Clear any previous errors
+      _message = null; // Clear any previous errors
     });
 
-    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+    if (_numeController.text.isEmpty || _prenumeController.text.isEmpty || _venitController.text.isEmpty || _necesitatiController.text.isEmpty || 
+        _dorinteController.text.isEmpty || _economiController.text.isEmpty ||_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       setState(() {
-        _errorMessage = "Email and password cannot be empty.";
+        _message = "Campurile nu pot fi goale.";
       });
       return;
+    }else{
+      ApiService().createUser(User(id: 0, nume: _numeController.text, prenume: _prenumeController.text, venit: int.parse(_venitController.text), procentNevoi: int.parse(_necesitatiController.text), procentDorinte: int.parse(_dorinteController.text), procentEconomi: int.parse(_economiController.text), email: _emailController.text, parola: _passwordController.text));
+      // setState(() {
+      //   _message = "User creat cu succes!";
+      // });
     }
-
-    // try {
-    //   final UserCredential userCredential =
-    //       await _auth.createUserWithEmailAndPassword(
-    //     email: _emailController.text.trim(),
-    //     password: _passwordController.text.trim(),
-    //   );
-
-    //   final user = userCredential.user;
-    //   if (user != null) {
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       SnackBar(
-    //           content: Text('Registration successful! Welcome, ${user.email}')),
-    //     );
-    //     Navigator.pop(context);
-    //   }
-    // } on FirebaseAuthException catch (e) {
-    //   print("Firebase Auth Exception: ${e.code}, ${e.message}");
-    //   setState(() {
-    //     // Provide user-friendly messages based on error codes
-    //     switch (e.code) {
-    //       case 'email-already-in-use':
-    //         _errorMessage = "This email address is already in use.";
-    //         break;
-    //       case 'invalid-email':
-    //         _errorMessage = "The email address is not valid.";
-    //         break;
-    //       case 'weak-password':
-    //         _errorMessage = "The password must be at least 6 characters long.";
-    //         break;
-    //       default:
-    //         _errorMessage = e.message ?? "An unknown error occurred.";
-    //     }
-    //   });
-    // } catch (e) {
-    //   print("Unknown Exception: $e");
-    //   setState(() {
-    //     _errorMessage = "An unknown error occurred. Please try again.";
-    //   });
-    // }
   }
 
   @override
@@ -78,6 +52,68 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
+            //Introducere nume
+            TextField(
+              controller: _numeController,
+              decoration: const InputDecoration(
+                labelText: 'Nume',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 10),
+            
+            //Introducere prenume
+            TextField(
+              controller: _prenumeController,
+              decoration: const InputDecoration(
+                labelText: 'Prenume',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 10),
+
+            //Introducere venit
+            TextField(
+              controller: _venitController,
+              decoration: const InputDecoration(
+                labelText: 'Venit',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 10),
+
+            //Introducere procent necesitati
+            TextField(
+              controller: _necesitatiController,
+              decoration: const InputDecoration(
+                labelText: 'Necesitati',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 10),
+
+            //Introducere procent dorinte
+            TextField(
+              controller: _dorinteController,
+              decoration: const InputDecoration(
+                labelText: 'Dorinte',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 10),
+
+            //Introducere procent economi
+            TextField(
+              controller: _economiController,
+              decoration: const InputDecoration(
+                labelText: 'Economi',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 10),
+
+            //Introducere email
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
@@ -85,7 +121,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
+
+            //Introducere parola
             TextField(
               controller: _passwordController,
               obscureText: true,
@@ -94,17 +132,27 @@ class _RegisterPageState extends State<RegisterPage> {
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
+
             ElevatedButton(
               onPressed: _register,
               child: const Text('Register'),
             ),
-            if (_errorMessage != null)
+            if (_message != null) 
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Text(
-                  _errorMessage!,
+                  _message!,
                   style: const TextStyle(color: Colors.red, fontSize: 14),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            if (_message == null) 
+              const Padding(
+                padding: EdgeInsets.only(top: 16),
+                child: Text(
+                  'User creat cu succes!',
+                  style: TextStyle(color: Colors.green, fontSize: 14),
                   textAlign: TextAlign.center,
                 ),
               ),

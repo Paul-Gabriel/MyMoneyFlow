@@ -21,19 +21,19 @@ class User {
     required this.procentEconomi,
   }) : _id = id;
 
-  // factory User.fromJson(Map<String, dynamic> json) {
-  //   return User(
-  //     id: json['id'],
-  //     nume: json['nume'],
-  //     prenume: json['prenume'],
-  //     email: json['email'],
-  //     parola: json['parola'],
-  //     venit: (json['venit'] as num).toInt(),
-  //     procentDorinte: (json['procent_dorinte'] as num).toInt(),
-  //     procentNevoi: (json['procent_nevoi'] as num).toInt(),
-  //     procentEconomi: (json['procent_economi'] as num).toInt(),
-  //   );
-  // }
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      nume: json['nume'],
+      prenume: json['prenume'],
+      email: json['email'],
+      parola: json['parola'],
+      venit: (json['venit'] as num).toInt(),
+      procentDorinte: (json['dorinte'] as num).toInt(),
+      procentNevoi: (json['necesitati'] as num).toInt(),
+      procentEconomi: (json['economii'] as num).toInt(),
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return {
@@ -43,9 +43,9 @@ class User {
       'email': email,
       'parola': parola,
       'venit': venit,
-      'procent_dorinte': procentDorinte,
-      'procent_nevoi': procentNevoi,
-      'procent_economi': procentEconomi,
+      'dorinte': procentDorinte,
+      'necesitati': procentNevoi,
+      'economii': procentEconomi,
     };
   }
 

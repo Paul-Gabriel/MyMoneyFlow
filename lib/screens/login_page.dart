@@ -1,7 +1,9 @@
 // import 'package:my_money_flow/screens/currency_conversion_page.dart';
 // import 'package:currency_converter/services/exchange_rate_service.dart';
 import 'package:flutter/material.dart';
+import 'package:my_money_flow/models/user.dart';
 import 'package:my_money_flow/screens/menu_page.dart';
+import 'package:my_money_flow/services/api_service.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,68 +20,32 @@ class _LoginPageState extends State<LoginPage> {
   String? _errorMessage;
 
   Future<void> _login() async {
-    // try {
-    //   final UserCredential userCredential =
-    //       await _auth.signInWithEmailAndPassword(
-    //     email: _emailController.text.trim(),
-    //     password: _passwordController.text.trim(),
-    //   );
-
-    //   final user = userCredential.user;
-    //   if (user != null) {
-    //     // Fetch and save exchange rates in the background
-    //     ExchangeRateService().fetchAndSaveExchangeRates();
-
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       SnackBar(content: Text('Login successful! Welcome, ${user.email}')),
-    //     );
-    //     // Navigate to Currency Converter Page
-    //     Navigator.pushReplacement(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => const CurrencyConverterPage(),
-    //       ),
-    //     );
-    //     // Navigate to the main page or currency converter screen
-    //   }
-    // } on FirebaseAuthException catch (e) {
-    //   setState(() {
-    //     _errorMessage = e.message;
-    //   });
-    // }
-    // Navigate to Currency Converter Page
+    setState(() {
+      _errorMessage = null; // Clear any previous errors
+    });
+    
+    if(_emailController.text.isEmpty || _passwordController.text.isEmpty){
+      setState(() {
+        _errorMessage = "Campurile nu pot fi goale.";
+      });
+      return;
+    }else{
+      User user = await ApiService().getUserByEmail(_emailController.text);
+      if(user.parola == _passwordController.text){
+        // Navigate to Menu Page
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const MenuPage(),
           ),
         );
-  }
-
-  Future<void> _register() async {
-    // try {
-    //   final UserCredential userCredential =
-    //       await _auth.createUserWithEmailAndPassword(
-    //     email: _emailController.text.trim(),
-    //     password: _passwordController.text.trim(),
-    //   );
-
-    //   final user = userCredential.user;
-    //   if (user != null) {
-    //     // Fetch and save exchange rates in the background
-    //     ExchangeRateService().fetchAndSaveExchangeRates();
-
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       SnackBar(
-    //           content: Text('Registration successful! Welcome, ${user.email}')),
-    //     );
-    //     // Navigate to the main page or currency converter screen
-    //   }
-    // } on FirebaseAuthException catch (e) {
-    //   setState(() {
-    //     _errorMessage = e.message;
-    //   });
-    // }
+      }else{
+        setState(() {
+          _errorMessage = "Email sau parola incorecta.";
+        });
+        return;
+      }
+    }
   }
 
   @override

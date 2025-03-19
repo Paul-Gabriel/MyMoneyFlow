@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-// import '../models/user.dart';
+import '../models/user.dart';
 import '../models/plata.dart';
 
 class ApiService {
@@ -27,19 +27,33 @@ class ApiService {
   //   }
   // }
 
-  // // POST create user
-  // Future<User> createUser(User user) async {
-  //   final response = await http.post(
-  //     Uri.parse('$baseUrl/users/'),
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: json.encode(user.toJson()),
-  //   );
-  //   if (response.statusCode == 201) {
-  //     return User.fromJson(json.decode(response.body));
-  //   } else {
-  //     throw Exception('Eroare la crearea utilizatorului');
-  //   }
-  // }
+  // POST create user
+  void createUser(User user) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/users/'),
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+        },
+      body: json.encode(user.toJson()),
+    );
+    if (response.statusCode != 200) {
+      print('Failed to create user. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Eroare la crearea user-ului');
+    }
+  }
+
+  Future<User> getUserByEmail(String email) async {
+    final response = await http.get(Uri.parse('$baseUrl/users/email/$email'));//http://127.0.0.1:8000/users/email/paul%40email.com
+    if (response.statusCode == 200) {
+      return User.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 404){
+      throw Exception('Userul nu există');
+    } else {
+      throw Exception('Eroare la încărcarea utilizatorului');
+    }
+  }
 
   // Similar pentru plăți
   Future<List> getPlatiByUser(int userId) async {
@@ -61,7 +75,6 @@ class ApiService {
       },
       body: json.encode(plata.toJson()),
     );
-
     if (response.statusCode != 200) {
       print('Failed to create plata. Status code: ${response.statusCode}');
       print('Response body: ${response.body}');

@@ -16,7 +16,7 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
   late String _categorie;
   late String _descriere;
   late int _suma;
-   DateTime _data = DateTime.now();
+  DateTime _data = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
