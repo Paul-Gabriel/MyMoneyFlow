@@ -1,10 +1,9 @@
-// import 'package:my_money_flow/screens/currency_conversion_page.dart';
-// import 'package:currency_converter/services/exchange_rate_service.dart';
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/user.dart';
 import 'package:my_money_flow/screens/menu_page.dart';
 import 'package:my_money_flow/services/api_service.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:my_money_flow/providers/user_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,7 +13,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  //final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? _errorMessage;
@@ -23,15 +21,18 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _errorMessage = null; // Clear any previous errors
     });
-    
-    if(_emailController.text.isEmpty || _passwordController.text.isEmpty){
+
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       setState(() {
         _errorMessage = "Campurile nu pot fi goale.";
       });
       return;
-    }else{
+    } else {
       User user = await ApiService().getUserByEmail(_emailController.text);
-      if(user.parola == _passwordController.text){
+      if (user.parola == _passwordController.text) {
+        // Save user data using UserProvider
+        Provider.of<UserProvider>(context, listen: false).setUser(user);
+
         // Navigate to Menu Page
         Navigator.pushReplacement(
           context,
@@ -39,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
             builder: (context) => const MenuPage(),
           ),
         );
-      }else{
+      } else {
         setState(() {
           _errorMessage = "Email sau parola incorecta.";
         });

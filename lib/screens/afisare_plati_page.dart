@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 // import 'dart:convert';
 import 'package:my_money_flow/services/api_service.dart';
 import 'package:my_money_flow/widgets/plati_table.dart'; // Import the PlatiTable widget
+import 'package:provider/provider.dart';
+import 'package:my_money_flow/providers/user_provider.dart';
 
 
 class AfisarePlatiPage extends StatefulWidget {
@@ -32,40 +34,27 @@ class _AfisarePlatiPageState extends State<AfisarePlatiPage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
+    ApiService().getPlatiByUser(user?.id??-1).then((platiList) {
+      setState(() {
+        plati.clear();
+        for (var i = 0; i < platiList.length; i++) {
+          plati.add(platiList[i]);
+        }
+      });
+    });
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Afisare Plati'),
+        title: const Text('Plati'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Input field for the amount to convert
-            TextField(
-              keyboardType: TextInputType.number,
-              onChanged: (value) {
-                setState(() {
-                  id = int.tryParse(value) ?? 0;
-                });
-                ApiService().getPlatiByUser(id).then((platiList) {
-                  setState(() {
-                    plati.clear();
-                    for (var i = 0; i < platiList.length; i++) {
-                      plati.add(platiList[i]);
-                    }
-                  });
-                });
-              },
-              decoration: const InputDecoration(
-                labelText: 'id',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Display the result of the conversion
+            // Display the user's name
             Text(
-              'id: $id',
+              'Plati ${user?.nume} ${user?.prenume}:',
+              // 'id: $id',
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_money_flow/screens/another_page.dart';
 import 'package:my_money_flow/screens/creare_user_page.dart';
 import 'login_page.dart';
 import 'register_page.dart';
@@ -47,6 +48,17 @@ class MainPage extends StatelessWidget {
                 );
               },
               child: const Text('Creare User'),
+            ),
+
+            //Another Page button
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AnotherPage()),
+                );
+              },
+              child: const Text('Another Page'),
             ),
           ],
         ),

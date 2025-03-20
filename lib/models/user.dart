@@ -49,4 +49,7 @@ class User {
     };
   }
 
+  int? get id => _id;
+  String get name => nume;
+
 }
