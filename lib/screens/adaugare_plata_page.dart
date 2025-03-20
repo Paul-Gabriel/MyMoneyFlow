@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/plata.dart';
 import 'package:my_money_flow/services/api_service.dart';
+import 'package:provider/provider.dart';
+import 'package:my_money_flow/providers/user_provider.dart';
 
 class AdaugarePlataPage extends StatefulWidget {
   const AdaugarePlataPage({super.key});
@@ -12,7 +14,7 @@ class AdaugarePlataPage extends StatefulWidget {
 class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
   final _formKey = GlobalKey<FormState>();
   final int _id=0;
-  late int _userId;
+  // late int _userId;
   late String _categorie;
   late String _descriere;
   late int _suma;
@@ -20,6 +22,7 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Adaugare Plata'),
@@ -31,24 +34,24 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
           child: Column(
             children: <Widget>[
               
-              //Introducere User ID
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'User ID'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Te rog introdu un user ID valid';
-                  }
-                  if (int.tryParse(value) == null) {
-                    return 'Te rog introdu un numar valid';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _userId = int.parse(value!);
-                },
-              ),
-              const SizedBox(height: 15),
+              // //Introducere User ID
+              // TextFormField(
+              //   decoration: const InputDecoration(labelText: 'User ID'),
+              //   keyboardType: TextInputType.number,
+              //   validator: (value) {
+              //     if (value == null || value.isEmpty) {
+              //       return 'Te rog introdu un user ID valid';
+              //     }
+              //     if (int.tryParse(value) == null) {
+              //       return 'Te rog introdu un numar valid';
+              //     }
+              //     return null;
+              //   },
+              //   onSaved: (value) {
+              //     _userId = int.parse(value!);
+              //   },
+              // ),
+              // const SizedBox(height: 15),
 
               //Alegere categorie
                 DropdownButtonFormField<String>(
@@ -138,7 +141,7 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
                     _formKey.currentState?.save();
 
                     // Save the payment data
-                    ApiService().createPlata(Plata(id: _id,userId: _userId, suma: _suma, categorie: _categorie, descriere: _descriere, data: _data));
+                    ApiService().createPlata(Plata(id: _id,userId: user?.id??-1, suma: _suma, categorie: _categorie, descriere: _descriere, data: _data));
                     
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Plata a fost adaugata')),

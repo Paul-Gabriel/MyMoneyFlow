@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_money_flow/screens/a_i_chat_page.dart';
+import 'package:my_money_flow/screens/ai_chat_page.dart';
 import 'package:my_money_flow/screens/adaugare_plata_page.dart';
 import 'package:my_money_flow/screens/afisare_plati_page.dart';
 import 'package:my_money_flow/screens/editare_plata_page.dart';
@@ -72,7 +72,7 @@ class MenuPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const AIChatPage()),
+                  MaterialPageRoute(builder: (context) => const AiChatPage()),
                 );
               },
               child: const Text('AI Chat'),

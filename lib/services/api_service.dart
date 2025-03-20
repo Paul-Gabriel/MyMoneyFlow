@@ -44,6 +44,36 @@ class ApiService {
     }
   }
 
+  // PUT update user
+  void updateUser(User user) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/users/${user.id}'),
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: json.encode(user.toJson()),
+    );
+
+    if (response.statusCode != 200) {
+      print('Failed to update user. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Eroare la actualizarea user-ului');
+    }
+  }
+
+  // DELETE user
+  void deleteUser(int id) async {
+    final response = await http.delete(Uri.parse('$baseUrl/users/$id'));
+
+    if (response.statusCode != 200) {
+      print('Failed to delete user. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Eroare la ștergerea user-ului');
+    }
+  }
+
+  // GET user by email
   Future<User> getUserByEmail(String email) async {
     final response = await http.get(Uri.parse('$baseUrl/users/email/$email'));//http://127.0.0.1:8000/users/email/paul%40email.com
     if (response.statusCode == 200) {
@@ -55,7 +85,7 @@ class ApiService {
     }
   }
 
-  // Similar pentru plăți
+  // GET plati by user
   Future<List> getPlatiByUser(int userId) async {
     final response = await http.get(Uri.parse('$baseUrl/plati/$userId'));
     if (response.statusCode == 200) {
@@ -66,6 +96,7 @@ class ApiService {
     }
   }
 
+  // POST create plata
   void createPlata(Plata plata) async {
     final response = await http.post(
       Uri.parse('$baseUrl/plata/'),
@@ -82,6 +113,7 @@ class ApiService {
     }
   }
 
+  // PUT update plata
   void updatePlata(Plata plata) async {
     final response = await http.put(
       Uri.parse('$baseUrl/plata/${plata.id}?user_id=${plata.userId}'),
@@ -99,9 +131,10 @@ class ApiService {
     }
   }
 
+  // DELETE plata
   void deletePlata(int id, int userId) async {
     final response = await http.delete(
-      Uri.parse('$baseUrl/plata/$id?user_id=$userId'));//http://127.0.0.1:8000/plata/3?user_id=0
+      Uri.parse('$baseUrl/plata/$id?user_id=$userId'));
 
     if (response.statusCode != 200) {
       print('Failed to delete plata. Status code: ${response.statusCode}');

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_money_flow/screens/editare_user_page.dart';
+import 'package:my_money_flow/screens/main_page.dart';
+import 'package:my_money_flow/services/api_service.dart';
+import 'package:provider/provider.dart';
+import 'package:my_money_flow/providers/user_provider.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -14,6 +19,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -24,45 +30,62 @@ class _SettingsPageState extends State<SettingsPage> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Username'),
-                initialValue: _username,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your username';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _username = value!;
-                },
+              Text('${user?.name ?? 'Nume'} ${user?.prenume ?? 'Prenume'}'),
+              Text('Buget: ${user?.venit ?? 0} RON'),
+              Text('Nevoi: ${user?.procentNevoi ?? 0} %'),
+              Text('Dorinte: ${user?.procentDorinte ?? 0} %'),
+              Text('Economii: ${user?.procentEconomi ?? 0} %'),
+              const SizedBox(height: 16),
+
+              //button pentru editare user
+              ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditareUserPage()),
+                );
+              },
+              child: const Text('Actualizare date personale'),
               ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Email'),
-                initialValue: _email,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
+              const SizedBox(height: 16),
+
+              //button pentru stergere user
+              ElevatedButton(
+                onPressed: () async {
+                  final platiList = await ApiService().getPlatiByUser(user?.id??-1);
+                  if (platiList.isNotEmpty) {
+                    for (var plata in platiList) {
+                      ApiService().deletePlata(plata['id'],plata['user_id']);
+                    }
                   }
-                  return null;
+                  ApiService().deleteUser(user?.id ?? -1);
+                  Provider.of<UserProvider>(context, listen: false).logout();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MainPage()),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Deleting user...')),
+                  );
                 },
-                onSaved: (value) {
-                  _email = value!;
-                },
+                child: const Text('Delete user'),
               ),
-              const SizedBox(height: 20),
+
+              //button pentru delogare
               ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    // Save the user data
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Saving data...')),
-                    );
-                  }
+                  Provider.of<UserProvider>(context, listen: false).logout();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MainPage()),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Logging out...')),
+                  );
                 },
-                child: const Text('Save'),
-              ),
+                child: const Text('Log out'),
+                ),
+              const SizedBox(height: 16),
             ],
           ),
         ),

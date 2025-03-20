@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:my_money_flow/models/user.dart';
 import 'package:my_money_flow/services/api_service.dart';
+import 'package:provider/provider.dart';
+import 'package:my_money_flow/providers/user_provider.dart';
+import 'package:my_money_flow/models/user.dart';
 
-class CreareUserPage extends StatefulWidget {
-  const CreareUserPage({super.key});
-
+class EditareUserPage extends StatefulWidget {
   @override
-  _CreareUserPageState createState() => _CreareUserPageState();
+  _EditareUserPageState createState() => _EditareUserPageState();
 }
 
-class _CreareUserPageState extends State<CreareUserPage> {
+class _EditareUserPageState extends State<EditareUserPage> {
   final _formKey = GlobalKey<FormState>();
   late String _nume;
   late String _prenume;
@@ -21,10 +21,25 @@ class _CreareUserPageState extends State<CreareUserPage> {
   late int _procentEconomi;
 
   @override
+  void initState() {
+    super.initState();
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+    _nume = user?.nume ?? '';
+    _prenume = user?.prenume ?? '';
+    _email = user?.email ?? '';
+    _parola = user?.parola ?? '';
+    _venit = user?.venit ?? 0;
+    _procentDorinte = user?.procentDorinte ?? 0;
+    _procentNevoi = user?.procentNevoi ?? 0;
+    _procentEconomi = user?.procentEconomi ?? 0;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Creare User'),
+        title: Text('Editare User'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -37,6 +52,7 @@ class _CreareUserPageState extends State<CreareUserPage> {
                 // Introducere nume
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Nume'),
+                  initialValue: _nume,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Te rog introdu un nume';
@@ -52,6 +68,7 @@ class _CreareUserPageState extends State<CreareUserPage> {
                 // Introducere prenume
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Prenume'),
+                  initialValue: _prenume,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Te rog introdu un prenume';
@@ -67,6 +84,7 @@ class _CreareUserPageState extends State<CreareUserPage> {
                 // Introducere email
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Email'),
+                  initialValue: _email,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -86,6 +104,7 @@ class _CreareUserPageState extends State<CreareUserPage> {
                 // Introducere parola
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Parola'),
+                  initialValue: _parola,
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -102,6 +121,7 @@ class _CreareUserPageState extends State<CreareUserPage> {
                 // Introducere venit
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Venit'),
+                  initialValue: _venit.toString(),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -121,6 +141,7 @@ class _CreareUserPageState extends State<CreareUserPage> {
                 // Introducere procent dorinte
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Procent Dorinte'),
+                  initialValue: _procentDorinte.toString(),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -140,6 +161,7 @@ class _CreareUserPageState extends State<CreareUserPage> {
                 // Introducere procent nevoi
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Procent Nevoi'),
+                  initialValue: _procentNevoi.toString(),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -159,6 +181,7 @@ class _CreareUserPageState extends State<CreareUserPage> {
                 // Introducere procent economii
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Procent Economii'),
+                  initialValue: _procentEconomi.toString(),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -175,15 +198,15 @@ class _CreareUserPageState extends State<CreareUserPage> {
                 ),
                 const SizedBox(height: 20),
 
-                // Buton de creare user
+                // Buton de actualizare user
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {
                       _formKey.currentState?.save();
 
                       // Save the user data
-                      ApiService().createUser(User(
-                        id: 0,
+                      final updatedUser = User(
+                        id: user?.id ?? -1,
                         nume: _nume,
                         prenume: _prenume,
                         email: _email,
@@ -192,14 +215,19 @@ class _CreareUserPageState extends State<CreareUserPage> {
                         procentDorinte: _procentDorinte,
                         procentNevoi: _procentNevoi,
                         procentEconomi: _procentEconomi,
-                      ));
+                      );
+
+                      ApiService().updateUser(updatedUser);
                       
+                       // Update the user in UserProvider
+                      Provider.of<UserProvider>(context, listen: false).setUser(updatedUser);
+
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('User-ul a fost creat')),
+                        const SnackBar(content: Text('User-ul a fost actualizat')),
                       );
                     }
                   },
-                  child: const Text('Creare User'),
+                  child: const Text('Actualizare User'),
                 ),
                 const SizedBox(height: 20),
               ],

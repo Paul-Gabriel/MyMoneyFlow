@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/services/ai_api_service.dart';
 
-class AIChatPage extends StatefulWidget {
-  const AIChatPage({super.key});
+class AiChatPage extends StatefulWidget {
+  const AiChatPage({super.key});
 
   @override
-  _AIChatPageState createState() => _AIChatPageState();
+  _AiChatPageState createState() => _AiChatPageState();
 }
 
-class _AIChatPageState extends State<AIChatPage> {
+class _AiChatPageState extends State<AiChatPage> {
   //final List<Map<String, String>> messages = [];
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, String>> _messages = [];
@@ -136,7 +136,7 @@ class _AIChatPageState extends State<AIChatPage> {
       _controller.clear();
     });
 
-    String botResponse = await ApiService.sendMessage(userMessage);
+    String botResponse = await AiApiService.sendMessage(userMessage);
 
     setState(() {
       _messages.add({"role": "bot", "content": botResponse});
