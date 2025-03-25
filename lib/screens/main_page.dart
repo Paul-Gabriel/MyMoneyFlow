@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_money_flow/screens/another_page.dart';
-import 'package:my_money_flow/screens/creare_user_page.dart';
-import 'login_page.dart';
-import 'register_page.dart';
+import 'package:my_money_flow/screens/creare_cont_page.dart';
+import 'inregistrare_page.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -21,45 +19,24 @@ class MainPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  MaterialPageRoute(builder: (context) => const InregistrarePage()),
                 );
               },
-              child: const Text('Log In'),
+              child: const Text('Înregistrare'),
             ),
             const SizedBox(height: 16),
-
-            //Register button
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const RegisterPage()),
-                );
-              },
-              child: const Text('Register'),
-            ),
 
             //Creare User button
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CreareUserPage()),
+                  MaterialPageRoute(builder: (context) => const CreareContPage()),
                 );
               },
-              child: const Text('Creare User'),
+              child: const Text('Creare cont'),
             ),
-
-            //Another Page button
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AnotherPage()),
-                );
-              },
-              child: const Text('Another Page'),
-            ),
+            const SizedBox(height: 16),
           ],
         ),
       ),

@@ -1,34 +1,59 @@
 class Plata {
-  final int? _id;      // Id-ul plății (privat)
-  final int? _userId;  // Id-ul user-ului (privat)
-  final int suma;
-  final String categorie; // Poți utiliza un enum dacă vrei să forțezi cele 3 opțiuni: 'dorinte', 'nevoi', 'economi'
-  final String descriere;
-  final DateTime data;
+  final int _id;
+  final int _userId;
+  int _suma;
+  String _categorie; // Poți utiliza un enum dacă vrei să forțezi cele 3 opțiuni: 'dorinte', 'nevoi', 'economi'
+  String _descriere;
+  DateTime _data;
 
   Plata({
-    int? id,
-    int? userId,
-    required this.suma,
-    required this.categorie,
-    required this.descriere,
-    required this.data,
+    required int id,
+    required int userId,
+    required int suma,
+    required String categorie,
+    required String descriere,
+    required DateTime data,
   })  : _id = id,
-        _userId = userId;
+        _userId = userId,
+        _suma = suma,
+        _categorie = categorie,
+        _descriere = descriere,
+        _data = data;
 
-  // // Primește câmpurile private din JSON, dar le stochează intern
-  // factory Plata.fromJson(Map<String, dynamic> json) {
-  //   return Plata(
-  //     id: json['id'],
-  //     userId: json['user_id'],
-  //     suma: (json['suma'] as num).toInt(),
-  //     categorie: json['categorie'],
-  //     descriere: json['descriere'],
-  //     data: DateTime.parse(json['data']),
-  //   );
-  // }
+  int? get id => _id;
+  int? get userId => _userId;
+  int get suma => _suma;
+  String get categorie => _categorie;
+  String get descriere => _descriere;
+  DateTime get data => _data;
 
-  // Nu includem _id și _userId în toJson pentru a nu le expune
+  set suma(int value) {
+    _suma = value;
+  }
+
+  set categorie(String value) {
+    _categorie = value;
+  }
+
+  set descriere(String value) {
+    _descriere = value;
+  }
+
+  set data(DateTime value) {
+    _data = value;
+  }
+
+  factory Plata.fromJson(Map<String, dynamic> json) {
+    return Plata(
+      id: json['id'],
+      userId: json['user_id'],
+      suma: (json['suma'] as num).toInt(),
+      categorie: json['categorie'],
+      descriere: json['descriere'],
+      data: DateTime.parse(json['data']),
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': _id,
@@ -39,8 +64,4 @@ class Plata {
       'data': data.toIso8601String(),
     };
   }
-
-  // Getters pentru a accesa câmpurile private
-  int? get id => _id;
-  int? get userId => _userId;
 }

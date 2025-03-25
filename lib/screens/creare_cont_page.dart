@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/user.dart';
 import 'package:my_money_flow/services/api_service.dart';
 
-class CreareUserPage extends StatefulWidget {
-  const CreareUserPage({super.key});
+class CreareContPage extends StatefulWidget {
+  const CreareContPage({super.key});
 
   @override
-  _CreareUserPageState createState() => _CreareUserPageState();
+  _CreareContPageState createState() => _CreareContPageState();
 }
 
-class _CreareUserPageState extends State<CreareUserPage> {
+class _CreareContPageState extends State<CreareContPage> {
   final _formKey = GlobalKey<FormState>();
   late String _nume;
   late String _prenume;
@@ -24,7 +24,8 @@ class _CreareUserPageState extends State<CreareUserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Creare User'),
+        title: const Text('Creare cont'),
+
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -66,14 +67,14 @@ class _CreareUserPageState extends State<CreareUserPage> {
 
                 // Introducere email
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Email'),
+                  decoration: const InputDecoration(labelText: 'Mail'),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Te rog introdu un email';
+                      return 'Te rog introdu un mail';
                     }
                     if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                      return 'Te rog introdu un email valid';
+                      return 'Te rog introdu un mail valid';
                     }
                     return null;
                   },
@@ -89,7 +90,7 @@ class _CreareUserPageState extends State<CreareUserPage> {
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Te rog introdu o parola';
+                      return 'Te rog introdu o parolă';
                     }
                     return null;
                   },
@@ -118,25 +119,6 @@ class _CreareUserPageState extends State<CreareUserPage> {
                 ),
                 const SizedBox(height: 15),
 
-                // Introducere procent dorinte
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Procent Dorinte'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Te rog introdu un procent pentru dorinte';
-                    }
-                    if (int.tryParse(value) == null) {
-                      return 'Te rog introdu un numar valid';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _procentDorinte = int.parse(value!);
-                  },
-                ),
-                const SizedBox(height: 15),
-
                 // Introducere procent nevoi
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Procent Nevoi'),
@@ -152,6 +134,25 @@ class _CreareUserPageState extends State<CreareUserPage> {
                   },
                   onSaved: (value) {
                     _procentNevoi = int.parse(value!);
+                  },
+                ),
+                const SizedBox(height: 15),
+
+                // Introducere procent dorinte
+                TextFormField(
+                  decoration: const InputDecoration(labelText: 'Procent Dorinte'),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Te rog introdu un procent pentru dorinte';
+                    }
+                    if (int.tryParse(value) == null) {
+                      return 'Te rog introdu un numar valid';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _procentDorinte = int.parse(value!);
                   },
                 ),
                 const SizedBox(height: 15),
@@ -176,30 +177,32 @@ class _CreareUserPageState extends State<CreareUserPage> {
                 const SizedBox(height: 20),
 
                 // Buton de creare user
-                ElevatedButton(
+                Center(
+                  child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {
-                      _formKey.currentState?.save();
+                    _formKey.currentState?.save();
 
-                      // Save the user data
-                      ApiService().createUser(User(
-                        id: 0,
-                        nume: _nume,
-                        prenume: _prenume,
-                        email: _email,
-                        parola: _parola,
-                        venit: _venit,
-                        procentDorinte: _procentDorinte,
-                        procentNevoi: _procentNevoi,
-                        procentEconomi: _procentEconomi,
-                      ));
-                      
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('User-ul a fost creat')),
-                      );
+                    // Save the user data
+                    ApiService().createUser(User(
+                      id: 0,
+                      nume: _nume,
+                      prenume: _prenume,
+                      email: _email,
+                      parola: _parola,
+                      venit: _venit,
+                      procentDorinte: _procentDorinte,
+                      procentNevoi: _procentNevoi,
+                      procentEconomi: _procentEconomi,
+                    ));
+                    
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Contul a fost creat')),
+                    );
                     }
                   },
-                  child: const Text('Creare User'),
+                  child: const Text('Creare cont'),
+                  ),
                 ),
                 const SizedBox(height: 20),
               ],

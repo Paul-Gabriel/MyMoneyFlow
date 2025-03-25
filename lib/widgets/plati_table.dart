@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:my_money_flow/providers/user_provider.dart';
 
 class PlatiTable extends StatefulWidget {
-  final List<Map<String, dynamic>> plati;
+  final List<Plata> plati;
 
   const PlatiTable({super.key, required this.plati});
 
@@ -34,10 +34,10 @@ class _PlatiTableState extends State<PlatiTable> {
             cells: [
               //DataCell(Text(plata['id'].toString())),
               //DataCell(Text(plata['user_id'].toString())),
-              DataCell(Text(plata['categorie'])),
-              DataCell(Text(plata['descriere'])),
-              DataCell(Text('${plata['suma'].toStringAsFixed(2)} RON')),
-              DataCell(Text(plata['data'].toString())),
+              DataCell(Text(plata.categorie)),
+              DataCell(Text(plata.descriere)),
+              DataCell(Text('${plata.suma.toStringAsFixed(2)} RON')),
+              DataCell(Text(plata.data.toString())),
             ],
             onSelectChanged: (selected) {
               if (selected != null && selected) {
@@ -50,74 +50,76 @@ class _PlatiTableState extends State<PlatiTable> {
     );
   }
 
-  void _showEditDialog(BuildContext context, User? user,Map<String, dynamic> plata) {
+  void _showEditDialog(BuildContext context, User? user, Plata plata) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Edit Payment'),
+          title: const Text('Editare plată'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
-                controller: TextEditingController(text: plata['categorie']),
-                decoration: const InputDecoration(labelText: 'Category'),
+                controller: TextEditingController(text: plata.categorie),
+                decoration: const InputDecoration(labelText: 'Categorie'),
                 onChanged: (value) {
-                  plata['categorie'] = value;
+                  plata.categorie = value;
                 },
               ),
               TextField(
-                controller: TextEditingController(text: plata['descriere']),
-                decoration: const InputDecoration(labelText: 'Description'),
+                controller: TextEditingController(text: plata.descriere),
+                decoration: const InputDecoration(labelText: 'Descriere'),
                 onChanged: (value) {
-                  plata['descriere'] = value;
+                  plata.descriere = value;
                 },
               ),
               TextField(
-                controller: TextEditingController(text: plata['suma'].toString()),
-                decoration: const InputDecoration(labelText: 'Amount'),
+                controller: TextEditingController(text: plata.suma.toString()),
+                decoration: const InputDecoration(labelText: 'Sumă'),
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
-                  plata['suma'] = int.tryParse(value) ?? plata['suma'];
+                  plata.suma = int.tryParse(value) ?? plata.suma;
                 },
               ),
               TextField(
-                controller: TextEditingController(text: plata['data']),
-                decoration: const InputDecoration(labelText: 'Date'),
+                controller: TextEditingController(text: plata.data.toString()),
+                decoration: const InputDecoration(labelText: 'Dată'),
                 onChanged: (value) {
-                  plata['data'] = DateTime.tryParse(value) ?? plata['data'];
+                  plata.data = DateTime.tryParse(value) ?? plata.data;
                 },
               ),
             ],
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel'),
+              child: const Text('Anulare'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Delete'),
+              child: const Text('Stergere'),
               onPressed: () {
                 setState(() {
                   widget.plati.remove(plata);
-                  ApiService().deletePlata(plata['id'], plata['user_id']);
+                  if (plata.id != null && plata.userId != null) {
+                    ApiService().deletePlata(plata.id!, plata.userId!);
+                  }
                 });
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Save'),
+              child: const Text('Salvare'),
               onPressed: () {
                 setState(() {
                     ApiService().updatePlata(Plata(
-                    id: plata['id'],
-                    userId: plata['user_id'],
-                    categorie: plata['categorie'],
-                    descriere: plata['descriere'],
-                    suma: plata['suma'].toInt(),
-                    data: DateTime.parse(plata['data']),
+                    id: plata.id ?? 0,
+                    userId: plata.userId ?? 0,
+                    categorie: plata.categorie,
+                    descriere: plata.descriere,
+                    suma: plata.suma.toInt(),
+                    data: plata.data,
                   ));
                 });
                 Navigator.of(context).pop();

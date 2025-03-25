@@ -86,11 +86,16 @@ class ApiService {
   }
 
   // GET plati by user
-  Future<List> getPlatiByUser(int userId) async {
+  Future<List<Plata>> getPlatiByUser(int userId) async {
     final response = await http.get(Uri.parse('$baseUrl/plati/$userId'));
     if (response.statusCode == 200) {
+      List<Plata> plati = [];
       List<dynamic> jsonList = json.decode(response.body);
-      return jsonList; //.map((json) => Plata.fromJson(json)).toList();
+      for (int i = 0; i < jsonList.length; i++) {
+        plati.add(Plata.fromJson(jsonList[i]));
+      }
+      return plati;
+      // return jsonList; //.map((json) => Plata.fromJson(json)).toList();
     } else {
       throw Exception('Eroare la încărcarea plăților');
     }

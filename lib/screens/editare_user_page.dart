@@ -5,6 +5,8 @@ import 'package:my_money_flow/providers/user_provider.dart';
 import 'package:my_money_flow/models/user.dart';
 
 class EditareUserPage extends StatefulWidget {
+  const EditareUserPage({super.key});
+
   @override
   _EditareUserPageState createState() => _EditareUserPageState();
 }
@@ -39,7 +41,7 @@ class _EditareUserPageState extends State<EditareUserPage> {
     final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editare User'),
+        title: const Text('Editare cont'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -83,15 +85,15 @@ class _EditareUserPageState extends State<EditareUserPage> {
 
                 // Introducere email
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Email'),
+                  decoration: const InputDecoration(labelText: 'Mail'),
                   initialValue: _email,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Te rog introdu un email';
+                      return 'Te rog introdu un mail';
                     }
                     if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                      return 'Te rog introdu un email valid';
+                      return 'Te rog introdu un mail valid';
                     }
                     return null;
                   },
@@ -108,7 +110,7 @@ class _EditareUserPageState extends State<EditareUserPage> {
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Te rog introdu o parola';
+                      return 'Te rog introdu o parolă';
                     }
                     return null;
                   },
@@ -138,26 +140,6 @@ class _EditareUserPageState extends State<EditareUserPage> {
                 ),
                 const SizedBox(height: 15),
 
-                // Introducere procent dorinte
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Procent Dorinte'),
-                  initialValue: _procentDorinte.toString(),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Te rog introdu un procent pentru dorinte';
-                    }
-                    if (int.tryParse(value) == null) {
-                      return 'Te rog introdu un numar valid';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _procentDorinte = int.parse(value!);
-                  },
-                ),
-                const SizedBox(height: 15),
-
                 // Introducere procent nevoi
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Procent Nevoi'),
@@ -168,12 +150,32 @@ class _EditareUserPageState extends State<EditareUserPage> {
                       return 'Te rog introdu un procent pentru nevoi';
                     }
                     if (int.tryParse(value) == null) {
-                      return 'Te rog introdu un numar valid';
+                      return 'Te rog introdu un număr valid';
                     }
                     return null;
                   },
                   onSaved: (value) {
                     _procentNevoi = int.parse(value!);
+                  },
+                ),
+                const SizedBox(height: 15),
+
+                // Introducere procent dorinte
+                TextFormField(
+                  decoration: const InputDecoration(labelText: 'Procent Dorințe'),
+                  initialValue: _procentDorinte.toString(),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Te rog introdu un procent pentru dorințe';
+                    }
+                    if (int.tryParse(value) == null) {
+                      return 'Te rog introdu un număr valid';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _procentDorinte = int.parse(value!);
                   },
                 ),
                 const SizedBox(height: 15),
@@ -188,7 +190,7 @@ class _EditareUserPageState extends State<EditareUserPage> {
                       return 'Te rog introdu un procent pentru economii';
                     }
                     if (int.tryParse(value) == null) {
-                      return 'Te rog introdu un numar valid';
+                      return 'Te rog introdu un număr valid';
                     }
                     return null;
                   },

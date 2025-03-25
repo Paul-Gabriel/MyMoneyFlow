@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/user.dart';
-import 'package:my_money_flow/screens/menu_page.dart';
+import 'package:my_money_flow/screens/afisare_plati_page.dart';
 import 'package:my_money_flow/services/api_service.dart';
 import 'package:provider/provider.dart';
 import 'package:my_money_flow/providers/user_provider.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class InregistrarePage extends StatefulWidget {
+  const InregistrarePage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _InregistrarePageState createState() => _InregistrarePageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _InregistrarePageState extends State<InregistrarePage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? _errorMessage;
@@ -37,12 +37,12 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const MenuPage(),
+            builder: (context) => const AfisarePlatiPage(),
           ),
         );
       } else {
         setState(() {
-          _errorMessage = "Email sau parola incorecta.";
+          _errorMessage = "Mail sau parola incorecta.";
         });
         return;
       }
@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login Page')),
+      appBar: AppBar(title: const Text('Înregistrare Page')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
-                labelText: 'Email',
+                labelText: 'Mail',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -70,14 +70,14 @@ class _LoginPageState extends State<LoginPage> {
               controller: _passwordController,
               obscureText: true,
               decoration: const InputDecoration(
-                labelText: 'Password',
+                labelText: 'Parolă',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _login,
-              child: const Text('Login'),
+              child: const Text('Intră în cont'),
             ),
             if (_errorMessage != null)
               Padding(

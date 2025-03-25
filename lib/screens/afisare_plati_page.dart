@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_money_flow/models/plata.dart';
+import 'package:my_money_flow/screens/adaugare_plata_page.dart';
 import 'package:my_money_flow/services/api_service.dart';
 import 'package:my_money_flow/widgets/plati_table.dart';
 import 'package:provider/provider.dart';
 import 'package:my_money_flow/providers/user_provider.dart';
-import 'package:my_money_flow/screens/settings_page.dart';
-import 'package:my_money_flow/screens/adaugare_plata_page.dart';
+import 'package:my_money_flow/screens/setari_page.dart';
 import 'package:my_money_flow/screens/ai_chat_page.dart';
 
 class AfisarePlatiPage extends StatefulWidget {
@@ -15,7 +16,7 @@ class AfisarePlatiPage extends StatefulWidget {
 }
 
 class _AfisarePlatiPageState extends State<AfisarePlatiPage> {
-  List plati = [];
+  List<Plata> plati = [];
   late int id;
   int _selectedIndex = 0;
 
@@ -30,7 +31,7 @@ class _AfisarePlatiPageState extends State<AfisarePlatiPage> {
   void _fetchPlati() async {
     final user = Provider.of<UserProvider>(context, listen: false).user;
     if (user != null) {
-      final platiList = await ApiService().getPlatiByUser(user?.id??-1);
+      final platiList = await ApiService().getPlatiByUser(user.id??-1);
       setState(() {
         plati = platiList;
       });
@@ -60,7 +61,7 @@ class _AfisarePlatiPageState extends State<AfisarePlatiPage> {
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const SettingsPage()),
+          MaterialPageRoute(builder: (context) => const SetariPage()),
         );
         break;
     }
@@ -84,7 +85,7 @@ class _AfisarePlatiPageState extends State<AfisarePlatiPage> {
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: PlatiTable(plati: plati.cast<Map<String, dynamic>>()),
+              child: PlatiTable(plati: plati),
             ),
           ],
         ),
@@ -101,7 +102,7 @@ class _AfisarePlatiPageState extends State<AfisarePlatiPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'Settings',
+            label: 'Setări',
           ),
         ],
         currentIndex: _selectedIndex,
