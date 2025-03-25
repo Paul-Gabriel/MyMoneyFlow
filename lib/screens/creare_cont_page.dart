@@ -6,10 +6,10 @@ class CreareContPage extends StatefulWidget {
   const CreareContPage({super.key});
 
   @override
-  _CreareContPageState createState() => _CreareContPageState();
+  CreareContPageState createState() => CreareContPageState();
 }
 
-class _CreareContPageState extends State<CreareContPage> {
+class CreareContPageState extends State<CreareContPage> {
   final _formKey = GlobalKey<FormState>();
   late String _nume;
   late String _prenume;

@@ -20,8 +20,8 @@ class Plata {
         _descriere = descriere,
         _data = data;
 
-  int? get id => _id;
-  int? get userId => _userId;
+  int get id => _id;
+  int get userId => _userId;
   int get suma => _suma;
   String get categorie => _categorie;
   String get descriere => _descriere;

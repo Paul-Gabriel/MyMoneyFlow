@@ -11,10 +11,10 @@ class PlatiTable extends StatefulWidget {
   const PlatiTable({super.key, required this.plati});
 
   @override
-  _PlatiTableState createState() => _PlatiTableState();
+  PlatiTableState createState() => PlatiTableState();
 }
 
-class _PlatiTableState extends State<PlatiTable> {
+class PlatiTableState extends State<PlatiTable> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
@@ -102,9 +102,7 @@ class _PlatiTableState extends State<PlatiTable> {
               onPressed: () {
                 setState(() {
                   widget.plati.remove(plata);
-                  if (plata.id != null && plata.userId != null) {
-                    ApiService().deletePlata(plata.id!, plata.userId!);
-                  }
+                  ApiService().deletePlata(plata.id, plata.userId);
                 });
                 Navigator.of(context).pop();
               },
@@ -114,8 +112,8 @@ class _PlatiTableState extends State<PlatiTable> {
               onPressed: () {
                 setState(() {
                     ApiService().updatePlata(Plata(
-                    id: plata.id ?? 0,
-                    userId: plata.userId ?? 0,
+                    id: plata.id,
+                    userId: plata.userId,
                     categorie: plata.categorie,
                     descriere: plata.descriere,
                     suma: plata.suma.toInt(),

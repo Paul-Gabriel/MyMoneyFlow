@@ -8,10 +8,10 @@ class EditareUserPage extends StatefulWidget {
   const EditareUserPage({super.key});
 
   @override
-  _EditareUserPageState createState() => _EditareUserPageState();
+  EditareUserPageState createState() => EditareUserPageState();
 }
 
-class _EditareUserPageState extends State<EditareUserPage> {
+class EditareUserPageState extends State<EditareUserPage> {
   final _formKey = GlobalKey<FormState>();
   late String _nume;
   late String _prenume;

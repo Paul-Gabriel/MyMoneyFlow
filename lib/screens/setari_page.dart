@@ -10,10 +10,10 @@ class SetariPage extends StatefulWidget {
   const SetariPage({super.key});
 
   @override
-  _SetariPageState createState() => _SetariPageState();
+  SetariPageState createState() => SetariPageState();
 }
 
-class _SetariPageState extends State<SetariPage> {
+class SetariPageState extends State<SetariPage> {
   final _formKey = GlobalKey<FormState>();
   // String _username = '';
   // String _email = '';
@@ -56,7 +56,7 @@ class _SetariPageState extends State<SetariPage> {
                   final List<Plata> platiList = await ApiService().getPlatiByUser(user?.id??-1);
                   if (platiList.isNotEmpty) {
                     for (var plata in platiList) {
-                      ApiService().deletePlata(plata.id ?? -1, user?.id ?? -1);
+                      ApiService().deletePlata(plata.id, plata.userId);
                     }
                   }
                   ApiService().deleteUser(user?.id ?? -1);

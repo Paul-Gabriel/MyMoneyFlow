@@ -8,10 +8,10 @@ class AdaugarePlataPage extends StatefulWidget {
   const AdaugarePlataPage({super.key});
 
   @override
-  _AdaugarePlataPageState createState() => _AdaugarePlataPageState();
+  AdaugarePlataPageState createState() => AdaugarePlataPageState();
 }
 
-class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
+class AdaugarePlataPageState extends State<AdaugarePlataPage> {
   final _formKey = GlobalKey<FormState>();
   final int _id=0;
   // late int _userId;
@@ -33,26 +33,7 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              
-              // //Introducere User ID
-              // TextFormField(
-              //   decoration: const InputDecoration(labelText: 'User ID'),
-              //   keyboardType: TextInputType.number,
-              //   validator: (value) {
-              //     if (value == null || value.isEmpty) {
-              //       return 'Te rog introdu un user ID valid';
-              //     }
-              //     if (int.tryParse(value) == null) {
-              //       return 'Te rog introdu un numar valid';
-              //     }
-              //     return null;
-              //   },
-              //   onSaved: (value) {
-              //     _userId = int.parse(value!);
-              //   },
-              // ),
-              // const SizedBox(height: 15),
-
+                        
               //Alegere categorie
                 DropdownButtonFormField<String>(
                 decoration: const InputDecoration(labelText: 'Categorie'),
@@ -128,9 +109,7 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
                     });
                   }
                 },
-                child: Text(_data == null
-                    ? 'Selecteaza Data'
-                    : 'Data: ${_data.toLocal()}'.split(' ')[0]),
+                child: Text('Data: ${_data.toLocal()}'.split(' ')[0]),
               ),
               const SizedBox(height: 20),
 
@@ -141,7 +120,13 @@ class _AdaugarePlataPageState extends State<AdaugarePlataPage> {
                     _formKey.currentState?.save();
 
                     // Save the payment data
-                    ApiService().createPlata(Plata(id: _id,userId: user?.id??-1, suma: _suma, categorie: _categorie, descriere: _descriere, data: _data));
+                    if (user != null) {
+                      ApiService().createPlata(Plata(id: _id, userId: user.id, suma: _suma, categorie: _categorie, descriere: _descriere, data: _data));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Userul nu este logat')),
+                      );
+                    }
                     
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Plata a fost adaugata')),

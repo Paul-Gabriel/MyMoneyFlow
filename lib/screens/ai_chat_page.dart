@@ -5,10 +5,10 @@ class AiChatPage extends StatefulWidget {
   const AiChatPage({super.key});
 
   @override
-  _AiChatPageState createState() => _AiChatPageState();
+  AiChatPageState createState() => AiChatPageState();
 }
 
-class _AiChatPageState extends State<AiChatPage> {
+class AiChatPageState extends State<AiChatPage> {
   //final List<Map<String, String>> messages = [];
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, String>> _messages = [];

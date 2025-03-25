@@ -9,10 +9,10 @@ class InregistrarePage extends StatefulWidget {
   const InregistrarePage({super.key});
 
   @override
-  _InregistrarePageState createState() => _InregistrarePageState();
+  InregistrarePageState createState() => InregistrarePageState();
 }
 
-class _InregistrarePageState extends State<InregistrarePage> {
+class InregistrarePageState extends State<InregistrarePage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? _errorMessage;
@@ -30,6 +30,8 @@ class _InregistrarePageState extends State<InregistrarePage> {
     } else {
       User user = await ApiService().getUserByEmail(_emailController.text);
       if (user.parola == _passwordController.text) {
+        if (!mounted) return;
+
         // Save user data using UserProvider
         Provider.of<UserProvider>(context, listen: false).setUser(user);
 

@@ -12,10 +12,10 @@ class AfisarePlatiPage extends StatefulWidget {
   const AfisarePlatiPage({super.key});
 
   @override
-  _AfisarePlatiPageState createState() => _AfisarePlatiPageState();
+  AfisarePlatiPageState createState() => AfisarePlatiPageState();
 }
 
-class _AfisarePlatiPageState extends State<AfisarePlatiPage> {
+class AfisarePlatiPageState extends State<AfisarePlatiPage> {
   List<Plata> plati = [];
   late int id;
   int _selectedIndex = 0;
@@ -31,7 +31,7 @@ class _AfisarePlatiPageState extends State<AfisarePlatiPage> {
   void _fetchPlati() async {
     final user = Provider.of<UserProvider>(context, listen: false).user;
     if (user != null) {
-      final platiList = await ApiService().getPlatiByUser(user.id??-1);
+      final platiList = await ApiService().getPlatiByUser(user.id);
       setState(() {
         plati = platiList;
       });
