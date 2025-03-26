@@ -15,8 +15,6 @@ class SetariPage extends StatefulWidget {
 
 class SetariPageState extends State<SetariPage> {
   final _formKey = GlobalKey<FormState>();
-  // String _username = '';
-  // String _email = '';
 
   @override
   Widget build(BuildContext context) {

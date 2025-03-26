@@ -28,8 +28,22 @@ class InregistrarePageState extends State<InregistrarePage> {
       });
       return;
     } else {
-      User user = await ApiService().getUserByEmail(_emailController.text);
-      if (user.parola == _passwordController.text) {
+      User? user;
+      try {
+        user = await ApiService().getUserByEmail(_emailController.text);
+      } catch (e) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              e.toString(),
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        );
+      }
+      
+      if (user != null && user.parola == _passwordController.text) {
         if (!mounted) return;
 
         // Save user data using UserProvider
@@ -44,7 +58,7 @@ class InregistrarePageState extends State<InregistrarePage> {
         );
       } else {
         setState(() {
-          _errorMessage = "Mail sau parola incorecta.";
+          _errorMessage = "Parola incorecta.";
         });
         return;
       }
@@ -63,7 +77,7 @@ class InregistrarePageState extends State<InregistrarePage> {
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
-                labelText: 'Mail',
+                labelText: 'Email',
                 border: OutlineInputBorder(),
               ),
             ),

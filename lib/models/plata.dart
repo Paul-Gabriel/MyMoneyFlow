@@ -1,7 +1,9 @@
+// ignore_for_file: unnecessary_getters_setters
+
 class Plata {
   final int _id;
   final int _userId;
-  int _suma;
+  double _suma;
   String _categorie; // Poți utiliza un enum dacă vrei să forțezi cele 3 opțiuni: 'dorinte', 'nevoi', 'economi'
   String _descriere;
   DateTime _data;
@@ -9,7 +11,7 @@ class Plata {
   Plata({
     required int id,
     required int userId,
-    required int suma,
+    required double suma,
     required String categorie,
     required String descriere,
     required DateTime data,
@@ -22,12 +24,12 @@ class Plata {
 
   int get id => _id;
   int get userId => _userId;
-  int get suma => _suma;
+  double get suma => _suma;
   String get categorie => _categorie;
   String get descriere => _descriere;
   DateTime get data => _data;
 
-  set suma(int value) {
+  set suma(double value) {
     _suma = value;
   }
 
@@ -47,7 +49,7 @@ class Plata {
     return Plata(
       id: json['id'],
       userId: json['user_id'],
-      suma: (json['suma'] as num).toInt(),
+      suma: (json['suma'] as num).toDouble(),
       categorie: json['categorie'],
       descriere: json['descriere'],
       data: DateTime.parse(json['data']),

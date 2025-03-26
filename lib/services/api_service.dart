@@ -38,8 +38,8 @@ class ApiService {
       body: json.encode(user.toJson()),
     );
     if (response.statusCode != 200) {
-      print('Failed to create user. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      // print('Failed to create user. Status code: ${response.statusCode}');
+      // print('Response body: ${response.body}');
       throw Exception('Eroare la crearea user-ului');
     }
   }
@@ -56,8 +56,8 @@ class ApiService {
     );
 
     if (response.statusCode != 200) {
-      print('Failed to update user. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      // print('Failed to update user. Status code: ${response.statusCode}');
+      // print('Response body: ${response.body}');
       throw Exception('Eroare la actualizarea user-ului');
     }
   }
@@ -67,15 +67,15 @@ class ApiService {
     final response = await http.delete(Uri.parse('$baseUrl/users/$id'));
 
     if (response.statusCode != 200) {
-      print('Failed to delete user. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      // print('Failed to delete user. Status code: ${response.statusCode}');
+      // print('Response body: ${response.body}');
       throw Exception('Eroare la ștergerea user-ului');
     }
   }
 
   // GET user by email
   Future<User> getUserByEmail(String email) async {
-    final response = await http.get(Uri.parse('$baseUrl/users/email/$email'));//http://127.0.0.1:8000/users/email/paul%40email.com
+    final response = await http.get(Uri.parse('$baseUrl/users/email/$email'));
     if (response.statusCode == 200) {
       return User.fromJson(json.decode(response.body));
     } else if (response.statusCode == 404){
@@ -112,8 +112,8 @@ class ApiService {
       body: json.encode(plata.toJson()),
     );
     if (response.statusCode != 200) {
-      print('Failed to create plata. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      // print('Failed to create plata. Status code: ${response.statusCode}');
+      // print('Response body: ${response.body}');
       throw Exception('Eroare la crearea plății');
     }
   }
@@ -130,8 +130,8 @@ class ApiService {
     );
 
     if (response.statusCode != 200) {
-      print('Failed to update plata. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      // print('Failed to update plata. Status code: ${response.statusCode}');
+      // print('Response body: ${response.body}');
       throw Exception('Eroare la actualizarea plății');
     }
   }
@@ -142,8 +142,8 @@ class ApiService {
       Uri.parse('$baseUrl/plata/$id?user_id=$userId'));
 
     if (response.statusCode != 200) {
-      print('Failed to delete plata. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      // print('Failed to delete plata. Status code: ${response.statusCode}');
+      // print('Response body: ${response.body}');
       throw Exception('Eroare la ștergerea plății');
     }
   }

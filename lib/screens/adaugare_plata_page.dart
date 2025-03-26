@@ -17,7 +17,7 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
   // late int _userId;
   late String _categorie;
   late String _descriere;
-  late int _suma;
+  late double _suma;
   DateTime _data = DateTime.now();
 
   @override
@@ -83,13 +83,13 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
                   if (value == null || value.isEmpty) {
                     return 'Te rog introdu o suma';
                   }
-                  if (int.tryParse(value) == null) {
+                  if (double.tryParse(value) == null) {
                     return 'Te rog introdu un numar valid';
                   }
                   return null;
                 },
                 onSaved: (value) {
-                  _suma = int.parse(value!);
+                  _suma = double.parse(value!);
                 },
               ),
               const SizedBox(height: 20),

@@ -17,7 +17,7 @@ class EditareUserPageState extends State<EditareUserPage> {
   late String _prenume;
   late String _email;
   late String _parola;
-  late int _venit;
+  late double _venit;
   late int _procentDorinte;
   late int _procentNevoi;
   late int _procentEconomi;
@@ -85,15 +85,15 @@ class EditareUserPageState extends State<EditareUserPage> {
 
                 // Introducere email
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Mail'),
+                  decoration: const InputDecoration(labelText: 'Email'),
                   initialValue: _email,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Te rog introdu un mail';
+                      return 'Te rog introdu un email';
                     }
                     if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                      return 'Te rog introdu un mail valid';
+                      return 'Te rog introdu un email valid';
                     }
                     return null;
                   },
@@ -135,7 +135,7 @@ class EditareUserPageState extends State<EditareUserPage> {
                     return null;
                   },
                   onSaved: (value) {
-                    _venit = int.parse(value!);
+                    _venit = double.parse(value!);
                   },
                 ),
                 const SizedBox(height: 15),

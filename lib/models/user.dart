@@ -1,10 +1,12 @@
+// ignore_for_file: unnecessary_getters_setters
+
 class User {
   final int _id; // Id-ul user-ului (privat)
   String _nume;
   String _prenume;
   String _email;
   String _parola;
-  int _venit;
+  double _venit;
   int _procentDorinte;
   int _procentNevoi;
   int _procentEconomi;
@@ -15,7 +17,7 @@ class User {
     required String prenume,
     required String email,
     required String parola,
-    required int venit,
+    required double venit,
     required int procentDorinte,
     required int procentNevoi,
     required int procentEconomi,
@@ -29,40 +31,12 @@ class User {
        _procentNevoi = procentNevoi,
        _procentEconomi = procentEconomi;
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'],
-      nume: json['nume'],
-      prenume: json['prenume'],
-      email: json['email'],
-      parola: json['parola'],
-      venit: (json['venit'] as num).toInt(),
-      procentDorinte: (json['dorinte'] as num).toInt(),
-      procentNevoi: (json['necesitati'] as num).toInt(),
-      procentEconomi: (json['economii'] as num).toInt(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': _id,
-      'nume': _nume,
-      'prenume': _prenume,
-      'email': _email,
-      'parola': _parola,
-      'venit': _venit,
-      'dorinte': _procentDorinte,
-      'necesitati': _procentNevoi,
-      'economii': _procentEconomi,
-    };
-  }
-
   int get id => _id;
   String get nume => _nume;
   String get prenume => _prenume;
   String get email => _email;
   String get parola => _parola;
-  int get venit => _venit;
+  double get venit => _venit;
   int get procentDorinte => _procentDorinte;
   int get procentNevoi => _procentNevoi;
   int get procentEconomi => _procentEconomi;
@@ -83,7 +57,7 @@ class User {
     _parola = value;
   }
 
-  set venit(int value) {
+  set venit(double value) {
     _venit = value;
   }
 
@@ -97,5 +71,33 @@ class User {
 
   set procentEconomi(int value) {
     _procentEconomi = value;
+  }
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      nume: json['nume'],
+      prenume: json['prenume'],
+      email: json['email'],
+      parola: json['parola'],
+      venit: (json['venit'] as num).toDouble(),
+      procentDorinte: (json['dorinte'] as num).toInt(),
+      procentNevoi: (json['necesitati'] as num).toInt(),
+      procentEconomi: (json['economii'] as num).toInt(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': _id,
+      'nume': _nume,
+      'prenume': _prenume,
+      'email': _email,
+      'parola': _parola,
+      'venit': _venit,
+      'dorinte': _procentDorinte,
+      'necesitati': _procentNevoi,
+      'economii': _procentEconomi,
+    };
   }
 }

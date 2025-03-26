@@ -15,9 +15,9 @@ class CreareContPageState extends State<CreareContPage> {
   late String _prenume;
   late String _email;
   late String _parola;
-  late int _venit;
-  late int _procentDorinte;
+  late double _venit;
   late int _procentNevoi;
+  late int _procentDorinte;
   late int _procentEconomi;
 
   @override
@@ -67,14 +67,14 @@ class CreareContPageState extends State<CreareContPage> {
 
                 // Introducere email
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Mail'),
+                  decoration: const InputDecoration(labelText: 'Email'),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Te rog introdu un mail';
+                      return 'Te rog introdu un email';
                     }
                     if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                      return 'Te rog introdu un mail valid';
+                      return 'Te rog introdu un email valid';
                     }
                     return null;
                   },
@@ -108,13 +108,13 @@ class CreareContPageState extends State<CreareContPage> {
                     if (value == null || value.isEmpty) {
                       return 'Te rog introdu un venit';
                     }
-                    if (int.tryParse(value) == null) {
+                    if (double.tryParse(value) == null) {
                       return 'Te rog introdu un numar valid';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    _venit = int.parse(value!);
+                    _venit = double.parse(value!);
                   },
                 ),
                 const SizedBox(height: 15),
@@ -127,8 +127,8 @@ class CreareContPageState extends State<CreareContPage> {
                     if (value == null || value.isEmpty) {
                       return 'Te rog introdu un procent pentru nevoi';
                     }
-                    if (int.tryParse(value) == null) {
-                      return 'Te rog introdu un numar valid';
+                    if (int.tryParse(value) == null  && int.parse(value) > 100 && int.parse(value) < 0) {
+                      return 'Te rog introdu un numar valid între 0 și 100';
                     }
                     return null;
                   },
@@ -146,8 +146,8 @@ class CreareContPageState extends State<CreareContPage> {
                     if (value == null || value.isEmpty) {
                       return 'Te rog introdu un procent pentru dorinte';
                     }
-                    if (int.tryParse(value) == null) {
-                      return 'Te rog introdu un numar valid';
+                    if (int.tryParse(value) == null && int.parse(value) > 100 && int.parse(value) < 0) {
+                      return 'Te rog introdu un numar valid între 0 și 100';
                     }
                     return null;
                   },
@@ -165,8 +165,8 @@ class CreareContPageState extends State<CreareContPage> {
                     if (value == null || value.isEmpty) {
                       return 'Te rog introdu un procent pentru economii';
                     }
-                    if (int.tryParse(value) == null) {
-                      return 'Te rog introdu un numar valid';
+                    if (int.tryParse(value) == null && int.parse(value) > 100 && int.parse(value) < 0) {
+                      return 'Te rog introdu un numar valid între 0 și 100';
                     }
                     return null;
                   },
@@ -181,24 +181,35 @@ class CreareContPageState extends State<CreareContPage> {
                   child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {
-                    _formKey.currentState?.save();
+                      _formKey.currentState?.save();
 
-                    // Save the user data
-                    ApiService().createUser(User(
-                      id: 0,
-                      nume: _nume,
-                      prenume: _prenume,
-                      email: _email,
-                      parola: _parola,
-                      venit: _venit,
-                      procentDorinte: _procentDorinte,
-                      procentNevoi: _procentNevoi,
-                      procentEconomi: _procentEconomi,
-                    ));
-                    
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Contul a fost creat')),
-                    );
+                      // Save the user data
+                      try {
+                        ApiService().createUser(User(
+                        id: 0,
+                        nume: _nume,
+                        prenume: _prenume,
+                        email: _email,
+                        parola: _parola,
+                        venit: _venit,
+                        procentDorinte: _procentDorinte,
+                        procentNevoi: _procentNevoi,
+                        procentEconomi: _procentEconomi,
+                        ));
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              e.toString(),
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        );
+                      }
+                      
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Contul a fost creat')),
+                      );
                     }
                   },
                   child: const Text('Creare cont'),
