@@ -7,7 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:my_money_flow/providers/user_provider.dart';
 
 class SetariPage extends StatefulWidget {
-  const SetariPage({super.key});
+  final List<Plata> plati;
+
+  const SetariPage({super.key,required this.plati});
 
   @override
   SetariPageState createState() => SetariPageState();
@@ -30,10 +32,10 @@ class SetariPageState extends State<SetariPage> {
           child: Column(
             children: <Widget>[
               Text('${user?.nume ?? 'Nume'} ${user?.prenume ?? 'Prenume'}'),
-              Text('Buget: ${user?.venit ?? 0} RON'),
-              Text('Nevoi: ${user?.procentNevoi ?? 0} %'),
-              Text('Dorinte: ${user?.procentDorinte ?? 0} %'),
-              Text('Economii: ${user?.procentEconomi ?? 0} %'),
+              Text('Buget: ${user?.venit ?? 0} RON din ${user?.venit ?? 0} RON'),
+              Text('Nevoi: ${user?.procentNevoi ?? 0}% -> ${(user?.venit ?? 0)*(user?.procentNevoi ?? 0)/100-Plata.sumaPeCategorie(widget.plati,'nevoi')} RON din ${(user?.venit ?? 0)*(user?.procentNevoi ?? 0)/100} RON'),
+              Text('Dorinte: ${user?.procentDorinte ?? 0}% -> ${(user?.venit ?? 0)*(user?.procentDorinte ?? 0)/100-Plata.sumaPeCategorie(widget.plati,'dorinte')} RON din ${(user?.venit ?? 0)*(user?.procentDorinte ?? 0)/100} RON'),
+              Text('Economii: ${user?.procentEconomi ?? 0}% -> ${(user?.venit ?? 0)*(user?.procentEconomi ?? 0)/100-Plata.sumaPeCategorie(widget.plati,'economi')} RON din ${(user?.venit ?? 0)*(user?.procentEconomi ?? 0)/100} RON'),
               const SizedBox(height: 16),
 
               //button pentru editare user

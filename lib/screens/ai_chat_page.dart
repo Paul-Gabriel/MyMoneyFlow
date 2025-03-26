@@ -15,8 +15,7 @@ class AiChatPageState extends State<AiChatPage> {
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, String>> _messages = [];
 
-  void _sendMessage() async {
-    String userMessage = ' ${_controller.text}';
+  void _sendMessage(String userMessage) async {
     if (userMessage.isEmpty) return;
 
     setState(() {
@@ -62,23 +61,44 @@ class AiChatPageState extends State<AiChatPage> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
+            child: Column(
               children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      hintText: "Type your message...",
-                      border: OutlineInputBorder(),
+                Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () => _sendMessage("Care sunt cele mai bune practici pentru economisire?"),
+                          child: const Text("Economisire"),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => _sendMessage("Cum pot investi mai eficient?"),
+                          child: const Text("Investiții"),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => _sendMessage("Cum să reduc cheltuielile lunare? Acestea sunt platile mele: ${widget.plati.map((plata) => "\n${plata.categorie}: ${plata.descriere} ->${plata.suma} RON").join(", ")}"),
+                          child: const Text("Cheltuieli"),
+                        ),
+                      ],
                     ),
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _controller,
+                        decoration: const InputDecoration(
+                          hintText: "Type your message...",
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed: () => _sendMessage(_controller.text),
+                    ),
+                  ],
                 ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: _sendMessage,
-                ),
-              ],
-            ),
+              ]
+            )
           ),
         ],
       ),

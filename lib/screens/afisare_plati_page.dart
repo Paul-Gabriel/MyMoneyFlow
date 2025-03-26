@@ -61,7 +61,7 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const SetariPage()),
+          MaterialPageRoute(builder: (context) => SetariPage(plati: _filterPlatiByMonth(plati, year, month))),
         );
         break;
     }
