@@ -14,7 +14,6 @@ class AdaugarePlataPage extends StatefulWidget {
 class AdaugarePlataPageState extends State<AdaugarePlataPage> {
   final _formKey = GlobalKey<FormState>();
   final int _id=0;
-  // late int _userId;
   late String _categorie;
   late String _descriere;
   late double _suma;

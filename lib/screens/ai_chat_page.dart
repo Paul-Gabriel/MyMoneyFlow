@@ -12,10 +12,8 @@ class AiChatPage extends StatefulWidget {
 }
 
 class AiChatPageState extends State<AiChatPage> {
-  //final List<Map<String, String>> messages = [];
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, String>> _messages = [];
-  //String istoric = "";
 
   void _sendMessage() async {
     String userMessage = ' ${_controller.text}';

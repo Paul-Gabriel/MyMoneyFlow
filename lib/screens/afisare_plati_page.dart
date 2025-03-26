@@ -49,13 +49,13 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AiChatPage(plati: plati)),
+          MaterialPageRoute(builder: (context) => AiChatPage(plati: _filterPlatiByMonth(plati, year, month))),
         );
         break;
       case 1:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => GraficePage(plati: plati)),
+          MaterialPageRoute(builder: (context) => GraficePage(plati: _filterPlatiByMonth(plati, year, month))),
         );
         break;
       case 2:
