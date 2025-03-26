@@ -1,4 +1,3 @@
-// filepath: C:/Users/paul1/Desktop/Aplicatie finala/Apk flutter/my_money_flow/lib/screens/grafice_page.dart
 import 'package:flutter/material.dart';
 // import 'package:fl_chart/fl_chart.dart';
 import 'package:my_money_flow/models/plata.dart';
@@ -7,6 +6,18 @@ class GraficePage extends StatelessWidget {
   final List<Plata> plati;
 
   const GraficePage({super.key, required this.plati});
+  
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: const Text('Grafice'),
+  //     ),
+  //     body: Center(
+  //       child: Text('No data available'),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
