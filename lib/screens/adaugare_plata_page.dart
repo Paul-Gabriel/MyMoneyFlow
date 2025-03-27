@@ -36,7 +36,7 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
               //Alegere categorie
                 DropdownButtonFormField<String>(
                 decoration: const InputDecoration(labelText: 'Categorie'),
-                items: ['nevoi', 'dorinte', 'economi'].map((String category) {
+                items: ['nevoi', 'dorinte', 'economii'].map((String category) {
                   return DropdownMenuItem<String>(
                   value: category,
                   child: Text(category),
@@ -108,7 +108,7 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
                     });
                   }
                 },
-                child: Text('Data: ${_data.toLocal()}'.split(' ')[0]),
+                child: Text('Data: ${_data.toLocal().toString().split(' ')[0]}'),
               ),
               const SizedBox(height: 20),
 

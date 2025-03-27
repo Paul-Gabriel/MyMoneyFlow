@@ -1,13 +1,81 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:my_money_flow/models/plata.dart';
 import 'package:my_money_flow/providers/user_provider.dart';
+import 'package:my_money_flow/screens/grafic_categorie_page.dart';
 import 'package:provider/provider.dart';
 
 class GraficePage extends StatelessWidget {
   final List<Plata> plati;
 
   const GraficePage({super.key, required this.plati});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Grafic general'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: _buildLineChart(context),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance, color: Colors.blue),
+            label: 'Nevoi',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star, color: Colors.yellow),
+            label: 'Dorințe',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.savings, color: Colors.pinkAccent,),
+            label: 'Economii',
+          ),
+        ],
+        onTap: (index) {
+          // Navigăm către pagina corespunzătoare
+          switch (index) {
+            case 0:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => GraficCategoriePage(
+                    categorie: 'nevoi',
+                    plati: plati,
+                  ),
+                ),
+              );
+              break;
+            case 1:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => GraficCategoriePage(
+                    categorie: 'dorinte',
+                    plati: plati,
+                  ),
+                ),
+              );
+              break;
+            case 2:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => GraficCategoriePage(
+                    categorie: 'economii',
+                    plati: plati,
+                  ),
+                ),
+              );
+              break;
+          }
+        },
+      ),
+    );
+  }
 
   Widget _buildLineChart(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
@@ -19,94 +87,58 @@ class GraficePage extends StatelessWidget {
         .where((plata) => plata.categorie == 'dorinte')
         .fold(0, (sum, plata) => sum + plata.suma);
     final double economiiSum = plati
-        .where((plata) => plata.categorie == 'economi')
+        .where((plata) => plata.categorie == 'economii')
         .fold(0, (sum, plata) => sum + plata.suma);
     final double remainingSum = totalSum - (nevoiSum + dorinteSum + economiiSum);
 
     return Column(
       children: [
         const Text(
-          'Distribuția cheltuielilor și economiilor',
+          'Distribuția cheltuielilor',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 16),
-        Expanded(
+        const SizedBox(height: 40),
+        SizedBox(
+          // height: 300,
           child: PieChart(
-            PieChartData(
-              sections: [
-                PieChartSectionData(
-                  value: remainingSum,
-                  color: Colors.green,
-                  title: '', // Eliminăm textul din secțiune
-                ),
-                PieChartSectionData(
-                  value: nevoiSum,
-                  color: Colors.orange,
-                  title: '', // Eliminăm textul din secțiune
-                ),
-                PieChartSectionData(
-                  value: dorinteSum,
-                  color: Colors.yellow,
-                  title: '', // Eliminăm textul din secțiune
-                ),
-                PieChartSectionData(
-                  value: economiiSum,
-                  color: Colors.red,
-                  title: '', // Eliminăm textul din secțiune
-                ),
-              ],
-              sectionsSpace: 2,
-              centerSpaceRadius: 40,
+            dataMap: {
+              'Bani rămași: ${remainingSum.toStringAsFixed(2)} RON': remainingSum,
+              'Nevoi: ${nevoiSum.toStringAsFixed(2)} RON': nevoiSum,
+              'Dorințe: ${dorinteSum.toStringAsFixed(2)} RON': dorinteSum,
+              'Economii: ${economiiSum.toStringAsFixed(2)} RON': economiiSum,
+            },
+            animationDuration: const Duration(milliseconds: 1000),
+            chartLegendSpacing: 32,
+            chartRadius: MediaQuery.of(context).size.width / 2.7,
+            colorList: const [
+              Colors.green,
+              Colors.blue,
+              Colors.yellow,
+              Colors.pink,
+            ],
+            initialAngleInDegree: 0,
+            chartType: ChartType.disc,
+            ringStrokeWidth: 32,
+            centerText: "",
+            legendOptions: const LegendOptions(
+              showLegendsInRow: false,
+              legendPosition: LegendPosition.bottom,
+              showLegends: true,
+              legendShape: BoxShape.circle,
+              legendTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            chartValuesOptions: const ChartValuesOptions(
+              showChartValueBackground: true,
+              showChartValues: true,
+              showChartValuesInPercentage: true,
+              showChartValuesOutside: true,
+              decimalPlaces: 2,
             ),
           ),
         ),
-        const SizedBox(height: 16),
-        // Legendă personalizată
-        Wrap(
-          spacing: 10,
-          runSpacing: 10,
-          children: [
-            _buildLegendItem('Rămas', Colors.green, remainingSum),
-            _buildLegendItem('Nevoi', Colors.orange, nevoiSum),
-            _buildLegendItem('Dorințe', Colors.yellow, dorinteSum),
-            _buildLegendItem('Economii', Colors.red, economiiSum),
-          ],
-        ),
       ],
-    );
-  }
-
-  Widget _buildLegendItem(String label, Color color, double value) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 16,
-          height: 16,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Text(
-          '$label: ${value.toStringAsFixed(2)}',
-          style: const TextStyle(fontSize: 14),
-        ),
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Grafice'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: _buildLineChart(context),
-      ),
     );
   }
 }

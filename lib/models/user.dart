@@ -81,8 +81,8 @@ class User {
       email: json['email'],
       parola: json['parola'],
       venit: (json['venit'] as num).toDouble(),
-      procentDorinte: (json['procentNecesitati'] as num).toInt(),
-      procentNevoi: (json['procentDorinte'] as num).toInt(),
+      procentNevoi: (json['procentNecesitati'] as num).toInt(),
+      procentDorinte: (json['procentDorinte'] as num).toInt(),
       procentEconomi: (json['procentEconomii'] as num).toInt(),
     );
   }

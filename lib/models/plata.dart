@@ -66,10 +66,4 @@ class Plata {
       'data': data.toIso8601String(),
     };
   }
-
-  static double sumaPeCategorie(List<Plata> plati, String categorie) {
-    return plati
-        .where((plata) => plata.categorie == categorie)
-        .fold(0.0, (sum, plata) => sum + plata.suma);
-  }
 }

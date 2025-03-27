@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/plata.dart';
+import 'package:my_money_flow/models/user.dart';
+import 'package:my_money_flow/providers/user_provider.dart';
 import 'package:my_money_flow/services/ai_api_service.dart';
+import 'package:provider/provider.dart';
 
 class AiChatPage extends StatefulWidget {
   final List<Plata> plati;
@@ -12,8 +15,15 @@ class AiChatPage extends StatefulWidget {
 }
 
 class AiChatPageState extends State<AiChatPage> {
+  late final User? user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = Provider.of<UserProvider>(context, listen: false).user;
+  }
   final TextEditingController _controller = TextEditingController();
-  final List<Map<String, String>> _messages = [];
+  final List<Map<String, String>> _messages = [{"role": "bot", "content": "Salut! Sunt MyMoneyFlow, asistentul tău financiar virtual. Cum te pot ajuta?"}];
 
   void _sendMessage(String userMessage) async {
     if (userMessage.isEmpty) return;
@@ -47,7 +57,7 @@ class AiChatPageState extends State<AiChatPage> {
                   child: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: isUser ? Colors.blue : Colors.grey[300],
+                      color: isUser ? Colors.blue : Colors.green,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -75,7 +85,7 @@ class AiChatPageState extends State<AiChatPage> {
                           child: const Text("Investiții"),
                         ),
                         ElevatedButton(
-                          onPressed: () => _sendMessage("Cum să reduc cheltuielile lunare? Acestea sunt platile mele: ${widget.plati.map((plata) => "\n${plata.categorie}: ${plata.descriere} ->${plata.suma} RON").join(", ")}"),
+                          onPressed: () => _sendMessage("Cum să reduc cheltuielile lunare? Venitul meu lunar este de ${user?.venit}, iar procentele bugetelor sunt de ${user?.procentNevoi}% pentru nevoi, ${user?.procentDorinte}% pentru dorinte, ${user?.procentEconomi}% pentru economii. Acestea sunt platile mele: ${widget.plati.map((plata) => "\n${plata.categorie}: ${plata.descriere} ->${plata.suma} RON").join(", ")}"),
                           child: const Text("Cheltuieli"),
                         ),
                       ],

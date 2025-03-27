@@ -17,10 +17,25 @@ class SetariPage extends StatefulWidget {
 
 class SetariPageState extends State<SetariPage> {
   final _formKey = GlobalKey<FormState>();
-
+  
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
+    final int procentNevoi = user?.procentNevoi ?? 0;
+    final int procentDorinte = user?.procentDorinte ?? 0;
+    final int procentEconomii = user?.procentEconomi ?? 0;
+    final double totalSum = user?.venit ?? 0;
+    final double nevoiSum = widget.plati
+        .where((plata) => plata.categorie == 'nevoi')
+        .fold(0, (sum, plata) => sum + plata.suma);
+    final double dorinteSum = widget.plati
+        .where((plata) => plata.categorie == 'dorinte')
+        .fold(0, (sum, plata) => sum + plata.suma);
+    final double economiiSum = widget.plati
+        .where((plata) => plata.categorie == 'economii')
+        .fold(0, (sum, plata) => sum + plata.suma);
+    final double remainingSum = totalSum - (nevoiSum + dorinteSum + economiiSum); 
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Setări'),
@@ -31,11 +46,172 @@ class SetariPageState extends State<SetariPage> {
           key: _formKey,
           child: Column(
             children: <Widget>[
+
               Text('${user?.nume ?? 'Nume'} ${user?.prenume ?? 'Prenume'}'),
-              Text('Buget: ${user?.venit ?? 0} RON din ${user?.venit ?? 0} RON'),
-              Text('Nevoi: ${user?.procentNevoi ?? 0}% -> ${(user?.venit ?? 0)*(user?.procentNevoi ?? 0)/100-Plata.sumaPeCategorie(widget.plati,'nevoi')} RON din ${(user?.venit ?? 0)*(user?.procentNevoi ?? 0)/100} RON'),
-              Text('Dorinte: ${user?.procentDorinte ?? 0}% -> ${(user?.venit ?? 0)*(user?.procentDorinte ?? 0)/100-Plata.sumaPeCategorie(widget.plati,'dorinte')} RON din ${(user?.venit ?? 0)*(user?.procentDorinte ?? 0)/100} RON'),
-              Text('Economii: ${user?.procentEconomi ?? 0}% -> ${(user?.venit ?? 0)*(user?.procentEconomi ?? 0)/100-Plata.sumaPeCategorie(widget.plati,'economi')} RON din ${(user?.venit ?? 0)*(user?.procentEconomi ?? 0)/100} RON'),
+              SizedBox(height: 16),
+
+              Text('Buget: $remainingSum RON din $totalSum RON'),
+              Row(
+                children: [
+                  Expanded(
+                  flex: (remainingSum / totalSum * 100).round(),
+                    child: Container(
+                      height: 20,
+                      color: Colors.green,
+                      child: Center(
+                        child: Text(
+                          '${(remainingSum / totalSum * 100).toStringAsFixed(2)}%',
+                          style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                  flex: ((totalSum-remainingSum) / totalSum * 100).round(),
+                    child: Container(
+                      height: 20,
+                      color: Colors.red,
+                      child: Center(
+                        child: Text(
+                          '${((totalSum-remainingSum) / totalSum * 100).toStringAsFixed(2)}%',
+                          style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              Text('Nevoi: $procentNevoi% -> ${totalSum * procentNevoi / 100 - nevoiSum} RON din ${totalSum * procentNevoi / 100} RON'),
+              Row(
+                children: [
+                  Expanded(
+                  flex: ((1 - nevoiSum / (totalSum * procentNevoi / 100)) * 100).round(),
+                    child: Container(
+                      height: 20,
+                      color: Colors.green,
+                      child: Center(
+                        child: Text(
+                          '${((1 - nevoiSum / (totalSum * procentNevoi / 100)) * 100).toStringAsFixed(2)}%',
+                          style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                  flex: ((nevoiSum / (totalSum * procentNevoi / 100)) * 100).round(),
+                    child: Container(
+                      height: 20,
+                      color: Colors.red,
+                      child: Center(
+                        child: Text(
+                          '${((nevoiSum / (totalSum * procentNevoi / 100)) * 100).toStringAsFixed(2)}%',
+                          style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              Text('Dorinte: $procentDorinte% -> ${totalSum * procentDorinte / 100 - dorinteSum} RON din ${totalSum *procentDorinte / 100} RON'),
+              Row(
+                children: [
+                  Expanded(
+                  flex: ((1 - dorinteSum / (totalSum * procentDorinte / 100)) * 100).round(),
+                    child: Container(
+                      height: 20,
+                      color: Colors.green,
+                      child: Center(
+                        child: Text(
+                          '${((1 - dorinteSum / (totalSum * procentDorinte / 100)) * 100).toStringAsFixed(2)}%',
+                          style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                  flex: ((dorinteSum / (totalSum * procentDorinte / 100)) * 100).round(),
+                    child: Container(
+                      height: 20,
+                      color: Colors.red,
+                      child: Center(
+                        child: Text(
+                          '${((dorinteSum / (totalSum * procentDorinte / 100)) * 100).toStringAsFixed(2)}%',
+                          style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              Text('Economii: $procentEconomii% -> ${totalSum * procentEconomii / 100 - economiiSum} RON din ${totalSum * procentEconomii / 100} RON'),
+              Row(
+                children: [
+                  Expanded(
+                  flex: ((1 - economiiSum / (totalSum * procentEconomii / 100)) * 100).round(),
+                    child: Container(
+                      height: 20,
+                      color: Colors.green,
+                      child: Center(
+                        child: Text(
+                          '${((1 - economiiSum / (totalSum * procentEconomii / 100)) * 100).toStringAsFixed(2)}%',
+                          style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                  flex: ((economiiSum / (totalSum * procentEconomii / 100)) * 100).round(),
+                    child: Container(
+                      height: 20,
+                      color: Colors.red,
+                      child: Center(
+                        child: Text(
+                          '${((economiiSum / (totalSum * procentEconomii / 100)) * 100).toStringAsFixed(2)}%',
+                          style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 16),
 
               //button pentru editare user
