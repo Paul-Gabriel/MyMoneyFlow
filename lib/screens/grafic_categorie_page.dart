@@ -39,83 +39,51 @@ class GraficCategoriePage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            Text(
+              'Distribuția cheltuielilor pentru $categorie',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 40),
             SizedBox(
-              height: 300, // Setăm o înălțime fixă pentru grafic
               child: PieChart(
                 dataMap: {
-                  'Rămas': remainingSum,
-                  categorie == 'nevoi'
-                      ? 'Consumat nevoi'
-                      : categorie == 'dorinte'
-                          ? 'Consumat dorințe'
-                          : 'Consumat economii': totalSumPlati,
+                  'Bani rămași: ${remainingSum.toStringAsFixed(2)} RON': remainingSum,
+                  'Bani consumați: ${totalSumPlati.toStringAsFixed(2)} RON': totalSumPlati,
                 },
+                animationDuration: const Duration(milliseconds: 1000),
+                chartLegendSpacing: 32,
+                chartRadius: MediaQuery.of(context).size.width / 3,
                 colorList: [
                   Colors.green,
-                  categorie == 'nevoi'
-                      ? Colors.blue
-                      : categorie == 'dorinte'
-                          ? Colors.yellow
-                          : Colors.pink,
+                  if (categorie == 'nevoi') Colors.blue,
+                  if (categorie == 'dorinte') Colors.yellow,
+                  if (categorie == 'economii') Colors.pink,
                 ],
-                chartType: ChartType.ring,
+                initialAngleInDegree: 0,
+                chartType: ChartType.disc,
                 ringStrokeWidth: 32,
+                centerText: "",
+                legendOptions: const LegendOptions(
+                  showLegendsInRow: false,
+                  legendPosition: LegendPosition.bottom,
+                  showLegends: true,
+                  legendShape: BoxShape.circle,
+                  legendTextStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 chartValuesOptions: const ChartValuesOptions(
+                  showChartValueBackground: true,
+                  showChartValues: true,
                   showChartValuesInPercentage: true,
-                  showChartValuesOutside: false,
+                  showChartValuesOutside: true,
                   decimalPlaces: 2,
                 ),
-                legendOptions: const LegendOptions(
-                  showLegends: false,
-                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            // Legendă personalizată
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildLegendItem('Rămas', Colors.green, remainingSum),
-                const SizedBox(height: 8),
-                _buildLegendItem(
-                  categorie == 'nevoi'
-                      ? 'Consumat nevoi'
-                      : categorie == 'dorinte'
-                          ? 'Consumat dorințe'
-                          : 'Consumat economii',
-                  categorie == 'nevoi'
-                      ? Colors.blue
-                      : categorie == 'dorinte'
-                          ? Colors.yellow
-                          : Colors.pink,
-                  totalSumPlati,
-                ),
-              ],
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildLegendItem(String label, Color color, double value) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 16,
-          height: 16,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Text(
-          '$label: ${value.toStringAsFixed(2)} RON',
-          style: const TextStyle(fontSize: 14),
-        ),
-      ],
     );
   }
 }

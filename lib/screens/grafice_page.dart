@@ -103,13 +103,13 @@ class GraficePage extends StatelessWidget {
           child: PieChart(
             dataMap: {
               'Bani rămași: ${remainingSum.toStringAsFixed(2)} RON': remainingSum,
-              'Nevoi: ${nevoiSum.toStringAsFixed(2)} RON': nevoiSum,
-              'Dorințe: ${dorinteSum.toStringAsFixed(2)} RON': dorinteSum,
-              'Economii: ${economiiSum.toStringAsFixed(2)} RON': economiiSum,
+              'Bani consumati pentru nevoi: ${nevoiSum.toStringAsFixed(2)} RON': nevoiSum,
+              'Bani consumati pentru dorințe: ${dorinteSum.toStringAsFixed(2)} RON': dorinteSum,
+              'Bani consumati pentru economii: ${economiiSum.toStringAsFixed(2)} RON': economiiSum,
             },
             animationDuration: const Duration(milliseconds: 1000),
             chartLegendSpacing: 32,
-            chartRadius: MediaQuery.of(context).size.width / 2.7,
+            chartRadius: MediaQuery.of(context).size.width / 1.5,
             colorList: const [
               Colors.green,
               Colors.blue,
