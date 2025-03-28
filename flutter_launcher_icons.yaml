@@ -1,0 +1,8 @@
+dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/logos/logo_final_fara_scris_1024x1024.png" 
