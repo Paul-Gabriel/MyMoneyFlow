@@ -38,6 +38,7 @@ dependencies:
   provider: ^6.1.2
   intl: ^0.20.2
   fl_chart: ^0.70.2
+  pie_chart: ^5.4.0
 
 dev_dependencies:
   flutter_test:
