@@ -4,7 +4,7 @@ import '../models/user.dart';
 import '../models/plata.dart';
 
 class ApiService {
-  final String baseUrl = 'http://10.0.2.2:8000';
+  final String baseUrl = 'http://192.168.0.120:8000';
 
   // // GET all users
   // Future<List<User>> getUsers() async {

@@ -84,11 +84,11 @@ class PlatiTableState extends State<PlatiTable> {
               },
               ),
               TextField(
-              controller: TextEditingController(text: plata.suma.toString()),
+                controller: TextEditingController(text: plata.suma.toStringAsFixed(2)),
               decoration: const InputDecoration(labelText: 'Sumă'),
               keyboardType: TextInputType.number,
               onChanged: (value) {
-                if (value != '0' && value != '' && double.tryParse(value) == null) {
+                if (value != '0' && value != '') {
                 plata.suma = double.tryParse(value) ?? plata.suma;
                 }
               },
