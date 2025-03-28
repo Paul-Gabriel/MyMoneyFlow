@@ -1,2 +1,0 @@
-C:/Users/paul1/Desktop/Aplicatie finala/Apk flutter/my_money_flow/android/app/.cxx/Debug/1m4g144a/x86/CMakeFiles/edit_cache.dir
-C:/Users/paul1/Desktop/Aplicatie finala/Apk flutter/my_money_flow/android/app/.cxx/Debug/1m4g144a/x86/CMakeFiles/rebuild_cache.dir
