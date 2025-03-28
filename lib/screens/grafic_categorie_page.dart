@@ -31,11 +31,23 @@ class GraficCategoriePage extends StatelessWidget {
 
     final double remainingSum = totalSumaCategorie - totalSumPlati;
 
+    // Construim dataMap pentru graficul ring
+    final Map<String, double> dataMap = {
+      'Bani rămași: $remainingSum': remainingSum,
+      for (var plata in filteredPlati) '${plata.descriere}: ${plata.suma.toStringAsFixed(2)} RON': plata.suma,
+    };
+
+    // Culori pentru fiecare segment
+    final List<Color> colorList = [
+      Colors.green, // Pentru remainingSum
+      ...List.generate(filteredPlati.length, (index) => Colors.primaries[index % Colors.primaries.length]),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Grafic $categorie'),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
@@ -44,44 +56,84 @@ class GraficCategoriePage extends StatelessWidget {
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 40),
-            SizedBox(
-              child: PieChart(
-                dataMap: {
-                  'Bani rămași: ${remainingSum.toStringAsFixed(2)} RON': remainingSum,
-                  'Bani consumați: ${totalSumPlati.toStringAsFixed(2)} RON': totalSumPlati,
-                },
-                animationDuration: const Duration(milliseconds: 1000),
-                chartLegendSpacing: 32,
-                chartRadius: MediaQuery.of(context).size.width / 3,
-                colorList: [
-                  Colors.green,
-                  if (categorie == 'nevoi') Colors.blue,
-                  if (categorie == 'dorinte') Colors.yellow,
-                  if (categorie == 'economii') Colors.pink,
-                ],
-                initialAngleInDegree: 0,
-                chartType: ChartType.disc,
-                ringStrokeWidth: 32,
-                centerText: "",
-                legendOptions: const LegendOptions(
-                  showLegendsInRow: false,
-                  legendPosition: LegendPosition.bottom,
-                  showLegends: true,
-                  legendShape: BoxShape.circle,
-                  legendTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                chartValuesOptions: const ChartValuesOptions(
-                  showChartValueBackground: true,
-                  showChartValues: true,
-                  showChartValuesInPercentage: true,
-                  showChartValuesOutside: true,
-                  decimalPlaces: 2,
-                ),
-              ),
-            ),
+            _buildDiscChart(remainingSum, totalSumPlati, categorie),
+            const SizedBox(height: 40),
+            _buildRingChart(dataMap, colorList),
           ],
+        ),
+      ),
+    );
+  }
+
+  /// Metodă pentru graficul de tip `disc`
+  Widget _buildDiscChart(double remainingSum, double totalSumPlati, String categorie) {
+    return SizedBox(
+      child: PieChart(
+        dataMap: {
+          'Bani rămași: ${remainingSum.toStringAsFixed(2)} RON': remainingSum,
+          'Bani consumați: ${totalSumPlati.toStringAsFixed(2)} RON': totalSumPlati,
+        },
+        animationDuration: const Duration(milliseconds: 1000),
+        chartLegendSpacing: 32,
+        chartRadius: 150,
+        colorList: [
+          Colors.green,
+          if (categorie == 'nevoi') Colors.blue,
+          if (categorie == 'dorinte') Colors.yellow,
+          if (categorie == 'economii') Colors.pink,
+        ],
+        initialAngleInDegree: 0,
+        chartType: ChartType.disc,
+        ringStrokeWidth: 32,
+        centerText: "",
+        legendOptions: const LegendOptions(
+          showLegendsInRow: false,
+          legendPosition: LegendPosition.bottom,
+          showLegends: true,
+          legendShape: BoxShape.circle,
+          legendTextStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        chartValuesOptions: const ChartValuesOptions(
+          showChartValueBackground: true,
+          showChartValues: true,
+          showChartValuesInPercentage: true,
+          showChartValuesOutside: true,
+          decimalPlaces: 2,
+        ),
+      ),
+    );
+  }
+
+  /// Metodă pentru graficul de tip `ring`
+  Widget _buildRingChart(Map<String, double> dataMap, List<Color> colorList) {
+    return SizedBox(
+      child: PieChart(
+        dataMap: dataMap,
+        animationDuration: const Duration(milliseconds: 1000),
+        chartLegendSpacing: 32,
+        chartRadius: 200,
+        colorList: colorList,
+        initialAngleInDegree: 0,
+        chartType: ChartType.ring,
+        ringStrokeWidth: 32,
+        centerText: "Cheltuieli",
+        legendOptions: const LegendOptions(
+          showLegendsInRow: false,
+          legendPosition: LegendPosition.bottom,
+          showLegends: true,
+          legendShape: BoxShape.circle,
+          legendTextStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        chartValuesOptions: const ChartValuesOptions(
+          showChartValueBackground: false,
+          showChartValues: true,
+          showChartValuesInPercentage: true,
+          showChartValuesOutside: true,
+          decimalPlaces: 2,
         ),
       ),
     );
