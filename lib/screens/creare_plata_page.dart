@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/plata.dart';
+import 'package:my_money_flow/screens/afisare_plati_page.dart';
 import 'package:my_money_flow/services/api_service.dart';
 import 'package:provider/provider.dart';
 import 'package:my_money_flow/providers/user_provider.dart';
@@ -13,7 +14,7 @@ class AdaugarePlataPage extends StatefulWidget {
 
 class AdaugarePlataPageState extends State<AdaugarePlataPage> {
   final _formKey = GlobalKey<FormState>();
-  final int _id=0;
+  final String _id = "";
   late String _categorie;
   late String _descriere;
   late double _suma;
@@ -120,7 +121,7 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
 
                     // Save the payment data
                     if (user != null) {
-                      ApiService().createPlata(Plata(id: _id, userId: user.id, suma: _suma, categorie: _categorie, descriere: _descriere, data: _data));
+                      ApiService().createPlata(Plata(id: _id, userRef: user.id, suma: _suma, categorie: _categorie, descriere: _descriere, data: _data));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Userul nu este logat')),
@@ -129,6 +130,11 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
                     
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Plata a fost adaugata')),
+                    );
+                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AfisarePlatiPage()),
                     );
                   }
                 },

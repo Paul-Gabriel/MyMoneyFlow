@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/plata.dart';
-import 'package:my_money_flow/screens/adaugare_plata_page.dart';
+import 'package:my_money_flow/screens/creare_plata_page.dart';
 import 'package:my_money_flow/screens/grafice_page.dart';
 import 'package:my_money_flow/services/api_service.dart';
 import 'package:my_money_flow/widgets/plati_table.dart';

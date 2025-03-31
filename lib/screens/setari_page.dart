@@ -21,10 +21,10 @@ class SetariPageState extends State<SetariPage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
-    final int procentNevoi = user?.procentNevoi ?? 0;
-    final int procentDorinte = user?.procentDorinte ?? 0;
-    final int procentEconomii = user?.procentEconomi ?? 0;
-    final double totalSum = user?.venit ?? 0;
+    final int procentNevoi = user?.procentNevoi ?? -1;
+    final int procentDorinte = user?.procentDorinte ?? -1;
+    final int procentEconomii = user?.procentEconomi ?? -1;
+    final double totalSum = user?.venit ?? -1;
     final double nevoiSum = widget.plati
         .where((plata) => plata.categorie == 'nevoi')
         .fold(0, (sum, plata) => sum + plata.suma);
@@ -48,7 +48,7 @@ class SetariPageState extends State<SetariPage> {
             children: <Widget>[
 
               Text('${user?.nume ?? 'Nume'} ${user?.prenume ?? 'Prenume'}'),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               Text('Buget: $remainingSum RON din $totalSum RON'),
               Row(
@@ -229,21 +229,23 @@ class SetariPageState extends State<SetariPage> {
               //button pentru stergere user
               ElevatedButton(
                 onPressed: () async {
-                  final List<Plata> platiList = await ApiService().getPlatiByUser(user?.id??-1);
+                  final List<Plata> platiList = await ApiService().getPlatiByUser(user?.id ?? '');
                   if (platiList.isNotEmpty) {
                     for (var plata in platiList) {
-                      ApiService().deletePlata(plata.id, plata.userId);
+                      ApiService().deletePlata(plata.id);
                     }
                   }
-                  ApiService().deleteUser(user?.id ?? -1);
-                  Provider.of<UserProvider>(context, listen: false).clearUser();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MainPage()),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Ștergere date...')),
-                  );
+                  ApiService().deleteUser(user?.id ?? '');
+                    if (context.mounted) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MainPage()),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Ștergere date...')),
+                    );
+                    Provider.of<UserProvider>(context, listen: false).clearUser();
+                  }
                 },
                 child: const Text('Ștergere cont'),
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/user.dart';
+import 'package:my_money_flow/screens/inregistrare_page.dart';
 import 'package:my_money_flow/services/api_service.dart';
 
 class CreareContPage extends StatefulWidget {
@@ -186,7 +187,7 @@ class CreareContPageState extends State<CreareContPage> {
                       // Save the user data
                       try {
                         ApiService().createUser(User(
-                        id: 0,
+                        id: "",
                         nume: _nume,
                         prenume: _prenume,
                         email: _email,
@@ -209,6 +210,10 @@ class CreareContPageState extends State<CreareContPage> {
                       
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Contul a fost creat')),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const InregistrarePage()),
                       );
                     }
                   },

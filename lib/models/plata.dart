@@ -1,29 +1,29 @@
 // ignore_for_file: unnecessary_getters_setters
 
 class Plata {
-  final int _id;
-  final int _userId;
+  final String _id;
+  final String _userRef;
   double _suma;
   String _categorie; // Poți utiliza un enum dacă vrei să forțezi cele 3 opțiuni: 'dorinte', 'nevoi', 'economi'
   String _descriere;
   DateTime _data;
 
   Plata({
-    required int id,
-    required int userId,
+    required String id,
+    required String userRef,
     required double suma,
     required String categorie,
     required String descriere,
     required DateTime data,
   })  : _id = id,
-        _userId = userId,
+        _userRef = userRef,
         _suma = suma,
         _categorie = categorie,
         _descriere = descriere,
         _data = data;
 
-  int get id => _id;
-  int get userId => _userId;
+  String get id => _id;
+  String get userId => _userRef;
   double get suma => _suma;
   String get categorie => _categorie;
   String get descriere => _descriere;
@@ -47,8 +47,8 @@ class Plata {
 
   factory Plata.fromJson(Map<String, dynamic> json) {
     return Plata(
-      id: json['id'],
-      userId: json['user_id'],
+      id: json['plata_id'],
+      userRef: json['user_ref'],
       suma: (json['suma'] as num).toDouble(),
       categorie: json['categorie'],
       descriere: json['descriere'],
@@ -58,8 +58,8 @@ class Plata {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': _id,
-      'user_id': _userId,
+      // 'id': _id,
+      'user_ref': _userRef,
       'suma': suma,
       'categorie': categorie,
       'descriere': descriere,

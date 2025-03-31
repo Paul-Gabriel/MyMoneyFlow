@@ -22,7 +22,7 @@ class MainPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const InregistrarePage()),
                 );
               },
-              child: const Text('Înregistrare'),
+              child: const Text('Intră în cont'),
             ),
             const SizedBox(height: 16),
 

@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_getters_setters
 
 class User {
-  final int _id; // Id-ul user-ului (privat)
+  final String _id; // Id-ul user-ului (privat)
   String _nume;
   String _prenume;
   String _email;
@@ -12,7 +12,7 @@ class User {
   int _procentEconomi;
 
   User({
-    required int id,
+    required String id,
     required String nume,
     required String prenume,
     required String email,
@@ -31,7 +31,7 @@ class User {
        _procentDorinte = procentDorinte,
        _procentEconomi = procentEconomi;
 
-  int get id => _id;
+  String get id => _id;
   String get nume => _nume;
   String get prenume => _prenume;
   String get email => _email;
@@ -75,7 +75,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
+      id: json['user_id'],
       nume: json['nume'],
       prenume: json['prenume'],
       email: json['email'],
@@ -89,7 +89,7 @@ class User {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': _id,
+      // 'id': _id,
       'nume': _nume,
       'prenume': _prenume,
       'email': _email,

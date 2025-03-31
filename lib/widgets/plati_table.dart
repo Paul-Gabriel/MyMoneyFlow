@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/plata.dart';
 import 'package:my_money_flow/models/user.dart';
+import 'package:my_money_flow/screens/afisare_plati_page.dart';
 import 'package:my_money_flow/services/api_service.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -127,9 +128,14 @@ class PlatiTableState extends State<PlatiTable> {
               onPressed: () {
                 setState(() {
                   widget.plati.removeWhere((item) => item.id == plata.id);
-                  ApiService().deletePlata(plata.id, plata.userId);
+                  // widget.plati.remove(plata);
+                  ApiService().deletePlata(plata.id);
                 });
-                Navigator.of(context).pop();
+                // Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AfisarePlatiPage()),
+                );
               },
             ),
             TextButton(
@@ -138,7 +144,7 @@ class PlatiTableState extends State<PlatiTable> {
                 setState(() {
                     ApiService().updatePlata(Plata(
                     id: plata.id,
-                    userId: plata.userId,
+                    userRef: plata.userId,
                     categorie: plata.categorie,
                     descriere: plata.descriere,
                     suma: plata.suma.toDouble(),

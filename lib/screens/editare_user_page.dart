@@ -123,13 +123,13 @@ class EditareUserPageState extends State<EditareUserPage> {
                 // Introducere venit
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Venit'),
-                  initialValue: _venit.toString(),
+                  initialValue: _venit.toStringAsFixed(2),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Te rog introdu un venit';
                     }
-                    if (int.tryParse(value) == null) {
+                    if (double.tryParse(value) == null) {
                       return 'Te rog introdu un numar valid';
                     }
                     return null;
@@ -208,7 +208,7 @@ class EditareUserPageState extends State<EditareUserPage> {
 
                       // Save the user data
                       final updatedUser = User(
-                        id: user?.id ?? -1,
+                        id: user?.id ?? '',
                         nume: _nume,
                         prenume: _prenume,
                         email: _email,
