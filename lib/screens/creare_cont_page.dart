@@ -12,21 +12,36 @@ class CreareContPage extends StatefulWidget {
 
 class CreareContPageState extends State<CreareContPage> {
   final _formKey = GlobalKey<FormState>();
-  late String _nume;
-  late String _prenume;
-  late String _email;
-  late String _parola;
-  late double _venit;
-  late int _procentNevoi;
-  late int _procentDorinte;
-  late int _procentEconomi;
+
+  // Controllers pentru câmpuri
+  final TextEditingController _numeController = TextEditingController();
+  final TextEditingController _prenumeController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _parolaController = TextEditingController();
+  final TextEditingController _venitController = TextEditingController();
+  final TextEditingController _procentNevoiController = TextEditingController();
+  final TextEditingController _procentDorinteController = TextEditingController();
+  final TextEditingController _procentEconomiiController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Eliberăm resursele controllerelor
+    _numeController.dispose();
+    _prenumeController.dispose();
+    _emailController.dispose();
+    _parolaController.dispose();
+    _venitController.dispose();
+    _procentNevoiController.dispose();
+    _procentDorinteController.dispose();
+    _procentEconomiiController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Creare cont'),
-
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -38,6 +53,7 @@ class CreareContPageState extends State<CreareContPage> {
               children: <Widget>[
                 // Introducere nume
                 TextFormField(
+                  controller: _numeController,
                   decoration: const InputDecoration(labelText: 'Nume'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -45,14 +61,12 @@ class CreareContPageState extends State<CreareContPage> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _nume = value!;
-                  },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere prenume
                 TextFormField(
+                  controller: _prenumeController,
                   decoration: const InputDecoration(labelText: 'Prenume'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -60,14 +74,12 @@ class CreareContPageState extends State<CreareContPage> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _prenume = value!;
-                  },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere email
                 TextFormField(
+                  controller: _emailController,
                   decoration: const InputDecoration(labelText: 'Email'),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
@@ -79,14 +91,12 @@ class CreareContPageState extends State<CreareContPage> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _email = value!;
-                  },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere parola
                 TextFormField(
+                  controller: _parolaController,
                   decoration: const InputDecoration(labelText: 'Parola'),
                   obscureText: true,
                   validator: (value) {
@@ -95,14 +105,12 @@ class CreareContPageState extends State<CreareContPage> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _parola = value!;
-                  },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere venit
                 TextFormField(
+                  controller: _venitController,
                   decoration: const InputDecoration(labelText: 'Venit'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
@@ -112,112 +120,134 @@ class CreareContPageState extends State<CreareContPage> {
                     if (double.tryParse(value) == null) {
                       return 'Te rog introdu un numar valid';
                     }
+                    if (double.parse(value) <= 0) {
+                      return 'Te rog introdu un numar mai mare ca 0';
+                    }
                     return null;
-                  },
-                  onSaved: (value) {
-                    _venit = double.parse(value!);
                   },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere procent nevoi
                 TextFormField(
+                  controller: _procentNevoiController,
                   decoration: const InputDecoration(labelText: 'Procent Nevoi'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Te rog introdu un procent pentru nevoi';
                     }
-                    if (int.tryParse(value) == null  && int.parse(value) > 100 && int.parse(value) < 0) {
+                    if (int.tryParse(value) == null) {
+                      return 'Te rog introdu un numar între 0 și 100';
+                    }
+                    if (int.parse(value) < 0 || int.parse(value) > 100) {
                       return 'Te rog introdu un numar valid între 0 și 100';
                     }
                     return null;
-                  },
-                  onSaved: (value) {
-                    _procentNevoi = int.parse(value!);
                   },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere procent dorinte
                 TextFormField(
+                  controller: _procentDorinteController,
                   decoration: const InputDecoration(labelText: 'Procent Dorinte'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Te rog introdu un procent pentru dorinte';
                     }
-                    if (int.tryParse(value) == null && int.parse(value) > 100 && int.parse(value) < 0) {
+                    if (int.tryParse(value) == null) {
+                      return 'Te rog introdu un numar între 0 și 100';
+                    }
+                    if (int.parse(value) < 0 || int.parse(value) > 100) {
                       return 'Te rog introdu un numar valid între 0 și 100';
                     }
                     return null;
-                  },
-                  onSaved: (value) {
-                    _procentDorinte = int.parse(value!);
                   },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere procent economii
                 TextFormField(
+                  controller: _procentEconomiiController,
                   decoration: const InputDecoration(labelText: 'Procent Economii'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Te rog introdu un procent pentru economii';
                     }
-                    if (int.tryParse(value) == null && int.parse(value) > 100 && int.parse(value) < 0) {
+                    if (int.tryParse(value) == null) {
+                      return 'Te rog introdu un numar între 0 și 100';
+                    }
+                    int procentEconomii = int.parse(value);
+                    if (procentEconomii < 0 || procentEconomii > 100) {
                       return 'Te rog introdu un numar valid între 0 și 100';
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _procentEconomi = int.parse(value!);
-                  },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
 
                 // Buton de creare user
                 Center(
                   child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState?.validate() ?? false) {
-                      _formKey.currentState?.save();
+                    onPressed: () async {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        // Calculează suma procentelor folosind valorile din controllere
+                        int procentNevoi = int.tryParse(_procentNevoiController.text) ?? 0;
+                        int procentDorinte = int.tryParse(_procentDorinteController.text) ?? 0;
+                        int procentEconomii = int.tryParse(_procentEconomiiController.text) ?? 0;
+                        int sumaProcente = procentNevoi + procentDorinte + procentEconomii;
 
-                      // Save the user data
-                      try {
-                        ApiService().createUser(User(
-                        id: "",
-                        nume: _nume,
-                        prenume: _prenume,
-                        email: _email,
-                        parola: _parola,
-                        venit: _venit,
-                        procentDorinte: _procentDorinte,
-                        procentNevoi: _procentNevoi,
-                        procentEconomi: _procentEconomi,
-                        ));
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              e.toString(),
-                              style: const TextStyle(color: Colors.red),
+                        if (sumaProcente != 100) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Procentele trebuie să însumeze 100%',
+                                style: TextStyle(color: Colors.red),
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          // Save the user data
+                          try {
+                            await ApiService().createUser(User(
+                              id: "",
+                              nume: _numeController.text,
+                              prenume: _prenumeController.text,
+                              email: _emailController.text,
+                              parola: _parolaController.text,
+                              venit: double.parse(_venitController.text),
+                              procentDorinte: procentDorinte,
+                              procentNevoi: procentNevoi,
+                              procentEconomi: procentEconomii,
+                            ));
+                            if (context.mounted){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Contul a fost creat')),
+                              );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const InregistrarePage()),
+                              );
+                            }
+                          } catch (e) {
+                            if (context.mounted){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Contul nu a putut fi creat. Verificați datele introduse',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+                        }
                       }
-                      
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Contul a fost creat')),
-                      );
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const InregistrarePage()),
-                      );
-                    }
-                  },
-                  child: const Text('Creare cont'),
+                    },
+                    child: const Text('Creare cont'),
                   ),
                 ),
                 const SizedBox(height: 20),

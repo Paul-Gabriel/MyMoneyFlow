@@ -14,11 +14,17 @@ class AdaugarePlataPage extends StatefulWidget {
 
 class AdaugarePlataPageState extends State<AdaugarePlataPage> {
   final _formKey = GlobalKey<FormState>();
-  final String _id = "";
+  final TextEditingController _descriereController = TextEditingController();
+  final TextEditingController _sumaController = TextEditingController();
   late String _categorie;
-  late String _descriere;
-  late double _suma;
   DateTime _data = DateTime.now();
+
+  @override
+  void dispose() {
+    _descriereController.dispose();
+    _sumaController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,35 +39,35 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-                        
-              //Alegere categorie
-                DropdownButtonFormField<String>(
+              // Alegere categorie
+              DropdownButtonFormField<String>(
                 decoration: const InputDecoration(labelText: 'Categorie'),
                 items: ['nevoi', 'dorinte', 'economii'].map((String category) {
                   return DropdownMenuItem<String>(
-                  value: category,
-                  child: Text(category),
+                    value: category,
+                    child: Text(category),
                   );
                 }).toList(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                  return 'Te rog alege o categorie';
+                    return 'Te rog alege o categorie';
                   }
                   return null;
                 },
                 onChanged: (value) {
                   setState(() {
-                  _categorie = value!;
+                    _categorie = value!;
                   });
                 },
                 onSaved: (value) {
                   _categorie = value!;
                 },
-                ),
+              ),
               const SizedBox(height: 15),
 
-              //Introducere descriere
+              // Introducere descriere
               TextFormField(
+                controller: _descriereController,
                 decoration: const InputDecoration(labelText: 'Descriere'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -69,14 +75,12 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
                   }
                   return null;
                 },
-                onSaved: (value) {
-                  _descriere = value  as String;
-                },
               ),
               const SizedBox(height: 15),
 
-              //Introducere suma
+              // Introducere suma
               TextFormField(
+                controller: _sumaController,
                 decoration: const InputDecoration(labelText: 'Suma'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -86,15 +90,15 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
                   if (double.tryParse(value) == null) {
                     return 'Te rog introdu un numar valid';
                   }
+                  if (double.parse(value) <= 0) {
+                    return 'Te rog introdu o suma mai mare decat 0';
+                  }
                   return null;
-                },
-                onSaved: (value) {
-                  _suma = double.parse(value!);
                 },
               ),
               const SizedBox(height: 20),
 
-              //Alegere data
+              // Alegere data
               ElevatedButton(
                 onPressed: () async {
                   final selectedDate = await showDatePicker(
@@ -113,7 +117,7 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
               ),
               const SizedBox(height: 20),
 
-              //Buton de adaugare plata
+              // Buton de adaugare plata
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
@@ -121,20 +125,30 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
 
                     // Save the payment data
                     if (user != null) {
-                      ApiService().createPlata(Plata(id: _id, userRef: user.id, suma: _suma, categorie: _categorie, descriere: _descriere, data: _data));
+                      ApiService().createPlata(
+                        Plata(
+                          id: '',
+                          userRef: user.id,
+                          suma: double.parse(_sumaController.text),
+                          categorie: _categorie,
+                          descriere: _descriereController.text,
+                          data: _data,
+                        ),
+                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Userul nu este logat')),
                       );
                     }
-                    
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Plata a fost adaugata')),
                     );
-                    
+
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const AfisarePlatiPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const AfisarePlatiPage()),
                     );
                   }
                 },

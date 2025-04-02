@@ -61,38 +61,38 @@ class PlatiTableState extends State<PlatiTable> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               DropdownButtonFormField<String>(
-              value: plata.categorie,
-              decoration: const InputDecoration(labelText: 'Categorie'),
-              items: ['nevoi', 'dorinte', 'economii'].map((String category) {
-                return DropdownMenuItem<String>(
-                value: category,
-                child: Text(category),
-                );
-              }).toList(),
-              onChanged: (value) {
-                if (value != null) {
-                plata.categorie = value;
-                }
-              },
+                value: plata.categorie,
+                decoration: const InputDecoration(labelText: 'Categorie'),
+                items: ['nevoi', 'dorinte', 'economii'].map((String category) {
+                  return DropdownMenuItem<String>(
+                  value: category,
+                  child: Text(category),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  if (value != null) {
+                  plata.categorie = value;
+                  }
+                },
               ),
               TextField(
-              controller: TextEditingController(text: plata.descriere),
-              decoration: const InputDecoration(labelText: 'Descriere'),
-              onChanged: (value) {
-                if (value.isNotEmpty) {
-                plata.descriere = value;
-                }
-              },
+                controller: TextEditingController(text: plata.descriere),
+                decoration: const InputDecoration(labelText: 'Descriere'),
+                onChanged: (value) {
+                  if (value.isNotEmpty) {
+                    plata.descriere = value;
+                  }
+                },
               ),
               TextField(
                 controller: TextEditingController(text: plata.suma.toStringAsFixed(2)),
-              decoration: const InputDecoration(labelText: 'Sumă'),
-              keyboardType: TextInputType.number,
-              onChanged: (value) {
-                if (value != '0' && value != '') {
-                plata.suma = double.tryParse(value) ?? plata.suma;
-                }
-              },
+                decoration: const InputDecoration(labelText: 'Sumă'),
+                keyboardType: TextInputType.number,
+                onChanged: (value) {
+                  if (double.tryParse(value) != null && double.parse(value) > 0) {
+                    plata.suma = double.tryParse(value) ?? plata.suma;
+                  }
+                },
               ),
               StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
@@ -105,9 +105,9 @@ class PlatiTableState extends State<PlatiTable> {
                   lastDate: DateTime(2101),
                   );
                   if (selectedDate != null) {
-                  setState(() {
-                    plata.data = selectedDate;
-                  });
+                    setState(() {
+                      plata.data = selectedDate;
+                    });
                   }
                 },
                 child: Text('Dată: ${DateFormat('dd-MM-yyyy').format(plata.data)}'),

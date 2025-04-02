@@ -13,27 +13,41 @@ class EditareUserPage extends StatefulWidget {
 
 class EditareUserPageState extends State<EditareUserPage> {
   final _formKey = GlobalKey<FormState>();
-  late String _nume;
-  late String _prenume;
-  late String _email;
-  late String _parola;
-  late double _venit;
-  late int _procentDorinte;
-  late int _procentNevoi;
-  late int _procentEconomi;
+
+  final TextEditingController _numeController = TextEditingController();
+  final TextEditingController _prenumeController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _parolaController = TextEditingController();
+  final TextEditingController _venitController = TextEditingController();
+  final TextEditingController _procentDorinteController = TextEditingController();
+  final TextEditingController _procentNevoiController = TextEditingController();
+  final TextEditingController _procentEconomiController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     final user = Provider.of<UserProvider>(context, listen: false).user;
-    _nume = user?.nume ?? '';
-    _prenume = user?.prenume ?? '';
-    _email = user?.email ?? '';
-    _parola = user?.parola ?? '';
-    _venit = user?.venit ?? 0;
-    _procentDorinte = user?.procentDorinte ?? 0;
-    _procentNevoi = user?.procentNevoi ?? 0;
-    _procentEconomi = user?.procentEconomi ?? 0;
+    _numeController.text = user?.nume ?? '';
+    _prenumeController.text = user?.prenume ?? '';
+    _emailController.text = user?.email ?? '';
+    _parolaController.text = user?.parola ?? '';
+    _venitController.text = (user?.venit ?? 0).toStringAsFixed(2);
+    _procentDorinteController.text = (user?.procentDorinte ?? 0).toString();
+    _procentNevoiController.text = (user?.procentNevoi ?? 0).toString();
+    _procentEconomiController.text = (user?.procentEconomi ?? 0).toString();
+  }
+
+  @override
+  void dispose() {
+    _numeController.dispose();
+    _prenumeController.dispose();
+    _emailController.dispose();
+    _parolaController.dispose();
+    _venitController.dispose();
+    _procentDorinteController.dispose();
+    _procentNevoiController.dispose();
+    _procentEconomiController.dispose();
+    super.dispose();
   }
 
   @override
@@ -53,40 +67,34 @@ class EditareUserPageState extends State<EditareUserPage> {
               children: <Widget>[
                 // Introducere nume
                 TextFormField(
+                  controller: _numeController,
                   decoration: const InputDecoration(labelText: 'Nume'),
-                  initialValue: _nume,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Te rog introdu un nume';
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _nume = value!;
-                  },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere prenume
                 TextFormField(
+                  controller: _prenumeController,
                   decoration: const InputDecoration(labelText: 'Prenume'),
-                  initialValue: _prenume,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Te rog introdu un prenume';
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _prenume = value!;
-                  },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere email
                 TextFormField(
+                  controller: _emailController,
                   decoration: const InputDecoration(labelText: 'Email'),
-                  initialValue: _email,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -97,16 +105,13 @@ class EditareUserPageState extends State<EditareUserPage> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _email = value!;
-                  },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere parola
                 TextFormField(
+                  controller: _parolaController,
                   decoration: const InputDecoration(labelText: 'Parola'),
-                  initialValue: _parola,
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -114,16 +119,13 @@ class EditareUserPageState extends State<EditareUserPage> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _parola = value!;
-                  },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere venit
                 TextFormField(
+                  controller: _venitController,
                   decoration: const InputDecoration(labelText: 'Venit'),
-                  initialValue: _venit.toStringAsFixed(2),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -134,16 +136,13 @@ class EditareUserPageState extends State<EditareUserPage> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _venit = double.parse(value!);
-                  },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere procent nevoi
                 TextFormField(
+                  controller: _procentNevoiController,
                   decoration: const InputDecoration(labelText: 'Procent Nevoi'),
-                  initialValue: _procentNevoi.toString(),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -154,16 +153,13 @@ class EditareUserPageState extends State<EditareUserPage> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _procentNevoi = int.parse(value!);
-                  },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere procent dorinte
                 TextFormField(
+                  controller: _procentDorinteController,
                   decoration: const InputDecoration(labelText: 'Procent Dorințe'),
-                  initialValue: _procentDorinte.toString(),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -174,16 +170,13 @@ class EditareUserPageState extends State<EditareUserPage> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _procentDorinte = int.parse(value!);
-                  },
                 ),
                 const SizedBox(height: 15),
 
                 // Introducere procent economii
                 TextFormField(
+                  controller: _procentEconomiController,
                   decoration: const InputDecoration(labelText: 'Procent Economii'),
-                  initialValue: _procentEconomi.toString(),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -194,39 +187,46 @@ class EditareUserPageState extends State<EditareUserPage> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    _procentEconomi = int.parse(value!);
-                  },
                 ),
                 const SizedBox(height: 20),
 
                 // Buton de actualizare user
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState?.validate() ?? false) {
-                      _formKey.currentState?.save();
-
-                      // Save the user data
                       final updatedUser = User(
                         id: user?.id ?? '',
-                        nume: _nume,
-                        prenume: _prenume,
-                        email: _email,
-                        parola: _parola,
-                        venit: _venit,
-                        procentDorinte: _procentDorinte,
-                        procentNevoi: _procentNevoi,
-                        procentEconomi: _procentEconomi,
+                        nume: _numeController.text,
+                        prenume: _prenumeController.text,
+                        email: _emailController.text,
+                        parola: _parolaController.text,
+                        venit: double.parse(_venitController.text),
+                        procentDorinte: int.parse(_procentDorinteController.text),
+                        procentNevoi: int.parse(_procentNevoiController.text),
+                        procentEconomi: int.parse(_procentEconomiController.text),
                       );
 
-                      ApiService().updateUser(updatedUser);
-                      
-                       // Update the user in UserProvider
-                      Provider.of<UserProvider>(context, listen: false).setUser(updatedUser);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('User-ul a fost actualizat')),
-                      );
+                      try {
+                        await ApiService().updateUser(updatedUser);
+                        if (context.mounted) {
+                          Provider.of<UserProvider>(context, listen: false).setUser(updatedUser);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('User-ul a fost actualizat')),
+                          );
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                            content: Text(
+                              'Eroare la actualizarea user-ului: $e',
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                            backgroundColor: Colors.black,
+                            ),
+                          );
+                        }
+                      }
                     }
                   },
                   child: const Text('Actualizare User'),

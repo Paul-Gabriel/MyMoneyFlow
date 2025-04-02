@@ -7,18 +7,16 @@ class ApiService {
   final String baseUrl = 'http://192.168.0.120:8001';
 
   // POST create user
-  void createUser(User user) async {
+  Future<void> createUser(User user) async {
     final response = await http.post(
       Uri.parse('$baseUrl/users/'),
       headers: {
         'accept': 'application/json',
         'Content-Type': 'application/json'
-        },
+      },
       body: json.encode(user.toJson()),
     );
     if (response.statusCode != 200) {
-      // print('Failed to create user. Status code: ${response.statusCode}');
-      // print('Response body: ${response.body}');
       throw Exception('Eroare la crearea user-ului');
     }
   }
@@ -37,7 +35,7 @@ class ApiService {
   }
 
   // PUT update user
-  void updateUser(User user) async {
+  Future<void> updateUser(User user) async {
     final response = await http.put(
       Uri.parse('$baseUrl/users/${user.id}'),
       headers: {
@@ -48,25 +46,21 @@ class ApiService {
     );
 
     if (response.statusCode != 200) {
-      // print('Failed to update user. Status code: ${response.statusCode}');
-      // print('Response body: ${response.body}');
       throw Exception('Eroare la actualizarea user-ului');
     }
   }
 
   // DELETE user
-  void deleteUser(String id) async {
+  Future<void> deleteUser(String id) async {
     final response = await http.delete(Uri.parse('$baseUrl/users/$id'));
 
     if (response.statusCode != 200) {
-      // print('Failed to delete user. Status code: ${response.statusCode}');
-      // print('Response body: ${response.body}');
       throw Exception('Eroare la ștergerea user-ului');
     }
   }
 
   // POST create plata
-  void createPlata(Plata plata) async {
+  Future<void> createPlata(Plata plata) async {
     final response = await http.post(
       Uri.parse('$baseUrl/payments/'),
       headers: {
@@ -76,8 +70,6 @@ class ApiService {
       body: json.encode(plata.toJson()),
     );
     if (response.statusCode != 200) {
-      // print('Failed to create plata. Status code: ${response.statusCode}');
-      // print('Response body: ${response.body}');
       throw Exception('Eroare la crearea plății');
     }
   }
@@ -93,7 +85,6 @@ class ApiService {
         plati.add(Plata.fromJson(jsonList[i]));
       }
       return plati;
-      // return jsonList; //.map((json) => Plata.fromJson(json)).toList();
     } else {
       throw Exception('Eroare la încărcarea plăților');
     }
@@ -111,20 +102,16 @@ class ApiService {
     );
 
     if (response.statusCode != 200) {
-      // print('Failed to update plata. Status code: ${response.statusCode}');
-      // print('Response body: ${response.body}');
       throw Exception('Eroare la actualizarea plății');
     }
   }
 
   // DELETE plata
-  void deletePlata(String plataId) async {
+  Future<void> deletePlata(String plataId) async {
     final response = await http.delete(
       Uri.parse('$baseUrl/payments/$plataId'));
 
     if (response.statusCode != 200) {
-      // print('Failed to delete plata. Status code: ${response.statusCode}');
-      // print('Response body: ${response.body}');
       throw Exception('Eroare la ștergerea plății');
     }
   }
