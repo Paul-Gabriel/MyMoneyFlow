@@ -195,49 +195,51 @@ class EditareUserPageState extends State<EditareUserPage> {
                 const SizedBox(height: 20),
 
                 // Buton de actualizare user
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState?.validate() ?? false) {
-                      final updatedUser = User(
-                        id: user?.id ?? '',
-                        nume: _numeController.text,
-                        prenume: _prenumeController.text,
-                        email: _emailController.text,
-                        parola: _parolaController.text,
-                        venit: double.parse(_venitController.text),
-                        procentDorinte:
-                            int.parse(_procentDorinteController.text),
-                        procentNevoi: int.parse(_procentNevoiController.text),
-                        procentEconomi:
-                            int.parse(_procentEconomiController.text),
-                      );
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        final updatedUser = User(
+                          id: user?.id ?? '',
+                          nume: _numeController.text,
+                          prenume: _prenumeController.text,
+                          email: _emailController.text,
+                          parola: _parolaController.text,
+                          venit: double.parse(_venitController.text),
+                          procentDorinte:
+                              int.parse(_procentDorinteController.text),
+                          procentNevoi: int.parse(_procentNevoiController.text),
+                          procentEconomi:
+                              int.parse(_procentEconomiController.text),
+                        );
 
-                      try {
-                        await ApiService().updateUser(updatedUser);
-                        if (context.mounted) {
-                          Provider.of<UserProvider>(context, listen: false)
-                              .setUser(updatedUser);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('User-ul a fost actualizat')),
-                          );
-                        }
-                      } catch (e) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Eroare la actualizarea user-ului: $e',
-                                style: const TextStyle(color: Colors.red),
+                        try {
+                          await ApiService().updateUser(updatedUser);
+                          if (context.mounted) {
+                            Provider.of<UserProvider>(context, listen: false)
+                                .setUser(updatedUser);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('User-ul a fost actualizat')),
+                            );
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Eroare la actualizarea user-ului: $e',
+                                  style: const TextStyle(color: Colors.red),
+                                ),
+                                backgroundColor: Colors.black,
                               ),
-                              backgroundColor: Colors.black,
-                            ),
-                          );
+                            );
+                          }
                         }
                       }
-                    }
-                  },
-                  child: const Text('Actualizare User'),
+                    },
+                    child: const Text('Actualizare User'),
+                  ),
                 ),
                 const SizedBox(height: 20),
               ],
