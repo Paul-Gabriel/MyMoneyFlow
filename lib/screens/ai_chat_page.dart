@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class AiChatPage extends StatefulWidget {
   final List<Plata> plati;
-  
+
   const AiChatPage({super.key, required this.plati});
 
   @override
@@ -22,8 +22,15 @@ class AiChatPageState extends State<AiChatPage> {
     super.initState();
     user = Provider.of<UserProvider>(context, listen: false).user;
   }
+
   final TextEditingController _controller = TextEditingController();
-  final List<Map<String, String>> _messages = [{"role": "bot", "content": "Salut! Sunt MyMoneyFlow, asistentul tău financiar virtual. Cum te pot ajuta?"}];
+  final List<Map<String, String>> _messages = [
+    {
+      "role": "bot",
+      "content":
+          "Salut! Sunt MyMoneyFlow, asistentul tău financiar virtual. Cum te pot ajuta?"
+    }
+  ];
 
   void _sendMessage(String userMessage) async {
     if (userMessage.isEmpty) return;
@@ -52,8 +59,10 @@ class AiChatPageState extends State<AiChatPage> {
                 final message = _messages[index];
                 bool isUser = message["role"] == "user";
                 return Container(
-                  alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  alignment:
+                      isUser ? Alignment.centerRight : Alignment.centerLeft,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   child: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
@@ -62,7 +71,8 @@ class AiChatPageState extends State<AiChatPage> {
                     ),
                     child: Text(
                       message["content"]!,
-                      style: TextStyle(color: isUser ? Colors.white : Colors.black),
+                      style: TextStyle(
+                          color: isUser ? Colors.white : Colors.black),
                     ),
                   ),
                 );
@@ -70,26 +80,33 @@ class AiChatPageState extends State<AiChatPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
+              padding: const EdgeInsets.all(8.0),
+              child: Column(children: [
                 Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => _sendMessage("Care sunt cele mai bune practici pentru economisire?"),
-                          child: const Text("Economisire"),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => _sendMessage("Cum pot investi mai eficient?"),
-                          child: const Text("Investiții"),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => _sendMessage("Cum să reduc cheltuielile lunare? Venitul meu lunar este de ${user?.venit}, iar procentele bugetelor sunt de ${user?.procentNevoi}% pentru nevoi, ${user?.procentDorinte}% pentru dorinte, ${user?.procentEconomi}% pentru economii. Acestea sunt platile mele: ${widget.plati.map((plata) => "\n${plata.categorie}: ${plata.descriere} ->${plata.suma} RON").join(", ")}"),
-                          child: const Text("Cheltuieli"),
-                        ),
-                      ],
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _controller.text =
+                            "Care sunt cele mai bune practici pentru economisire?";
+                      },
+                      child: const Text("Economisire"),
                     ),
+                    ElevatedButton(
+                      onPressed: () {
+                        _controller.text = "Cum pot investi mai eficient?";
+                      },
+                      child: const Text("Investiții"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        _controller.text =
+                            "Cum să reduc cheltuielile lunare? Venitul meu lunar este de ${user?.venit}, iar procentele bugetelor sunt de ${user?.procentNevoi}% pentru nevoi, ${user?.procentDorinte}% pentru dorinte, ${user?.procentEconomi}% pentru economii. Acestea sunt platile mele: ${widget.plati.map((plata) => "\n${plata.categorie}: ${plata.descriere} ->${plata.suma} RON").join(", ")}";
+                      },
+                      child: const Text("Cheltuieli"),
+                    ),
+                  ],
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -107,9 +124,7 @@ class AiChatPageState extends State<AiChatPage> {
                     ),
                   ],
                 ),
-              ]
-            )
-          ),
+              ])),
         ],
       ),
     );

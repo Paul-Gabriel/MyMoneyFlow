@@ -13,13 +13,13 @@ class MainPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             //Log In button
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const InregistrarePage()),
+                  MaterialPageRoute(
+                      builder: (context) => const InregistrarePage()),
                 );
               },
               child: const Text('Intră în cont'),
@@ -31,7 +31,8 @@ class MainPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CreareContPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const CreareContPage()),
                 );
               },
               child: const Text('Creare cont'),

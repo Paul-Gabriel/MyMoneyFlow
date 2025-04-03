@@ -16,7 +16,11 @@ class AiApiService {
         body: jsonEncode({
           "model": "gpt-4o-mini",
           "messages": [
-            {"role": "system", "content": "Ești MyMoneyFlow, un asistent financiar virtual care ajută cu sfaturi financiare. Tu răspunzi la mesajul persoanei, iar dacă mesajul nu are legatură cu domeniul financiar nu raspunzi și vi cu un mesaj adecvat. Te rog să scri fără diacritice. Acesta este mesajul persoanei:"},
+            {
+              "role": "system",
+              "content":
+                  "Ești MyMoneyFlow, un asistent financiar virtual care ajută cu sfaturi financiare. Tu răspunzi la mesajul persoanei, iar dacă mesajul nu are legatură cu domeniul financiar nu raspunzi și vi cu un mesaj adecvat. Te rog să scri fără diacritice. Acesta este mesajul persoanei:"
+            },
             {"role": "user", "content": message}
           ],
         }),

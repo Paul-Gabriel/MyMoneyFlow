@@ -113,7 +113,8 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
                     });
                   }
                 },
-                child: Text('Data: ${_data.toLocal().toString().split(' ')[0]}'),
+                child:
+                    Text('Data: ${_data.toLocal().toString().split(' ')[0]}'),
               ),
               const SizedBox(height: 20),
 

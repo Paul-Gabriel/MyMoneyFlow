@@ -65,13 +65,13 @@ class PlatiTableState extends State<PlatiTable> {
                 decoration: const InputDecoration(labelText: 'Categorie'),
                 items: ['nevoi', 'dorinte', 'economii'].map((String category) {
                   return DropdownMenuItem<String>(
-                  value: category,
-                  child: Text(category),
+                    value: category,
+                    child: Text(category),
                   );
                 }).toList(),
                 onChanged: (value) {
                   if (value != null) {
-                  plata.categorie = value;
+                    plata.categorie = value;
                   }
                 },
               ),
@@ -85,34 +85,37 @@ class PlatiTableState extends State<PlatiTable> {
                 },
               ),
               TextField(
-                controller: TextEditingController(text: plata.suma.toStringAsFixed(2)),
+                controller:
+                    TextEditingController(text: plata.suma.toStringAsFixed(2)),
                 decoration: const InputDecoration(labelText: 'Sumă'),
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
-                  if (double.tryParse(value) != null && double.parse(value) > 0) {
+                  if (double.tryParse(value) != null &&
+                      double.parse(value) > 0) {
                     plata.suma = double.tryParse(value) ?? plata.suma;
                   }
                 },
               ),
               StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-                return ElevatedButton(
-                onPressed: () async {
-                  final selectedDate = await showDatePicker(
-                  context: context,
-                  initialDate: plata.data,
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2101),
+                builder: (BuildContext context, StateSetter setState) {
+                  return ElevatedButton(
+                    onPressed: () async {
+                      final selectedDate = await showDatePicker(
+                        context: context,
+                        initialDate: plata.data,
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2101),
+                      );
+                      if (selectedDate != null) {
+                        setState(() {
+                          plata.data = selectedDate;
+                        });
+                      }
+                    },
+                    child: Text(
+                        'Dată: ${DateFormat('dd-MM-yyyy').format(plata.data)}'),
                   );
-                  if (selectedDate != null) {
-                    setState(() {
-                      plata.data = selectedDate;
-                    });
-                  }
                 },
-                child: Text('Dată: ${DateFormat('dd-MM-yyyy').format(plata.data)}'),
-                );
-              },
               ),
             ],
           ),
@@ -134,7 +137,8 @@ class PlatiTableState extends State<PlatiTable> {
                 // Navigator.of(context).pop();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const AfisarePlatiPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const AfisarePlatiPage()),
                 );
               },
             ),
@@ -142,7 +146,7 @@ class PlatiTableState extends State<PlatiTable> {
               child: const Text('Salvare'),
               onPressed: () {
                 setState(() {
-                    ApiService().updatePlata(Plata(
+                  ApiService().updatePlata(Plata(
                     id: plata.id,
                     userRef: plata.userId,
                     categorie: plata.categorie,

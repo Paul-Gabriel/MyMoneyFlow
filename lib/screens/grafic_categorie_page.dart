@@ -8,13 +8,16 @@ class GraficCategoriePage extends StatelessWidget {
   final String categorie;
   final List<Plata> plati;
 
-  const GraficCategoriePage({super.key, required this.categorie, required this.plati});
+  const GraficCategoriePage(
+      {super.key, required this.categorie, required this.plati});
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
-    final filteredPlati = plati.where((plata) => plata.categorie == categorie).toList();
-    final double totalSumPlati = filteredPlati.fold(0, (sum, plata) => sum + plata.suma);
+    final filteredPlati =
+        plati.where((plata) => plata.categorie == categorie).toList();
+    final double totalSumPlati =
+        filteredPlati.fold(0, (sum, plata) => sum + plata.suma);
     double totalSumaCategorie = 0;
 
     switch (categorie) {
@@ -34,13 +37,15 @@ class GraficCategoriePage extends StatelessWidget {
     // Construim dataMap pentru graficul ring
     final Map<String, double> dataMap = {
       'Bani rămași: $remainingSum': remainingSum,
-      for (var plata in filteredPlati) '${plata.descriere}: ${plata.suma.toStringAsFixed(2)} RON': plata.suma,
+      for (var plata in filteredPlati)
+        '${plata.descriere}: ${plata.suma.toStringAsFixed(2)} RON': plata.suma,
     };
 
     // Culori pentru fiecare segment
     final List<Color> colorList = [
       Colors.green, // Pentru remainingSum
-      ...List.generate(filteredPlati.length, (index) => Colors.primaries[index % Colors.primaries.length]),
+      ...List.generate(filteredPlati.length,
+          (index) => Colors.primaries[index % Colors.primaries.length]),
     ];
 
     return Scaffold(
@@ -66,12 +71,14 @@ class GraficCategoriePage extends StatelessWidget {
   }
 
   /// Metodă pentru graficul de tip `disc`
-  Widget _buildDiscChart(double remainingSum, double totalSumPlati, String categorie) {
+  Widget _buildDiscChart(
+      double remainingSum, double totalSumPlati, String categorie) {
     return SizedBox(
       child: PieChart(
         dataMap: {
           'Bani rămași: ${remainingSum.toStringAsFixed(2)} RON': remainingSum,
-          'Bani consumați: ${totalSumPlati.toStringAsFixed(2)} RON': totalSumPlati,
+          'Bani consumați: ${totalSumPlati.toStringAsFixed(2)} RON':
+              totalSumPlati,
         },
         animationDuration: const Duration(milliseconds: 1000),
         chartLegendSpacing: 32,

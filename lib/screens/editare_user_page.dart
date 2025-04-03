@@ -19,9 +19,11 @@ class EditareUserPageState extends State<EditareUserPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _parolaController = TextEditingController();
   final TextEditingController _venitController = TextEditingController();
-  final TextEditingController _procentDorinteController = TextEditingController();
+  final TextEditingController _procentDorinteController =
+      TextEditingController();
   final TextEditingController _procentNevoiController = TextEditingController();
-  final TextEditingController _procentEconomiController = TextEditingController();
+  final TextEditingController _procentEconomiController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -159,7 +161,8 @@ class EditareUserPageState extends State<EditareUserPage> {
                 // Introducere procent dorinte
                 TextFormField(
                   controller: _procentDorinteController,
-                  decoration: const InputDecoration(labelText: 'Procent Dorințe'),
+                  decoration:
+                      const InputDecoration(labelText: 'Procent Dorințe'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -176,7 +179,8 @@ class EditareUserPageState extends State<EditareUserPage> {
                 // Introducere procent economii
                 TextFormField(
                   controller: _procentEconomiController,
-                  decoration: const InputDecoration(labelText: 'Procent Economii'),
+                  decoration:
+                      const InputDecoration(labelText: 'Procent Economii'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -201,28 +205,32 @@ class EditareUserPageState extends State<EditareUserPage> {
                         email: _emailController.text,
                         parola: _parolaController.text,
                         venit: double.parse(_venitController.text),
-                        procentDorinte: int.parse(_procentDorinteController.text),
+                        procentDorinte:
+                            int.parse(_procentDorinteController.text),
                         procentNevoi: int.parse(_procentNevoiController.text),
-                        procentEconomi: int.parse(_procentEconomiController.text),
+                        procentEconomi:
+                            int.parse(_procentEconomiController.text),
                       );
 
                       try {
                         await ApiService().updateUser(updatedUser);
                         if (context.mounted) {
-                          Provider.of<UserProvider>(context, listen: false).setUser(updatedUser);
+                          Provider.of<UserProvider>(context, listen: false)
+                              .setUser(updatedUser);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('User-ul a fost actualizat')),
+                            const SnackBar(
+                                content: Text('User-ul a fost actualizat')),
                           );
                         }
                       } catch (e) {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                            content: Text(
-                              'Eroare la actualizarea user-ului: $e',
-                              style: const TextStyle(color: Colors.red),
-                            ),
-                            backgroundColor: Colors.black,
+                              content: Text(
+                                'Eroare la actualizarea user-ului: $e',
+                                style: const TextStyle(color: Colors.red),
+                              ),
+                              backgroundColor: Colors.black,
                             ),
                           );
                         }

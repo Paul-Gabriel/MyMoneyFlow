@@ -20,8 +20,10 @@ class CreareContPageState extends State<CreareContPage> {
   final TextEditingController _parolaController = TextEditingController();
   final TextEditingController _venitController = TextEditingController();
   final TextEditingController _procentNevoiController = TextEditingController();
-  final TextEditingController _procentDorinteController = TextEditingController();
-  final TextEditingController _procentEconomiiController = TextEditingController();
+  final TextEditingController _procentDorinteController =
+      TextEditingController();
+  final TextEditingController _procentEconomiiController =
+      TextEditingController();
 
   @override
   void dispose() {
@@ -151,7 +153,8 @@ class CreareContPageState extends State<CreareContPage> {
                 // Introducere procent dorinte
                 TextFormField(
                   controller: _procentDorinteController,
-                  decoration: const InputDecoration(labelText: 'Procent Dorinte'),
+                  decoration:
+                      const InputDecoration(labelText: 'Procent Dorinte'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -171,7 +174,8 @@ class CreareContPageState extends State<CreareContPage> {
                 // Introducere procent economii
                 TextFormField(
                   controller: _procentEconomiiController,
-                  decoration: const InputDecoration(labelText: 'Procent Economii'),
+                  decoration:
+                      const InputDecoration(labelText: 'Procent Economii'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -195,10 +199,14 @@ class CreareContPageState extends State<CreareContPage> {
                     onPressed: () async {
                       if (_formKey.currentState?.validate() ?? false) {
                         // Calculează suma procentelor folosind valorile din controllere
-                        int procentNevoi = int.tryParse(_procentNevoiController.text) ?? 0;
-                        int procentDorinte = int.tryParse(_procentDorinteController.text) ?? 0;
-                        int procentEconomii = int.tryParse(_procentEconomiiController.text) ?? 0;
-                        int sumaProcente = procentNevoi + procentDorinte + procentEconomii;
+                        int procentNevoi =
+                            int.tryParse(_procentNevoiController.text) ?? 0;
+                        int procentDorinte =
+                            int.tryParse(_procentDorinteController.text) ?? 0;
+                        int procentEconomii =
+                            int.tryParse(_procentEconomiiController.text) ?? 0;
+                        int sumaProcente =
+                            procentNevoi + procentDorinte + procentEconomii;
 
                         if (sumaProcente != 100) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -223,17 +231,20 @@ class CreareContPageState extends State<CreareContPage> {
                               procentNevoi: procentNevoi,
                               procentEconomi: procentEconomii,
                             ));
-                            if (context.mounted){
+                            if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Contul a fost creat')),
+                                const SnackBar(
+                                    content: Text('Contul a fost creat')),
                               );
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const InregistrarePage()),
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const InregistrarePage()),
                               );
                             }
                           } catch (e) {
-                            if (context.mounted){
+                            if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(

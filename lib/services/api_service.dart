@@ -4,7 +4,8 @@ import '../models/user.dart';
 import '../models/plata.dart';
 
 class ApiService {
-  final String baseUrl = 'http://192.168.0.120:8001';
+  final String baseUrl = 'http://192.168.0.120:8001'; // WiFi acasa
+  // final String baseUrl = 'http://192.168.2.23:8001'; // Hotspot telefon
 
   // POST create user
   Future<void> createUser(User user) async {
@@ -27,7 +28,7 @@ class ApiService {
 
     if (response.statusCode == 200) {
       return User.fromJson(json.decode(response.body));
-    } else if (response.statusCode == 404){
+    } else if (response.statusCode == 404) {
       throw Exception('Userul nu există');
     } else {
       throw Exception('Eroare la încărcarea utilizatorului');
@@ -108,8 +109,7 @@ class ApiService {
 
   // DELETE plata
   Future<void> deletePlata(String plataId) async {
-    final response = await http.delete(
-      Uri.parse('$baseUrl/payments/$plataId'));
+    final response = await http.delete(Uri.parse('$baseUrl/payments/$plataId'));
 
     if (response.statusCode != 200) {
       throw Exception('Eroare la ștergerea plății');

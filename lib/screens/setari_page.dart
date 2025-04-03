@@ -9,7 +9,7 @@ import 'package:my_money_flow/providers/user_provider.dart';
 class SetariPage extends StatefulWidget {
   final List<Plata> plati;
 
-  const SetariPage({super.key,required this.plati});
+  const SetariPage({super.key, required this.plati});
 
   @override
   SetariPageState createState() => SetariPageState();
@@ -17,7 +17,7 @@ class SetariPage extends StatefulWidget {
 
 class SetariPageState extends State<SetariPage> {
   final _formKey = GlobalKey<FormState>();
-  
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
@@ -34,7 +34,8 @@ class SetariPageState extends State<SetariPage> {
     final double economiiSum = widget.plati
         .where((plata) => plata.categorie == 'economii')
         .fold(0, (sum, plata) => sum + plata.suma);
-    final double remainingSum = totalSum - (nevoiSum + dorinteSum + economiiSum); 
+    final double remainingSum =
+        totalSum - (nevoiSum + dorinteSum + economiiSum);
 
     return Scaffold(
       appBar: AppBar(
@@ -46,7 +47,6 @@ class SetariPageState extends State<SetariPage> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-
               Text('${user?.nume ?? 'Nume'} ${user?.prenume ?? 'Prenume'}'),
               const SizedBox(height: 16),
 
@@ -54,7 +54,7 @@ class SetariPageState extends State<SetariPage> {
               Row(
                 children: [
                   Expanded(
-                  flex: (remainingSum / totalSum * 100).round(),
+                    flex: (remainingSum / totalSum * 100).round(),
                     child: Container(
                       height: 20,
                       color: Colors.green,
@@ -62,26 +62,26 @@ class SetariPageState extends State<SetariPage> {
                         child: Text(
                           '${(remainingSum / totalSum * 100).toStringAsFixed(2)}%',
                           style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
                   ),
                   Expanded(
-                  flex: ((totalSum-remainingSum) / totalSum * 100).round(),
+                    flex: ((totalSum - remainingSum) / totalSum * 100).round(),
                     child: Container(
                       height: 20,
                       color: Colors.red,
                       child: Center(
                         child: Text(
-                          '${((totalSum-remainingSum) / totalSum * 100).toStringAsFixed(2)}%',
+                          '${((totalSum - remainingSum) / totalSum * 100).toStringAsFixed(2)}%',
                           style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -91,11 +91,14 @@ class SetariPageState extends State<SetariPage> {
               ),
               const SizedBox(height: 16),
 
-              Text('Nevoi: $procentNevoi% -> ${totalSum * procentNevoi / 100 - nevoiSum} RON din ${totalSum * procentNevoi / 100} RON'),
+              Text(
+                  'Nevoi: $procentNevoi% -> ${totalSum * procentNevoi / 100 - nevoiSum} RON din ${totalSum * procentNevoi / 100} RON'),
               Row(
                 children: [
                   Expanded(
-                  flex: ((1 - nevoiSum / (totalSum * procentNevoi / 100)) * 100).round(),
+                    flex:
+                        ((1 - nevoiSum / (totalSum * procentNevoi / 100)) * 100)
+                            .round(),
                     child: Container(
                       height: 20,
                       color: Colors.green,
@@ -103,16 +106,17 @@ class SetariPageState extends State<SetariPage> {
                         child: Text(
                           '${((1 - nevoiSum / (totalSum * procentNevoi / 100)) * 100).toStringAsFixed(2)}%',
                           style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
                   ),
                   Expanded(
-                  flex: ((nevoiSum / (totalSum * procentNevoi / 100)) * 100).round(),
+                    flex: ((nevoiSum / (totalSum * procentNevoi / 100)) * 100)
+                        .round(),
                     child: Container(
                       height: 20,
                       color: Colors.red,
@@ -120,9 +124,9 @@ class SetariPageState extends State<SetariPage> {
                         child: Text(
                           '${((nevoiSum / (totalSum * procentNevoi / 100)) * 100).toStringAsFixed(2)}%',
                           style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -132,11 +136,15 @@ class SetariPageState extends State<SetariPage> {
               ),
               const SizedBox(height: 16),
 
-              Text('Dorinte: $procentDorinte% -> ${totalSum * procentDorinte / 100 - dorinteSum} RON din ${totalSum *procentDorinte / 100} RON'),
+              Text(
+                  'Dorinte: $procentDorinte% -> ${totalSum * procentDorinte / 100 - dorinteSum} RON din ${totalSum * procentDorinte / 100} RON'),
               Row(
                 children: [
                   Expanded(
-                  flex: ((1 - dorinteSum / (totalSum * procentDorinte / 100)) * 100).round(),
+                    flex:
+                        ((1 - dorinteSum / (totalSum * procentDorinte / 100)) *
+                                100)
+                            .round(),
                     child: Container(
                       height: 20,
                       color: Colors.green,
@@ -144,16 +152,18 @@ class SetariPageState extends State<SetariPage> {
                         child: Text(
                           '${((1 - dorinteSum / (totalSum * procentDorinte / 100)) * 100).toStringAsFixed(2)}%',
                           style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
                   ),
                   Expanded(
-                  flex: ((dorinteSum / (totalSum * procentDorinte / 100)) * 100).round(),
+                    flex:
+                        ((dorinteSum / (totalSum * procentDorinte / 100)) * 100)
+                            .round(),
                     child: Container(
                       height: 20,
                       color: Colors.red,
@@ -161,9 +171,9 @@ class SetariPageState extends State<SetariPage> {
                         child: Text(
                           '${((dorinteSum / (totalSum * procentDorinte / 100)) * 100).toStringAsFixed(2)}%',
                           style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -173,11 +183,16 @@ class SetariPageState extends State<SetariPage> {
               ),
               const SizedBox(height: 16),
 
-              Text('Economii: $procentEconomii% -> ${totalSum * procentEconomii / 100 - economiiSum} RON din ${totalSum * procentEconomii / 100} RON'),
+              Text(
+                  'Economii: $procentEconomii% -> ${totalSum * procentEconomii / 100 - economiiSum} RON din ${totalSum * procentEconomii / 100} RON'),
               Row(
                 children: [
                   Expanded(
-                  flex: ((1 - economiiSum / (totalSum * procentEconomii / 100)) * 100).round(),
+                    flex: ((1 -
+                                economiiSum /
+                                    (totalSum * procentEconomii / 100)) *
+                            100)
+                        .round(),
                     child: Container(
                       height: 20,
                       color: Colors.green,
@@ -185,16 +200,18 @@ class SetariPageState extends State<SetariPage> {
                         child: Text(
                           '${((1 - economiiSum / (totalSum * procentEconomii / 100)) * 100).toStringAsFixed(2)}%',
                           style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
                   ),
                   Expanded(
-                  flex: ((economiiSum / (totalSum * procentEconomii / 100)) * 100).round(),
+                    flex: ((economiiSum / (totalSum * procentEconomii / 100)) *
+                            100)
+                        .round(),
                     child: Container(
                       height: 20,
                       color: Colors.red,
@@ -202,9 +219,9 @@ class SetariPageState extends State<SetariPage> {
                         child: Text(
                           '${((economiiSum / (totalSum * procentEconomii / 100)) * 100).toStringAsFixed(2)}%',
                           style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -216,27 +233,29 @@ class SetariPageState extends State<SetariPage> {
 
               //button pentru editare user
               ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const EditareUserPage()),
-                );
-              },
-              child: const Text('Actualizare date personale'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EditareUserPage()),
+                  );
+                },
+                child: const Text('Actualizare date personale'),
               ),
               const SizedBox(height: 16),
 
               //button pentru stergere user
               ElevatedButton(
                 onPressed: () async {
-                  final List<Plata> platiList = await ApiService().getPlatiByUser(user?.id ?? '');
+                  final List<Plata> platiList =
+                      await ApiService().getPlatiByUser(user?.id ?? '');
                   if (platiList.isNotEmpty) {
                     for (var plata in platiList) {
                       ApiService().deletePlata(plata.id);
                     }
                   }
                   ApiService().deleteUser(user?.id ?? '');
-                    if (context.mounted) {
+                  if (context.mounted) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const MainPage()),
@@ -244,7 +263,8 @@ class SetariPageState extends State<SetariPage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Ștergere date...')),
                     );
-                    Provider.of<UserProvider>(context, listen: false).clearUser();
+                    Provider.of<UserProvider>(context, listen: false)
+                        .clearUser();
                   }
                 },
                 child: const Text('Ștergere cont'),
@@ -264,7 +284,7 @@ class SetariPageState extends State<SetariPage> {
                   );
                 },
                 child: const Text('Ieșire din cont'),
-                ),
+              ),
               const SizedBox(height: 16),
             ],
           ),

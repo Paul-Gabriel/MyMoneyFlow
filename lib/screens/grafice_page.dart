@@ -31,7 +31,10 @@ class GraficePage extends StatelessWidget {
             label: 'Dorințe',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.savings, color: Colors.pinkAccent,),
+            icon: Icon(
+              Icons.savings,
+              color: Colors.pinkAccent,
+            ),
             label: 'Economii',
           ),
         ],
@@ -89,7 +92,8 @@ class GraficePage extends StatelessWidget {
     final double economiiSum = plati
         .where((plata) => plata.categorie == 'economii')
         .fold(0, (sum, plata) => sum + plata.suma);
-    final double remainingSum = totalSum - (nevoiSum + dorinteSum + economiiSum);
+    final double remainingSum =
+        totalSum - (nevoiSum + dorinteSum + economiiSum);
 
     return Column(
       children: [
@@ -102,10 +106,14 @@ class GraficePage extends StatelessWidget {
           // height: 300,
           child: PieChart(
             dataMap: {
-              'Bani rămași: ${remainingSum.toStringAsFixed(2)} RON': remainingSum,
-              'Bani consumati pentru nevoi: ${nevoiSum.toStringAsFixed(2)} RON': nevoiSum,
-              'Bani consumati pentru dorințe: ${dorinteSum.toStringAsFixed(2)} RON': dorinteSum,
-              'Bani consumati pentru economii: ${economiiSum.toStringAsFixed(2)} RON': economiiSum,
+              'Bani rămași: ${remainingSum.toStringAsFixed(2)} RON':
+                  remainingSum,
+              'Bani consumati pentru nevoi: ${nevoiSum.toStringAsFixed(2)} RON':
+                  nevoiSum,
+              'Bani consumati pentru dorințe: ${dorinteSum.toStringAsFixed(2)} RON':
+                  dorinteSum,
+              'Bani consumati pentru economii: ${economiiSum.toStringAsFixed(2)} RON':
+                  economiiSum,
             },
             animationDuration: const Duration(milliseconds: 1000),
             chartLegendSpacing: 32,

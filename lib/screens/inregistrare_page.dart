@@ -42,7 +42,7 @@ class InregistrarePageState extends State<InregistrarePage> {
           ),
         );
       }
-      
+
       if (user != null && user.parola == _passwordController.text) {
         if (!mounted) return;
 

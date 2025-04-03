@@ -18,8 +18,8 @@ class AfisarePlatiPage extends StatefulWidget {
 
 class AfisarePlatiPageState extends State<AfisarePlatiPage> {
   List<Plata> plati = [];
-  final int year = DateTime.now().year;
-  final int month = DateTime.now().month;
+  int year = DateTime.now().year;
+  int month = DateTime.now().month;
   int _selectedIndex = 0;
 
   @override
@@ -49,19 +49,25 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AiChatPage(plati: _filterPlatiByMonth(plati, year, month))),
+          MaterialPageRoute(
+              builder: (context) =>
+                  AiChatPage(plati: _filterPlatiByMonth(plati, year, month))),
         );
         break;
       case 1:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => GraficePage(plati: _filterPlatiByMonth(plati, year, month))),
+          MaterialPageRoute(
+              builder: (context) =>
+                  GraficePage(plati: _filterPlatiByMonth(plati, year, month))),
         );
         break;
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SetariPage(plati: _filterPlatiByMonth(plati, year, month))),
+          MaterialPageRoute(
+              builder: (context) =>
+                  SetariPage(plati: _filterPlatiByMonth(plati, year, month))),
         );
         break;
     }
@@ -75,14 +81,15 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
       appBar: AppBar(
         title: const Text('Plăți'),
         actions: [
-            IconButton(
+          IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
               Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AdaugarePlataPage()),
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const AdaugarePlataPage()),
               ).then((_) {
-              _fetchPlati();
+                _fetchPlati();
               });
             },
           ),
@@ -141,6 +148,61 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
                 'Filtrează plățile',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
+              Row(
+                children: [
+                  Expanded(
+                    child: DropdownButtonFormField<int>(
+                      value: year,
+                      decoration: const InputDecoration(labelText: 'Anul'),
+                      items: List.generate(
+                        10,
+                        (index) => DateTime.now().year - index,
+                      ).map((year) {
+                        return DropdownMenuItem<int>(
+                          value: year,
+                          child: Text(year.toString()),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          year = value ?? DateTime.now().year;
+                        });
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: DropdownButtonFormField<int>(
+                      value: month,
+                      decoration: const InputDecoration(labelText: 'Luna'),
+                      items:
+                          List.generate(12, (index) => index + 1).map((month) {
+                        return DropdownMenuItem<int>(
+                          value: month,
+                          child: Text(month.toString()),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          month = value ?? DateTime.now().month;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     setState(() {
+              //       _fetchPlati();
+              //       plati = _filterPlatiByMonth(plati, year, month);
+              //     });
+              //     Navigator.pop(context);
+              //   },
+              //   child: const Text('Aplică Filtrul'),
+              // ),
+              const Divider(),
               ListTile(
                 leading: const Icon(Icons.category),
                 title: const Text('Categorie'),
@@ -196,17 +258,19 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
 
   void _filterByAmount({required bool ascending}) {
     setState(() {
-      plati.sort((a, b) => ascending ? a.suma.compareTo(b.suma) : b.suma.compareTo(a.suma));
+      plati.sort((a, b) =>
+          ascending ? a.suma.compareTo(b.suma) : b.suma.compareTo(a.suma));
     });
   }
 
   void _filterByDate({required bool ascending}) {
     setState(() {
-      plati.sort((a, b) => ascending ? a.data.compareTo(b.data) : b.data.compareTo(a.data));
+      plati.sort((a, b) =>
+          ascending ? a.data.compareTo(b.data) : b.data.compareTo(a.data));
     });
   }
 
-  List<Plata> _filterPlatiByMonth(List<Plata> allPlati, int year,int month) {
+  List<Plata> _filterPlatiByMonth(List<Plata> allPlati, int year, int month) {
     return allPlati.where((plata) {
       return plata.data.year == year && plata.data.month == month;
     }).toList();
