@@ -8,6 +8,9 @@ import 'package:provider/provider.dart';
 import 'package:my_money_flow/providers/user_provider.dart';
 import 'package:my_money_flow/screens/setari_page.dart';
 import 'package:my_money_flow/screens/ai_chat_page.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 class AfisarePlatiPage extends StatefulWidget {
   const AfisarePlatiPage({super.key});
@@ -97,6 +100,12 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
             icon: const Icon(Icons.filter_list),
             onPressed: _showFilterOptions,
           ),
+          IconButton(
+            icon: const Icon(Icons.picture_as_pdf),
+            onPressed: () async {
+              _createPDF();
+            },
+          ),
         ],
       ),
       body: Padding(
@@ -104,7 +113,7 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
         child: Column(
           children: [
             Text(
-              'Bun venit ${user?.prenume}!',
+              'Bun venit ${user?.prenume}!\n Luna: $month, Anul: $year',
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
@@ -132,6 +141,90 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
+    );
+  }
+
+  Future<void> _createPDF() async {
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+    _filterByCategory();
+    _filterByDate(ascending: true);
+    List<Plata> platiPDF = _filterPlatiByMonth(plati, year, month);
+
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) {
+          return pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Center(
+                child: pw.Text('Raport plati',
+                    style: pw.TextStyle(
+                        fontSize: 18, fontWeight: pw.FontWeight.bold)),
+              ),
+              pw.SizedBox(height: 30),
+              pw.Text('Nume: ${user?.nume ?? ''}'),
+              pw.Text('Prenume: ${user?.prenume ?? ''}'),
+              pw.Text(
+                  'Data generarii raportului: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'),
+              pw.Text(
+                  'Perioada: 1/$month/$year - ${DateTime(year, month + 1, 0).day}/$month/$year'),
+              pw.SizedBox(height: 10),
+              pw.Text('Buget: ${user?.venit.toStringAsFixed(2) ?? ''} RON'),
+              pw.Text(
+                  'Bani ramasi: ${((user?.venit ?? 0) - platiPDF.fold(0.0, (sum, plata) => sum + plata.suma)).toStringAsFixed(2)} RON'),
+              pw.Text(
+                  'Cheltuieli totale: ${platiPDF.fold(0.0, (sum, plata) => sum + plata.suma).toStringAsFixed(2)} RON'),
+              pw.SizedBox(height: 20),
+              pw.Center(
+                child: pw.Text('Lista plati',
+                    style: pw.TextStyle(
+                        fontSize: 14, fontWeight: pw.FontWeight.bold)),
+              ),
+              pw.SizedBox(height: 10),
+              pw.Table(
+                border: pw.TableBorder.all(),
+                columnWidths: {
+                  0: pw.FlexColumnWidth(1),
+                  1: pw.FlexColumnWidth(4),
+                  2: pw.FlexColumnWidth(1),
+                  3: pw.FlexColumnWidth(1),
+                },
+                children: [
+                  pw.TableRow(
+                    children: [
+                      pw.Text('Categorie',
+                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                      pw.Text('Descriere',
+                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                      pw.Text('Suma',
+                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                      pw.Text('Data',
+                          style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                    ],
+                  ),
+                  ...platiPDF.map((plata) {
+                    return pw.TableRow(
+                      children: [
+                        pw.Text(' ${plata.categorie}'),
+                        pw.Text(' ${plata.descriere}'),
+                        pw.Text(' ${plata.suma.toStringAsFixed(2)}'),
+                        pw.Text(
+                            ' ${plata.data.day}/${plata.data.month}/${plata.data.year}'),
+                      ],
+                    );
+                  }),
+                ],
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    await Printing.layoutPdf(
+      onLayout: (PdfPageFormat format) async => pdf.save(),
     );
   }
 
@@ -192,16 +285,6 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
                 ],
               ),
               const SizedBox(height: 16),
-              // ElevatedButton(
-              //   onPressed: () {
-              //     setState(() {
-              //       _fetchPlati();
-              //       plati = _filterPlatiByMonth(plati, year, month);
-              //     });
-              //     Navigator.pop(context);
-              //   },
-              //   child: const Text('Aplică Filtrul'),
-              // ),
               const Divider(),
               ListTile(
                 leading: const Icon(Icons.category),
@@ -252,7 +335,12 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
 
   void _filterByCategory() {
     setState(() {
-      plati.sort((a, b) => a.categorie.compareTo(b.categorie));
+      plati.sort((a, b) {
+        const categoryOrder = ['nevoi', 'dorinte', 'economii'];
+        int indexA = categoryOrder.indexOf(a.categorie.toLowerCase());
+        int indexB = categoryOrder.indexOf(b.categorie.toLowerCase());
+        return indexA.compareTo(indexB);
+      });
     });
   }
 
