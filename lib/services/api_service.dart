@@ -5,7 +5,7 @@ import '../models/plata.dart';
 
 class ApiService {
   final String baseUrl = 'http://192.168.0.120:8001'; // WiFi acasa
-  // final String baseUrl = 'http://192.168.2.23:8001'; // Hotspot telefon
+  // final String baseUrl = 'http://192.168.74.23:8001'; // Hotspot telefon
 
   // POST create user
   Future<void> createUser(User user) async {
@@ -27,7 +27,9 @@ class ApiService {
     final response = await http.get(Uri.parse('$baseUrl/users/email/$email'));
 
     if (response.statusCode == 200) {
-      return User.fromJson(json.decode(response.body));
+      User user = User.fromJson(json.decode(response.body));
+      user.confirmareEmail = json.decode(response.body)['confirmed'];
+      return user;
     } else if (response.statusCode == 404) {
       throw Exception('Userul nu există');
     } else {

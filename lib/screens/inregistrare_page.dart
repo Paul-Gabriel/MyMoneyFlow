@@ -43,7 +43,7 @@ class InregistrarePageState extends State<InregistrarePage> {
         );
       }
 
-      if (user != null && user.parola == _passwordController.text) {
+      if (user != null && user.parola == _passwordController.text && user.confirmareEmail) {
         if (!mounted) return;
 
         // Save user data using UserProvider

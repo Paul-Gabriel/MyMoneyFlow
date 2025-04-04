@@ -10,6 +10,7 @@ class User {
   int _procentNevoi;
   int _procentDorinte;
   int _procentEconomi;
+  bool _confirmareEmail=false; // Confirmarea email-ului (privat)
 
   User({
     required String id,
@@ -21,6 +22,7 @@ class User {
     required int procentNevoi,
     required int procentDorinte,
     required int procentEconomi,
+    // required bool confirmareEmail,
   }) : _id = id,
        _nume = nume,
        _prenume = prenume,
@@ -30,6 +32,8 @@ class User {
        _procentNevoi = procentNevoi,
        _procentDorinte = procentDorinte,
        _procentEconomi = procentEconomi;
+      //  _confirmareEmail = confirmareEmail;
+       
 
   String get id => _id;
   String get nume => _nume;
@@ -40,6 +44,7 @@ class User {
   int get procentNevoi => _procentNevoi;
   int get procentDorinte => _procentDorinte;
   int get procentEconomi => _procentEconomi;
+  bool get confirmareEmail => _confirmareEmail;
   
   set name(String value) {
     _nume = value;
@@ -73,6 +78,10 @@ class User {
     _procentEconomi = value;
   }
 
+  set confirmareEmail(bool value) {
+    _confirmareEmail = value;
+  }
+
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['user_id'],
@@ -84,6 +93,7 @@ class User {
       procentNevoi: (json['procentNecesitati'] as num).toInt(),
       procentDorinte: (json['procentDorinte'] as num).toInt(),
       procentEconomi: (json['procentEconomii'] as num).toInt(),
+      // confirmareEmail: json['confirmareEmail'] == 1 ? true : false,
     );
   }
 
