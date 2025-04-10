@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/screens/creare_cont_page.dart';
-import 'inregistrare_page.dart';
+import 'autentificare_page.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -8,21 +8,36 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Main Page')),
+      // appBar: AppBar(title: const Text('Main Page')),
+      backgroundColor: const Color.fromARGB(255, 19, 44, 49),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //Log In button
+            // Logo image
+            Image.asset(
+              'assets/logos/logo_final_cu_scris-removebg-preview.png',
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.5,
+              errorBuilder: (context, error, stackTrace) {
+                return const Text('Image not found');
+              },
+            ),
+
+            //Autentificare button
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const InregistrarePage()),
+                      builder: (context) => const AutentificarePage()),
                 );
               },
-              child: const Text('Intră în cont'),
+              style: ElevatedButton.styleFrom(
+                foregroundColor:
+                    const Color.fromARGB(255, 19, 44, 49), // Text color
+              ),
+              child: const Text('Autentificare'),
             ),
             const SizedBox(height: 16),
 
@@ -35,6 +50,10 @@ class MainPage extends StatelessWidget {
                       builder: (context) => const CreareContPage()),
                 );
               },
+              style: ElevatedButton.styleFrom(
+                foregroundColor:
+                    const Color.fromARGB(255, 19, 44, 49), // Text color
+              ),
               child: const Text('Creare cont'),
             ),
             const SizedBox(height: 16),

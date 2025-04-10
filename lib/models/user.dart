@@ -10,7 +10,7 @@ class User {
   int _procentNevoi;
   int _procentDorinte;
   int _procentEconomi;
-  bool _confirmareEmail=false; // Confirmarea email-ului (privat)
+  bool _confirmareEmail = false;
 
   User({
     required String id,
@@ -22,18 +22,15 @@ class User {
     required int procentNevoi,
     required int procentDorinte,
     required int procentEconomi,
-    // required bool confirmareEmail,
-  }) : _id = id,
-       _nume = nume,
-       _prenume = prenume,
-       _email = email,
-       _parola = parola,
-       _venit = venit,
-       _procentNevoi = procentNevoi,
-       _procentDorinte = procentDorinte,
-       _procentEconomi = procentEconomi;
-      //  _confirmareEmail = confirmareEmail;
-       
+  })  : _id = id,
+        _nume = nume,
+        _prenume = prenume,
+        _email = email,
+        _parola = parola,
+        _venit = venit,
+        _procentNevoi = procentNevoi,
+        _procentDorinte = procentDorinte,
+        _procentEconomi = procentEconomi;
 
   String get id => _id;
   String get nume => _nume;
@@ -45,7 +42,7 @@ class User {
   int get procentDorinte => _procentDorinte;
   int get procentEconomi => _procentEconomi;
   bool get confirmareEmail => _confirmareEmail;
-  
+
   set name(String value) {
     _nume = value;
   }
@@ -93,13 +90,11 @@ class User {
       procentNevoi: (json['procentNecesitati'] as num).toInt(),
       procentDorinte: (json['procentDorinte'] as num).toInt(),
       procentEconomi: (json['procentEconomii'] as num).toInt(),
-      // confirmareEmail: json['confirmareEmail'] == 1 ? true : false,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      // 'id': _id,
       'nume': _nume,
       'prenume': _prenume,
       'email': _email,

@@ -49,7 +49,7 @@ class AiChatPageState extends State<AiChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("AI Chatbot")),
+      appBar: AppBar(title: const Text("Asistentul Financiar AI")),
       body: Column(
         children: [
           Expanded(
@@ -90,20 +90,28 @@ class AiChatPageState extends State<AiChatPage> {
                         _controller.text =
                             "Care sunt cele mai bune practici pentru economisire?";
                       },
-                      child: const Text("Economisire"),
+                      child: const Text(
+                        "Economisire",
+                        style:
+                            TextStyle(color: Color.fromARGB(255, 19, 44, 49)),
+                      ),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         _controller.text = "Cum pot investi mai eficient?";
                       },
-                      child: const Text("Investiții"),
+                      child: const Text("Investiții",
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 19, 44, 49))),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         _controller.text =
                             "Cum să reduc cheltuielile lunare? Venitul meu lunar este de ${user?.venit}, iar procentele bugetelor sunt de ${user?.procentNevoi}% pentru nevoi, ${user?.procentDorinte}% pentru dorinte, ${user?.procentEconomi}% pentru economii. Acestea sunt platile mele: ${widget.plati.map((plata) => "\n${plata.categorie}: ${plata.descriere} ->${plata.suma} RON").join(", ")}";
                       },
-                      child: const Text("Cheltuieli"),
+                      child: const Text("Cheltuieli",
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 19, 44, 49))),
                     ),
                   ],
                 ),
@@ -112,10 +120,13 @@ class AiChatPageState extends State<AiChatPage> {
                     Expanded(
                       child: TextField(
                         controller: _controller,
+                        minLines: 1,
+                        maxLines: 5,
                         decoration: const InputDecoration(
                           hintText: "Type your message...",
                           border: OutlineInputBorder(),
                         ),
+                        keyboardType: TextInputType.multiline,
                       ),
                     ),
                     IconButton(

@@ -82,10 +82,10 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plăți'),
+        title: Text('Bun venit, ${user?.prenume}!'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add),
+            icon: const Icon(Icons.add, color: Colors.greenAccent),
             onPressed: () {
               Navigator.push(
                 context,
@@ -97,11 +97,11 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list, color: Colors.blueAccent),
             onPressed: _showFilterOptions,
           ),
           IconButton(
-            icon: const Icon(Icons.picture_as_pdf),
+            icon: const Icon(Icons.picture_as_pdf, color: Colors.red),
             onPressed: () async {
               _createPDF();
             },
@@ -113,7 +113,7 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
         child: Column(
           children: [
             Text(
-              'Bun venit ${user?.prenume}!\n Luna: $month, Anul: $year',
+              '${_getMonthName(month)}, $year',
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
@@ -126,15 +126,15 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
+            icon: Icon(Icons.chat, color: Colors.green),
             label: 'AI',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.pie_chart),
+            icon: Icon(Icons.pie_chart, color: Colors.orange),
             label: 'Grafice',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.settings, color: Colors.blueGrey),
             label: 'Setări',
           ),
         ],
@@ -362,5 +362,36 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
     return allPlati.where((plata) {
       return plata.data.year == year && plata.data.month == month;
     }).toList();
+  }
+
+  _getMonthName(int month) {
+    switch (month) {
+      case 1:
+        return 'Ianuarie';
+      case 2:
+        return 'Februarie';
+      case 3:
+        return 'Martie';
+      case 4:
+        return 'Aprilie';
+      case 5:
+        return 'Mai';
+      case 6:
+        return 'Iunie';
+      case 7:
+        return 'Iulie';
+      case 8:
+        return 'August';
+      case 9:
+        return 'Septembrie';
+      case 10:
+        return 'Octombrie';
+      case 11:
+        return 'Noiembrie';
+      case 12:
+        return 'Decembrie';
+      default:
+        return '';
+    }
   }
 }

@@ -113,7 +113,7 @@ class PlatiTableState extends State<PlatiTable> {
                       }
                     },
                     child: Text(
-                        'Dată: ${DateFormat('dd-MM-yyyy').format(plata.data)}'),
+                        'Data: ${DateFormat('dd/MM/yyyy').format(plata.data)}'),
                   );
                 },
               ),

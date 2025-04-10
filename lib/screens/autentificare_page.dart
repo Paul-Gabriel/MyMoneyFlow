@@ -5,14 +5,14 @@ import 'package:my_money_flow/services/api_service.dart';
 import 'package:provider/provider.dart';
 import 'package:my_money_flow/providers/user_provider.dart';
 
-class InregistrarePage extends StatefulWidget {
-  const InregistrarePage({super.key});
+class AutentificarePage extends StatefulWidget {
+  const AutentificarePage({super.key});
 
   @override
-  InregistrarePageState createState() => InregistrarePageState();
+  AutentificarePageState createState() => AutentificarePageState();
 }
 
-class InregistrarePageState extends State<InregistrarePage> {
+class AutentificarePageState extends State<AutentificarePage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? _errorMessage;
@@ -31,6 +31,7 @@ class InregistrarePageState extends State<InregistrarePage> {
       User? user;
       try {
         user = await ApiService().getUserByEmail(_emailController.text);
+        // print("\n\n\nUser: $user\n\n\n");
       } catch (e) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
@@ -43,7 +44,9 @@ class InregistrarePageState extends State<InregistrarePage> {
         );
       }
 
-      if (user != null && user.parola == _passwordController.text && user.confirmareEmail) {
+      if (user != null &&
+          user.parola == _passwordController.text &&
+          user.confirmareEmail) {
         if (!mounted) return;
 
         // Save user data using UserProvider
@@ -56,19 +59,27 @@ class InregistrarePageState extends State<InregistrarePage> {
             builder: (context) => const AfisarePlatiPage(),
           ),
         );
-      } else {
+      } else if (user == null) {
+        setState(() {
+          _errorMessage = "Nu exista niciun cont cu acest email asociat.";
+        });
+      } else if (user.parola != _passwordController.text) {
         setState(() {
           _errorMessage = "Parola incorecta.";
         });
-        return;
+      } else if (!user.confirmareEmail) {
+        setState(() {
+          _errorMessage = "Contul nu este confirmat.";
+        });
       }
+      return;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Înregistrare Page')),
+      appBar: AppBar(title: const Text('Autentificare')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -93,7 +104,8 @@ class InregistrarePageState extends State<InregistrarePage> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _login,
-              child: const Text('Intră în cont'),
+              child: const Text('Intră în cont',
+                  style: TextStyle(color: Color.fromARGB(255, 19, 44, 49))),
             ),
             if (_errorMessage != null)
               Padding(

@@ -4,7 +4,8 @@ class Plata {
   final String _id;
   final String _userRef;
   double _suma;
-  String _categorie; // Poți utiliza un enum dacă vrei să forțezi cele 3 opțiuni: 'dorinte', 'nevoi', 'economi'
+  String
+      _categorie; // Poți utiliza un enum dacă vrei să forțezi cele 3 opțiuni: 'dorinte', 'nevoi', 'economi'
   String _descriere;
   DateTime _data;
 

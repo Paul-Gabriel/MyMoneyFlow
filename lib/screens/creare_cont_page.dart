@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/user.dart';
-import 'package:my_money_flow/screens/inregistrare_page.dart';
+import 'package:my_money_flow/screens/autentificare_page.dart';
 import 'package:my_money_flow/services/api_service.dart';
 
 class CreareContPage extends StatefulWidget {
@@ -43,7 +43,7 @@ class CreareContPageState extends State<CreareContPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Creare cont'),
+        title: const Text('Crează-ți contul'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -240,7 +240,7 @@ class CreareContPageState extends State<CreareContPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const InregistrarePage()),
+                                        const AutentificarePage()),
                               );
                             }
                           } catch (e) {

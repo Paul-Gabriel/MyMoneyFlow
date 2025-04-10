@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_money_flow/models/plata.dart';
 import 'package:my_money_flow/screens/afisare_plati_page.dart';
 import 'package:my_money_flow/services/api_service.dart';
@@ -113,8 +114,9 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
                     });
                   }
                 },
-                child:
-                    Text('Data: ${_data.toLocal().toString().split(' ')[0]}'),
+                child: Text(
+                    // 'Data: ${_data.day.toString().padLeft(2, '0')}/${_data.month.toString().padLeft(2, '0')}/${_data.year}'),
+                    'Data: ${DateFormat('dd/MM/yyyy').format(_data)}'),
               ),
               const SizedBox(height: 20),
 
