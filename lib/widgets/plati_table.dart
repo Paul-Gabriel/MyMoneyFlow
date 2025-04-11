@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/plata.dart';
 import 'package:my_money_flow/models/user.dart';
@@ -26,16 +28,25 @@ class PlatiTableState extends State<PlatiTable> {
         scrollDirection: Axis.horizontal, // Permite derularea pe orizontală
         child: DataTable(
           columns: const [
-            DataColumn(label: Text('Category')),
-            DataColumn(label: Text('Description')),
-            DataColumn(label: Text('Amount')),
-            DataColumn(label: Text('Date')),
+            DataColumn(label: Text('Categorie')),
+            DataColumn(label: Text('Descriere')),
+            DataColumn(label: Text('Sumă')),
+            DataColumn(label: Text('Dată')),
           ],
           rows: widget.plati.map((plata) {
             return DataRow(
               cells: [
                 DataCell(Text(plata.categorie)),
-                DataCell(Text(plata.descriere)),
+                DataCell(
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 120),
+                    child: Text(
+                      utf8.decode(plata.descriere.codeUnits),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ),
+                ),
                 DataCell(Text('${plata.suma.toStringAsFixed(2)} RON')),
                 DataCell(Text(DateFormat('dd-MM-yyyy').format(plata.data))),
               ],
@@ -76,7 +87,8 @@ class PlatiTableState extends State<PlatiTable> {
                 },
               ),
               TextField(
-                controller: TextEditingController(text: plata.descriere),
+                controller: TextEditingController(
+                    text: utf8.decode(plata.descriere.codeUnits)),
                 decoration: const InputDecoration(labelText: 'Descriere'),
                 onChanged: (value) {
                   if (value.isNotEmpty) {
@@ -98,7 +110,7 @@ class PlatiTableState extends State<PlatiTable> {
               ),
               StatefulBuilder(
                 builder: (BuildContext context, StateSetter setState) {
-                  return ElevatedButton(
+                  return ElevatedButton.icon(
                     onPressed: () async {
                       final selectedDate = await showDatePicker(
                         context: context,
@@ -112,7 +124,8 @@ class PlatiTableState extends State<PlatiTable> {
                         });
                       }
                     },
-                    child: Text(
+                    icon: const Icon(Icons.calendar_today),
+                    label: Text(
                         'Data: ${DateFormat('dd/MM/yyyy').format(plata.data)}'),
                   );
                 },
@@ -121,17 +134,16 @@ class PlatiTableState extends State<PlatiTable> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Anulare'),
+              child: const Icon(Icons.cancel, color: Colors.blueGrey),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Stergere'),
+              child: const Icon(Icons.delete, color: Colors.red),
               onPressed: () {
                 setState(() {
                   widget.plati.removeWhere((item) => item.id == plata.id);
-                  // widget.plati.remove(plata);
                   ApiService().deletePlata(plata.id);
                 });
                 // Navigator.of(context).pop();
@@ -143,7 +155,8 @@ class PlatiTableState extends State<PlatiTable> {
               },
             ),
             TextButton(
-              child: const Text('Salvare'),
+              child: const Icon(Icons.edit,
+                  color: Color.fromARGB(255, 220, 220, 0)),
               onPressed: () {
                 setState(() {
                   ApiService().updatePlata(Plata(

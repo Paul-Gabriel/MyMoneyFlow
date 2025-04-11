@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/services/api_service.dart';
 import 'package:provider/provider.dart';
@@ -29,8 +31,10 @@ class EditareUserPageState extends State<EditareUserPage> {
   void initState() {
     super.initState();
     final user = Provider.of<UserProvider>(context, listen: false).user;
-    _numeController.text = user?.nume ?? '';
-    _prenumeController.text = user?.prenume ?? '';
+    _numeController.text =
+        user != null ? utf8.decode(user.nume.runes.toList()) : '';
+    _prenumeController.text =
+        user != null ? utf8.decode(user.prenume.runes.toList()) : '';
     _emailController.text = user?.email ?? '';
     _parolaController.text = user?.parola ?? '';
     _venitController.text = (user?.venit ?? 0).toStringAsFixed(2);
@@ -222,6 +226,7 @@ class EditareUserPageState extends State<EditareUserPage> {
                               const SnackBar(
                                   content: Text('User-ul a fost actualizat')),
                             );
+                            Navigator.of(context).pop(); // Navigate back
                           }
                         } catch (e) {
                           if (context.mounted) {

@@ -103,16 +103,14 @@ class GraficePage extends StatelessWidget {
         ),
         const SizedBox(height: 40),
         SizedBox(
-          // height: 300,
           child: PieChart(
             dataMap: {
               'Bani rămași: ${remainingSum.toStringAsFixed(2)} RON':
                   remainingSum,
-              'Bani consumati pentru nevoi: ${nevoiSum.toStringAsFixed(2)} RON':
-                  nevoiSum,
-              'Bani consumati pentru dorințe: ${dorinteSum.toStringAsFixed(2)} RON':
+              'Cheltuieli nevoi: ${nevoiSum.toStringAsFixed(2)} RON': nevoiSum,
+              'Cheltuieli dorințe: ${dorinteSum.toStringAsFixed(2)} RON':
                   dorinteSum,
-              'Bani consumati pentru economii: ${economiiSum.toStringAsFixed(2)} RON':
+              'Cheltuieli economii: ${economiiSum.toStringAsFixed(2)} RON':
                   economiiSum,
             },
             animationDuration: const Duration(milliseconds: 1000),

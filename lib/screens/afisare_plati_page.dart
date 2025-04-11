@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/plata.dart';
 import 'package:my_money_flow/screens/creare_plata_page.dart';
@@ -82,7 +84,12 @@ class AfisarePlatiPageState extends State<AfisarePlatiPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bun venit, ${user?.prenume}!'),
+        title: Text(
+            user != null
+              ? 'Bun venit, ${utf8.decode(user.prenume.split(RegExp(r'[- ]')).first.runes.toList())}!'
+              : '',
+          style: const TextStyle(fontSize: 18),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.add, color: Colors.greenAccent),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/plata.dart';
 import 'package:my_money_flow/models/user.dart';
@@ -88,30 +90,28 @@ class AiChatPageState extends State<AiChatPage> {
                     ElevatedButton(
                       onPressed: () {
                         _controller.text =
-                            "Care sunt cele mai bune practici pentru economisire?";
+                            "Vreau să strâng 10.000 RON în următoarele 12 luni. Venitul meu lunar este de ${user?.venit} RON, iar în prezent economisesc 1.000 RON. Cum pot ajusta bugetul ca să ating obiectivul?";
                       },
                       child: const Text(
-                        "Economisire",
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 19, 44, 49)),
+                        "Obiectiv de\neconomisire",
+                        style: TextStyle(color: Colors.green),
                       ),
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        _controller.text = "Cum pot investi mai eficient?";
+                        _controller.text =
+                            "În cazul unei măriri salariale, ce strategie de investiții mi-ai recomanda pentru a diversifica portofoliul?";
                       },
                       child: const Text("Investiții",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 19, 44, 49))),
+                          style: TextStyle(color: Colors.blue)),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         _controller.text =
-                            "Cum să reduc cheltuielile lunare? Venitul meu lunar este de ${user?.venit}, iar procentele bugetelor sunt de ${user?.procentNevoi}% pentru nevoi, ${user?.procentDorinte}% pentru dorinte, ${user?.procentEconomi}% pentru economii. Acestea sunt platile mele: ${widget.plati.map((plata) => "\n${plata.categorie}: ${plata.descriere} ->${plata.suma} RON").join(", ")}";
+                            "Cum să reduc cheltuielile lunare? Venitul meu lunar este de ${user?.venit} RON, iar procentele bugetelor sunt de ${user?.procentNevoi}% pentru nevoi, ${user?.procentDorinte}% pentru dorinte, ${user?.procentEconomi}% pentru economii. Acestea sunt platile mele: ${widget.plati.map((plata) => "\n${plata.categorie}: ${utf8.decode(plata.descriere.codeUnits)} ->${plata.suma} RON").join(", ")}";
                       },
-                      child: const Text("Cheltuieli",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 19, 44, 49))),
+                      child: const Text("Reducere\ncheltuieli",
+                          style: TextStyle(color: Colors.red)),
                     ),
                   ],
                 ),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:pie_chart/pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:my_money_flow/models/plata.dart';
@@ -38,7 +40,8 @@ class GraficCategoriePage extends StatelessWidget {
     final Map<String, double> dataMap = {
       'Bani rămași: $remainingSum': remainingSum,
       for (var plata in filteredPlati)
-        '${plata.descriere}: ${plata.suma.toStringAsFixed(2)} RON': plata.suma,
+        '${utf8.decode(plata.descriere.codeUnits)}: ${plata.suma.toStringAsFixed(2)} RON':
+            plata.suma,
     };
 
     // Culori pentru fiecare segment

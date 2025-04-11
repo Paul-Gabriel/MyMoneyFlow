@@ -100,7 +100,7 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
               const SizedBox(height: 20),
 
               // Alegere data
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () async {
                   final selectedDate = await showDatePicker(
                     context: context,
@@ -114,14 +114,13 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
                     });
                   }
                 },
-                child: Text(
-                    // 'Data: ${_data.day.toString().padLeft(2, '0')}/${_data.month.toString().padLeft(2, '0')}/${_data.year}'),
-                    'Data: ${DateFormat('dd/MM/yyyy').format(_data)}'),
+                icon: const Icon(Icons.calendar_today),
+                label: Text('Data: ${DateFormat('dd/MM/yyyy').format(_data)}'),
               ),
               const SizedBox(height: 20),
 
               // Buton de adaugare plata
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
                     _formKey.currentState?.save();
@@ -143,11 +142,9 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
                         const SnackBar(content: Text('Userul nu este logat')),
                       );
                     }
-
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Plata a fost adaugata')),
                     );
-
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -155,7 +152,8 @@ class AdaugarePlataPageState extends State<AdaugarePlataPage> {
                     );
                   }
                 },
-                child: const Text('Adauga Plata'),
+                icon: const Icon(Icons.add),
+                label: const Text('Adauga Plata'),
               ),
               const SizedBox(height: 20),
             ],

@@ -19,7 +19,7 @@ class AiApiService {
             {
               "role": "system",
               "content":
-                  "Ești MyMoneyFlow, un asistent financiar virtual care ajută cu sfaturi financiare. Tu răspunzi la mesajul persoanei, iar dacă mesajul nu are legatură cu domeniul financiar nu raspunzi și vi cu un mesaj adecvat. Te rog să scri fără diacritice. Acesta este mesajul persoanei:"
+                  "Ești MyMoneyFlow, un asistent financiar virtual care ajută cu sfaturi financiare. Tu răspunzi la mesajul persoanei, iar dacă mesajul nu are legatură cu domeniul financiar nu raspunzi și vi cu un mesaj adecvat. Acesta este mesajul persoanei:"
             },
             {"role": "user", "content": message}
           ],
@@ -27,8 +27,9 @@ class AiApiService {
       );
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        return data["choices"][0]["message"]["content"];
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
+        String content = data["choices"][0]["message"]["content"];
+        return content.replaceAll('**', '');
       } else {
         return "Error: ${response.statusCode}";
       }

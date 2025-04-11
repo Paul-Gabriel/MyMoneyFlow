@@ -25,7 +25,7 @@ class MainPage extends StatelessWidget {
             ),
 
             //Autentificare button
-            ElevatedButton(
+            ElevatedButton.icon(
               onPressed: () {
                 Navigator.push(
                   context,
@@ -37,12 +37,13 @@ class MainPage extends StatelessWidget {
                 foregroundColor:
                     const Color.fromARGB(255, 19, 44, 49), // Text color
               ),
-              child: const Text('Autentificare'),
+              icon: const Icon(Icons.login, color: Colors.blue),
+              label: const Text('Autentificare'),
             ),
             const SizedBox(height: 16),
 
             //Creare User button
-            ElevatedButton(
+            ElevatedButton.icon(
               onPressed: () {
                 Navigator.push(
                   context,
@@ -54,7 +55,8 @@ class MainPage extends StatelessWidget {
                 foregroundColor:
                     const Color.fromARGB(255, 19, 44, 49), // Text color
               ),
-              child: const Text('Creare cont'),
+              icon: const Icon(Icons.person_add, color: Colors.green),
+              label: const Text('Creare cont'),
             ),
             const SizedBox(height: 16),
           ],
